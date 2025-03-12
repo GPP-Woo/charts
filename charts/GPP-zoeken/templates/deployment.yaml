@@ -1,0 +1,295 @@
+--- 
+# Deployment of the django app
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gpp-zoeken.fullname" . }}
+  labels:
+    {{- include "gpp-zoeken.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+  {{- include "gpp-zoeken.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+    {{- include "gpp-zoeken.selectorLabels" . | nindent 8 }}
+    {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "gpp-zoeken.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.existingSecret | default (include "gpp-zoeken.fullname" .) }}
+            - configMapRef:
+                name: {{ include "gpp-zoeken.fullname" . }}
+          env:
+            {{- if .Values.extraEnvVars }}
+            {{- include "gpp-zoeken.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: {{ include "gpp-zoeken.fullname" . | quote }}
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: {{ include "gpp-zoeken.fullname" . | quote }}
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: gpp-zoeken
+              mountPath: /app/private_media
+              subPath: {{ .Values.persistence.privateMediaMountSubpath | default "gpp-zoeken/private_media" }}          
+            - name: gpp-zoeken
+              mountPath: /app/media
+              subPath: {{ .Values.persistence.mediaMountSubpath  | default "gpp-zoeken/media" }}
+            - name: gpp-zoeken
+              mountPath: /app/logs
+              subPath: {{ .Values.persistence.logsMountSubpath  | default "gpp-zoeken/logs" }}
+            {{- if .Values.extraVolumeMounts }}
+            {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
+            {{- end }}
+      volumes:
+        - name: gpp-zoeken
+          persistentVolumeClaim:
+          {{- if .Values.persistence.enabled }}
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ include "gpp-zoeken.fullname" . }}{{- end }}
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        {{- if .Values.extraVolumes }}
+        {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+---
+
+# Deployment Nginx
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gpp-zoeken.nginxFullname" . }}
+  labels:
+    {{- include "gpp-zoeken.nginxLabels" . | nindent 4 }}
+spec:
+  {{- if not .Values.nginx.autoscaling.enabled }}
+  replicas: {{ .Values.nginx.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "gpp-zoeken.nginxSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap-nginx: {{ include (print $.Template.BasePath "/configmap-nginx.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "gpp-zoeken.nginxSelectorLabels" . | nindent 8 }}
+        {{- with .Values.nginx.podLabels }}
+            {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "gpp-zoeken.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ include "gpp-zoeken.nginxFullname" . }}
+          securityContext:
+            {{- toYaml .Values.nginx.securityContext | nindent 12 }}
+          image: "{{ .Values.nginx.image.repository }}:{{ .Values.nginx.image.tag }}"
+          imagePullPolicy: {{ .Values.nginx.image.pullPolicy }}
+          livenessProbe:
+            httpGet:
+              path: /_health/
+              port: http
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            {{- toYaml .Values.nginx.resources | nindent 12 }}
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d/
+            - name: gpp-zoeken
+              mountPath: /app/private_media
+              subPath: {{ .Values.persistence.privateMediaMountSubpath | default "gpp-zoeken/private_media" }}
+            - name: gpp-zoeken
+              mountPath: /app/media
+              subPath: {{ .Values.persistence.mediaMountSubpath  | default "gpp-zoeken/media" }}
+      volumes:
+        - name: gpp-zoeken
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ include "gpp-zoeken.fullname" . }}{{- end }}
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        - name: nginx-config
+          configMap:
+            name: {{ if .Values.nginx.existingConfigmap }}{{ .Values.nginx.existingConfigmap  }}{{- else }}{{ include "gpp-zoeken.nginxFullname" . }}{{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gpp-zoeken.workerFullname" . }}
+  labels:
+    {{- include "gpp-zoeken.workerLabels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.worker.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "gpp-zoeken.workerSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+    {{- include "gpp-zoeken.workerSelectorLabels" . | nindent 8 }}
+    {{- with .Values.worker.podLabels }}
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "gpp-zoeken.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ include "gpp-zoeken.workerFullname" . }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.existingSecret | default (include "gpp-zoeken.fullname" .) }}
+            - configMapRef:
+                name: {{ include "gpp-zoeken.fullname" . }}
+          env:
+            {{- if .Values.extraEnvVars }}
+            {{- include "gpp-zoeken.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
+            {{- end }}
+          {{- if .Values.worker.livenessProbe.enabled }}
+          livenessProbe:
+            exec: 
+            {{- toYaml .Values.worker.livenessProbe.exec | nindent 14 }}
+            initialDelaySeconds: {{ .Values.worker.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.worker.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.worker.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.worker.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.worker.livenessProbe.failureThreshold }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.worker.resources | nindent 12 }}
+          command:
+            - /celery_worker.sh
+          volumeMounts:
+            - name: gpp-zoeken
+              mountPath: /app/media
+              subPath: {{ .Values.persistence.mediaMountSubpath  | default "gpp-zoeken/media" }}
+            - name: gpp-zoeken
+              mountPath: /app/private_media
+              subPath: {{ .Values.persistence.privateMediaMountSubpath | default "gpp-zoeken/private_media" }}
+            - name: gpp-zoeken
+              mountPath: /app/logs
+              subPath: {{ .Values.persistence.logsMountSubpath  | default "gpp-zoeken/logs" }}
+            {{- if .Values.extraVolumeMounts }}
+            {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
+            {{- end }}            
+      volumes:
+        - name: gpp-zoeken
+          persistentVolumeClaim:
+          {{- if .Values.persistence.enabled }}
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ include "gpp-zoeken.fullname" . }}{{- end }}
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        {{- if .Values.extraVolumes }}
+        {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
