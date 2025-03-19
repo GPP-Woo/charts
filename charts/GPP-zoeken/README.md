@@ -1,6 +1,6 @@
 # gpp-zoeken
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
 
 Een zoek-component die voorziet in een "Openbare documenten"-index.
 
@@ -151,6 +151,25 @@ Een zoek-component die voorziet in een "Openbare documenten"-index.
 | extraIngress | list | `[]` | Specify extra ingresses, for example if you have multiple ingress classes |
 | extraVolumeMounts | list | `[]` | Optionally specify extra list of additional volumeMounts |
 | extraVolumes | list | `[]` | Optionally specify extra list of additional volumes |
+| flower.basicAuth | string | `""` | Basic auth credentials in format `user:password` |
+| flower.enabled | bool | `false` |  |
+| flower.livenessProbe.failureThreshold | int | `6` |  |
+| flower.livenessProbe.initialDelaySeconds | int | `60` |  |
+| flower.livenessProbe.periodSeconds | int | `10` |  |
+| flower.livenessProbe.successThreshold | int | `1` |  |
+| flower.livenessProbe.timeoutSeconds | int | `5` |  |
+| flower.podLabels | object | `{}` |  |
+| flower.readinessProbe.failureThreshold | int | `6` |  |
+| flower.readinessProbe.initialDelaySeconds | int | `30` |  |
+| flower.readinessProbe.periodSeconds | int | `10` |  |
+| flower.readinessProbe.successThreshold | int | `1` |  |
+| flower.readinessProbe.timeoutSeconds | int | `5` |  |
+| flower.replicaCount | int | `1` |  |
+| flower.resources | object | `{}` |  |
+| flower.service.annotations | object | `{}` |  |
+| flower.service.port | int | `5555` |  |
+| flower.service.type | string | `"ClusterIP"` |  |
+| flower.urlPrefix | string | `""` |  |
 | fullnameOverride | string | `""` |  |
 | global.settings.databaseHost | string | `""` | Global databasehost, overrides setting.database.host |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -168,23 +187,6 @@ Een zoek-component die voorziet in een "Openbare documenten"-index.
 | livenessProbe.successThreshold | int | `1` |  |
 | livenessProbe.timeoutSeconds | int | `5` |  |
 | nameOverride | string | `""` |  |
-| nginx.autoscaling.enabled | bool | `false` |  |
-| nginx.existingConfigmap | string | `nil` |  |
-| nginx.image.pullPolicy | string | `"IfNotPresent"` |  |
-| nginx.image.repository | string | `"nginxinc/nginx-unprivileged"` |  |
-| nginx.image.tag | string | `"stable"` |  |
-| nginx.livenessProbe | object | `{}` |  |
-| nginx.podLabels | object | `{}` |  |
-| nginx.readinessProbe | object | `{}` |  |
-| nginx.replicaCount | int | `1` |  |
-| nginx.resources | object | `{}` |  |
-| nginx.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| nginx.securityContext.readOnlyRootFilesystem | bool | `false` |  |
-| nginx.securityContext.runAsNonRoot | bool | `true` |  |
-| nginx.securityContext.runAsUser | int | `101` |  |
-| nginx.service.annotations | object | `{}` |  |
-| nginx.service.port | int | `80` |  |
-| nginx.service.type | string | `"ClusterIP"` |  |
 | nodeSelector | object | `{}` |  |
 | pdb.create | bool | `false` |  |
 | pdb.maxUnavailable | string | `""` |  |
