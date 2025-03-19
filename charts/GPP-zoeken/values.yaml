@@ -66,8 +66,20 @@ ingress:
   hosts: []
   #  - host: gpp-zoeken.gemeente.nl
   #    paths:
-  #      - path: /
-  #        pathType: ImplementationSpecific
+  #       - pathType: ImplementationSpecific
+  #         path: "/"
+  #         backend:
+  #           service:
+  #             name: gpp-zoeken
+  #             port:
+  #               number: 80
+  #       - pathType: ImplementationSpecific
+  #         path: "/flower/"
+  #         backend:
+  #           service:
+  #             name: gpp-zoeken-flower
+  #             port:
+  #               number: 5555
   tls: []
   #  - secretName: gpp-zoeken-tls
   #    hosts:
@@ -287,29 +299,29 @@ worker:
     targetMemoryUtilizationPercentage: 80
     behavior: {}
 
-nginx:
-  image:
-    repository: nginxinc/nginx-unprivileged
-    pullPolicy: IfNotPresent
-    tag: stable
-  existingConfigmap: null
-  service:
-    type: ClusterIP
-    port: 80
-    annotations: {}
+flower:
+  enabled: false
+  # -- Basic auth credentials in format `user:password`
+  basicAuth: ""
+  urlPrefix: ""
   replicaCount: 1
   podLabels: {}
-  securityContext:
-    capabilities:
-      drop:
-      - ALL
-    readOnlyRootFilesystem: false
-    runAsNonRoot: true
-    runAsUser: 101
-  autoscaling:
-    enabled: false
-  livenessProbe: {}
-  readinessProbe: {}
+  service:
+    type: ClusterIP
+    port: 5555
+    annotations: {}
+  livenessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
   resources: {}
 
 ##################

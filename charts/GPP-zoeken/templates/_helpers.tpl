@@ -151,3 +151,34 @@ NGINX selector labels
 {{- define "gpp-zoeken.nginxSelectorLabels" -}}
 app.kubernetes.io/name: {{ include "gpp-zoeken.nginxName" . }}
 {{- end }}
+
+{{/*
+Create a name for Flower
+We truncate at 56 chars in order to provide space for the "-flower" suffix
+*/}}
+{{- define "gpp-zoeken.flowerName" -}}
+{{ include "gpp-zoeken.name" . | trunc 56 | trimSuffix "-" }}-flower
+{{- end }}
+
+{{/*
+Create a default fully qualified name for Flower.
+We truncate at 56 chars in order to provide space for the "-flower" suffix
+*/}}
+{{- define "gpp-zoeken.flowerFullname" -}}
+{{ include "gpp-zoeken.fullname" . | trunc 56 | trimSuffix "-" }}-flower
+{{- end }}
+
+{{/*
+Flower labels
+*/}}
+{{- define "gpp-zoeken.flowerLabels" -}}
+{{ include "gpp-zoeken.commonLabels" . }}
+{{ include "gpp-zoeken.flowerSelectorLabels" . }}
+{{- end }}
+
+{{/*
+Flower selector labels
+*/}}
+{{- define "gpp-zoeken.flowerSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "gpp-zoeken.flowerName" . }}
+{{- end }}
