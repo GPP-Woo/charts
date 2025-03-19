@@ -143,13 +143,50 @@ azureVaultSecret:
   secretName: "{{ .Values.existingSecret }}"
 
 settings:
-  redirectUrl: ""
-  sitemapCacheDurationHours: null
-  downloadTimeoutMinutes: null
+  # -- The number of hours the sitemap is cached. <br/> (default value is `23`)
+  sitemapCacheDurationHours: 23
+  # -- The maximum duration in minutes for downloading files. <br/> (default value is `10`)
+  downloadTimeoutMinutes: 10
 
   gppPublicatiebank:
+    # -- The secret key for the Publicatiebank to establish a connection. <details> <summary>More information </summary>For example: `VM2B!ccnebNe.M*gxH63*NXc8iTiAGhp`</details>
     apiKey: ""
+    # -- The base URL of the Publicatiebank to establish a connection. <details> <summary>More information </summary>For example: `https://publicatiebank.mijn-gemeente.nl` </details>
     baseUrl: ""
+
+  search:
+    # -- The secret key for the Search component to establish a connection. <details> <summary>More information </summary>For example: `VM2B!ccnebNe.M*gxH63*NXc8iTiAGhp`</details>
+    apiKey: ""
+    # -- The base URL of the Search component to establish a connection. <details> <summary>More information </summary>For example: `https://zoekcomponent.mijn-gemeente.nl` </details>
+    baseUrl: ""
+
+  resources:
+    # -- The title of the citizen portal. <details><summary>More information</summary> For example: Open Mijn Gemeente</details>
+    portaalTitel: ""
+    # -- The name of the municipality used within the citizen portal. <details><summary>More information</summary> For example: Mijn Gemeente</details> 
+    gemeenteNaam: ""
+    # -- Public URL where the municipality's logo is available. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/logo.svg`</details>
+    gemeenteLogoUrl: ""
+    # -- Public URL where the municipality's favicon is available. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/favicon.ico`</details>
+    gemeenteFaviconUrl: ""
+    # -- Public URL where a high-resolution atmospheric image of the municipality is available, to be included on all pages. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/main_img.jpg` </details>
+    gemeenteMainImageUrl: ""
+    # -- Public URL where the CSS file containing NL Design System tokens is available, to style the citizen portal in the municipal house style. <details><summary>More information </summary>For example: `https://unpkg.com/@gemeente/design-tokens/dist/index.css`</details>
+    gemeenteDesignTokensUrl: ""
+    # -- Public URLs referring to web font file(s) associated with the municipal house style. <details><summary>More information </summary>For example: `["https://fonts.mijn-gemeente.nl/custom-regular-font.woff2", "https://fonts.mijn-gemeente.nl/custom-bold-font.woff2"]`. A single reference to the location where all font-style files are stored is also possible: `["https://fonts.mijn-gemeente.nl/custom-font/"]`. **Note:** this configuration is only intended to allow font files to be loaded under CORS. References to files must also be specified under a `@font-face` ruleset in the theme styling.</details>
+    gemeenteWebFontSources: []
+    # -- The name of the selector from the CSS file used to scope the NLDS tokens. <details><summary>More information</summary> For example: `gemeente-theme` </details>
+    gemeenteThemeNaam: ""
+    # -- The website address of the municipality, for linking from the citizen portal to the municipal website. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl`</details>
+    gemeenteWebsiteUrl: ""
+    # -- The website address where the municipality's privacy statement is located. Used for linking from the citizen portal. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/privacy`</details>
+    gemeentePrivacyUrl: ""
+    # -- The website address where the municipality's contact details can be found. Used for linking from the citizen portal. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/contact`</details>
+    gemeenteContactUrl: ""
+    # -- The welcome text, formatted in HTML, for the homepage. <details><summary>More information</summary> **Note:** The HTML fragment must be properly escaped/formatted depending on the format (e.g., JSON or YAML) to be added as an environment variable. The following HTML elements can be used here: `<h1>, <h2>, <p>, <a>, <ul>, <ol>, <li>`</details>
+    gemeenteWelkom: ""
+    # -- The website address of the government register of accessibility declarations. Used for linking from the citizen portal. <details><summary>More information</summary> Likely: `https://www.toegankelijkheidsverklaring.nl/register`</details>
+    toegankelijkheidsverklaringRegisterUrl: ""
 
   aspnetcore:
     forwardedHeadersEnabled: true

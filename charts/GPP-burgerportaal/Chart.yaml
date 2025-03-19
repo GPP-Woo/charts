@@ -5,6 +5,6 @@ description: A helm chart for the ICATT GPP burgerportaal.
 type: application
 
 # Chart version 
-version: 0.1.0
+version: 1.0.0
 appVersion: 0.0.0
 

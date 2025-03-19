@@ -6,10 +6,23 @@ metadata:
     {{- include "gpp-burgerportaal.labels" . | nindent 4 }}
 data:
   ODRC_BASE_URL: {{ .Values.settings.gppPublicatiebank.baseUrl | toString | quote }}
-  REDIRECT_URL: {{ .Values.settings.redirectUrl | toString | quote }}
+  SEARCH_BASE_URL: {{ .Values.settings.search.baseUrl | toString | quote }}
   {{- if .Values.settings.sitemapCacheDurationHours }}
   SITEMAP_CACHE_DURATION_HOURS: {{ .Values.settings.sitemapCacheDurationHours }}
   {{- end }}
   {{- if .Values.settings.downloadTimeoutMinutes }}
   DOWNLOAD_TIMEOUT_MINUTES: {{ .Values.settings.downloadTimeoutMinutes }}
   {{- end }}
+  RESOURCES__PORTAAL_TITEL	: {{ .Values.settings.resources.portaalTitel | toString | quote }}
+  RESOURCES__GEMEENTE_NAAM	: {{ .Values.settings.resources.gemeenteNaam | toString | quote }}
+  RESOURCES__GEMEENTE_LOGO_URL	: {{ .Values.settings.resources.gemeenteLogoUrl | toString | quote }}
+  RESOURCES__GEMEENTE_FAVICON_URL	: {{ .Values.settings.resources.gemeenteFaviconUrl | toString | quote }}
+  RESOURCES__GEMEENTE_MAIN_IMAGE_URL	: {{ .Values.settings.resources.gemeenteMainImageUrl | toString | quote }}
+  RESOURCES__GEMEENTE_DESIGN_TOKENS_URL	: {{ .Values.settings.resources.gemeenteDesignTokensUrl | toString | quote }}
+  RESOURCES__GEMEENTE_WEB_FONT_SOURCES	: {{ join " " .Values.settings.resources.gemeenteWebFontSources | quote }}
+  RESOURCES__GEMEENTE_THEME_NAAM	: {{ .Values.settings.resources.gemeenteThemeNaam | toString | quote }}
+  RESOURCES__GEMEENTE_WEBSITE_URL	: {{ .Values.settings.resources.gemeenteWebsiteUrl | toString | quote }}
+  RESOURCES__GEMEENTE_PRIVACY_URL	: {{ .Values.settings.resources.gemeentePrivacyUrl | toString | quote }}
+  RESOURCES__GEMEENTE_CONTACT_URL	: {{ .Values.settings.resources.gemeenteContactUrl | toString | quote }}
+  RESOURCES__GEMEENTE_WELKOM	: {{ .Values.settings.resources.gemeenteWelkom | toString | quote }}
+  RESOURCES__TOEGANKELIJKHEIDSVERKLARING_REGISTER_URL	: {{ .Values.settings.resources.toegankelijkheidsverklaringRegisterUrl | toString | quote }}
