@@ -1,0 +1,71 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "gpp-zoeken.fullname" . }}-index
+  labels:
+    {{- include "gpp-zoeken.labels" . | nindent 4 }}
+spec:
+  backoffLimit: {{ .Values.settings.job.backoffLimit }}
+  ttlSecondsAfterFinished: {{ .Values.settings.job.ttlSecondsAfterFinished }}
+  template:
+    metadata:
+      annotations:
+      {{- with .Values.podAnnotations }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "gpp-zoeken.labels" . | nindent 8 }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "gpp-zoeken.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      restartPolicy: {{ .Values.settings.job.restartPolicy }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.existingSecret | default (include "gpp-zoeken.fullname" .) }}
+            - configMapRef:
+                name: {{ include "gpp-zoeken.fullname" . }}
+          volumeMounts:
+            - name: elastic-ca
+              mountPath: /app/certs
+          env:
+            {{- if .Values.extraEnvVars }}
+            {{- include "gpp-zoeken.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
+            {{- end }}
+          resources:
+          {{- toYaml .Values.settings.job.resources | nindent 12 }}
+          command:
+            - "/bin/bash"
+            - "-c"
+          args:
+          - |
+            /app/src/manage.py initialize_mappings --wait
+      volumes:
+        - name: elastic-ca
+          secret:
+            secretName: {{ printf "%s-es-http-certs-public" (index .Values "eck-elasticsearch" "fullnameOverride")  }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
