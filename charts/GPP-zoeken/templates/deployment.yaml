@@ -81,6 +81,8 @@ spec:
             - name: gpp-zoeken
               mountPath: /app/logs
               subPath: {{ .Values.persistence.logsMountSubpath  | default "gpp-zoeken/logs" }}
+            - name: elastic-ca
+              mountPath: /app/certs
             {{- if .Values.extraVolumeMounts }}
             {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
             {{- end }}
@@ -92,6 +94,9 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
+        - name: elastic-ca
+          secret:
+            secretName: {{ printf "%s-es-http-certs-public" (index .Values "eck-elasticsearch" "fullnameOverride")  }}
         {{- if .Values.extraVolumes }}
         {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
         {{- end }}
@@ -238,7 +243,7 @@ spec:
             - secretRef:
                 name: {{ .Values.existingSecret | default (include "gpp-zoeken.fullname" .) }}
             - configMapRef:
-                name: {{ include "gpp-zoeken.fullname" . }}
+                name: {{ include "gpp-zoeken.fullname" . }}         
           env:
             {{- if .Values.extraEnvVars }}
             {{- include "gpp-zoeken.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
@@ -267,6 +272,8 @@ spec:
             - name: gpp-zoeken
               mountPath: /app/logs
               subPath: {{ .Values.persistence.logsMountSubpath  | default "gpp-zoeken/logs" }}
+            - name: elastic-ca
+              mountPath: /app/certs
             {{- if .Values.extraVolumeMounts }}
             {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
             {{- end }}            
@@ -278,6 +285,9 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
+        - name: elastic-ca
+          secret:
+            secretName: {{ printf "%s-es-http-certs-public" (index .Values "eck-elasticsearch" "fullnameOverride")  }}
         {{- if .Values.extraVolumes }}
         {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
         {{- end }}

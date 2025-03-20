@@ -4,14 +4,6 @@
 
 Een zoek-component die voorziet in een "Openbare documenten"-index.
 
-Note:
-To deploy Elasticsearch, the cluster wide Custom Resource Definitions (CRDs) need to be present.
-They can be installed by a cluster administrator with:
-
-```bash
-helm install elastic-operator-crds elastic/eck-operator-crds
-```
-
 ## Requirements
 
 | Repository | Name | Version |
@@ -246,8 +238,11 @@ helm install elastic-operator-crds elastic/eck-operator-crds
 | settings.debug | bool | `false` |  |
 | settings.disable2fa | bool | `false` | Disable two factor authentication |
 | settings.djangoSettingsModule | string | `"woo_search.conf.docker"` |  |
+| settings.elastic.caCertsPath | string | `""` | Path to CA bundle (in PEM) format if self-signed certificates or a private CA are used to connect to the ES cluster |
 | settings.elastic.iniIndices | bool | `true` |  |
-| settings.elastic.user | string | `"elastic"` |  |
+| settings.elastic.password | string | `""` |  |
+| settings.elastic.roles | string | `"superuser"` |  |
+| settings.elastic.user | string | `"gpp-elastic"` |  |
 | settings.elasticapm.serviceName | string | `""` |  |
 | settings.elasticapm.token | string | `""` |  |
 | settings.elasticapm.url | string | `""` |  |

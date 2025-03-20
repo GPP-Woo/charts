@@ -245,7 +245,12 @@ settings:
 
   elastic:
     iniIndices: true
-    user: "elastic"
+    user: "gpp-elastic"
+    password: ""
+    roles: "superuser"
+    # -- Path to CA bundle (in PEM) format if self-signed certificates or a private CA are used to connect to the ES cluster
+    caCertsPath: ""
+    
 
   job:
     backoffLimit: 6

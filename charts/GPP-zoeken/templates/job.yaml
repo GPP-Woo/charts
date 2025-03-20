@@ -36,10 +36,11 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ .Values.existingSecret | default (include "gpp-zoeken.fullname" .) }}
-            - secretRef:
-                name: {{ .Values.existingSecretElastic | default (include "gpp-zoeken.fullname" .) }}
             - configMapRef:
                 name: {{ include "gpp-zoeken.fullname" . }}
+          volumeMounts:
+            - name: elastic-ca
+              mountPath: /app/certs
           env:
             {{- if .Values.extraEnvVars }}
             {{- include "gpp-zoeken.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
@@ -52,6 +53,10 @@ spec:
           args:
           - |
             /app/src/manage.py initialize_mappings --wait
+      volumes:
+        - name: elastic-ca
+          secret:
+            secretName: {{ printf "%s-es-http-certs-public" (index .Values "eck-elasticsearch" "fullnameOverride")  }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
