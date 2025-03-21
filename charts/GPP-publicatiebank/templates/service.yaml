@@ -13,3 +13,43 @@ spec:
       name: http
   selector:
     {{- include "gpp-publicatiebank.selectorLabels" . | nindent 4 }}
+---
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "gpp-publicatiebank.nginxFullname" . }}
+  labels:
+    {{- include "gpp-publicatiebank.nginxLabels" . | nindent 4 }}
+  {{- with .Values.nginx.service.annotations }}
+  annotations:
+    {{- range $key, $value := . }}
+    {{ $key }} : {{ tpl ($value | toString) $ }}
+    {{- end }}
+  {{- end }}
+spec:
+  type: {{ .Values.nginx.service.type }}
+  ports:
+    - port: {{ .Values.nginx.service.port }}
+      targetPort: 8080
+      name: http
+  selector:
+    {{- include "gpp-publicatiebank.nginxSelectorLabels" . | nindent 4 }}
+---
+{{- if .Values.flower.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "gpp-publicatiebank.flowerFullname" . }}
+  labels:
+    {{- include "gpp-publicatiebank.flowerLabels" . | nindent 4 }}
+spec:
+  type: {{ .Values.flower.service.type }}
+  ports:
+    - port: {{ .Values.flower.service.port }}
+      targetPort: 5555
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "gpp-publicatiebank.flowerSelectorLabels" . | nindent 4 }}
+{{- end }}

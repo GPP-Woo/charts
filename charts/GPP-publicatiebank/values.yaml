@@ -271,6 +271,31 @@ worker:
     targetMemoryUtilizationPercentage: 80
     behavior: {}
 
+flower:
+  enabled: true
+  urlPrefix: "/flower/"
+  # -- Basic auth credentials in format `user:password`
+  basicAuth: ""
+  replicaCount: 1
+  podLabels: {}
+  service:
+    type: ClusterIP
+    port: 5555
+    annotations: {}
+  livenessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  resources: {}
+
 nginx:
   image:
     repository: nginxinc/nginx-unprivileged

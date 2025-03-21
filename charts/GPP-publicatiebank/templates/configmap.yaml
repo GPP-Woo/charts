@@ -78,3 +78,6 @@ data:
   {{- if .Values.settings.environmentLabelForegroundColor }}
   ENVIRONMENT_FOREGROUND_COLOR: {{ .Values.settings.environmentLabelForegroundColor | toString | quote }}
   {{- end }}
+  {{- if .Values.flower.enabled }}
+  FLOWER_URL_PREFIX:  {{ .Values.flower.urlPrefix | toString | quote }}
+  {{- end}}
