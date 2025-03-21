@@ -1,0 +1,24 @@
+apiVersion: v2
+name: gpp-zoeken
+description: Een zoek-component die voorziet in een "Openbare documenten"-index.
+
+type: application
+version: 0.2.0
+appVersion: 0.1.0
+
+dependencies:
+  - name: redis
+    version: 20.2.1
+    repository: https://charts.bitnami.com/bitnami
+    tags:
+      - redis
+  - name: eck-operator
+    version: 2.16.1
+    repository: https://helm.elastic.co
+    tags:
+      - eck-operator.enabled
+  - name: eck-elasticsearch
+    version: 0.14.1
+    repository: https://helm.elastic.co
+    tags:
+      - eck-elasticsearch.enabled
