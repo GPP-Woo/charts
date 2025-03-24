@@ -3,16 +3,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "gpp-publicatiebank.fullname" . }}
+  name: {{ include "gpp-zoeken.fullname" . }}
   labels:
-    {{- include "gpp-publicatiebank.labels" . | nindent 4 }}
+    {{- include "gpp-zoeken.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-  {{- include "gpp-publicatiebank.selectorLabels" . | nindent 6 }}
+  {{- include "gpp-zoeken.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -22,7 +22,7 @@ spec:
       {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-    {{- include "gpp-publicatiebank.selectorLabels" . | nindent 8 }}
+    {{- include "gpp-zoeken.selectorLabels" . | nindent 8 }}
     {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
     {{- end }}
@@ -31,7 +31,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "gpp-publicatiebank.serviceAccountName" . }}
+      serviceAccountName: {{ include "gpp-zoeken.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -42,12 +42,12 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - secretRef:
-                name: {{ .Values.existingSecret | default (include "gpp-publicatiebank.fullname" .) }}
+                name: {{ .Values.existingSecret | default (include "gpp-zoeken.fullname" .) }}
             - configMapRef:
-                name: {{ include "gpp-publicatiebank.fullname" . }}
+                name: {{ include "gpp-zoeken.fullname" . }}
           env:
             {{- if .Values.extraEnvVars }}
-            {{- include "gpp-publicatiebank.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
+            {{- include "gpp-zoeken.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
             {{- end }}
           ports:
             - name: http
@@ -59,7 +59,7 @@ spec:
               port: http
               httpHeaders:
                 - name: Host
-                  value: {{ include "gpp-publicatiebank.fullname" . | quote }}
+                  value: {{ include "gpp-zoeken.fullname" . | quote }}
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
             httpGet:
@@ -67,30 +67,38 @@ spec:
               port: http
               httpHeaders:
                 - name: Host
-                  value: {{ include "gpp-publicatiebank.fullname" . | quote }}
+                  value: {{ include "gpp-zoeken.fullname" . | quote }}
             {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - name: media
+            - name: gpp-zoeken
               mountPath: /app/private_media
-              subPath: {{ .Values.persistence.privateMediaMountSubpath | default "gpp-publicatiebank/private_media" }}          
-            - name: media
+              subPath: {{ .Values.persistence.privateMediaMountSubpath | default "gpp-zoeken/private_media" }}          
+            - name: gpp-zoeken
               mountPath: /app/media
-              subPath: {{ .Values.persistence.mediaMountSubpath  | default "gpp-publicatiebank/media" }}
+              subPath: {{ .Values.persistence.mediaMountSubpath  | default "gpp-zoeken/media" }}
+            - name: gpp-zoeken
+              mountPath: /app/logs
+              subPath: {{ .Values.persistence.logsMountSubpath  | default "gpp-zoeken/logs" }}
+            - name: elastic-ca
+              mountPath: /app/certs
             {{- if .Values.extraVolumeMounts }}
-            {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
+            {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
             {{- end }}
       volumes:
-        - name: media
+        - name: gpp-zoeken
           persistentVolumeClaim:
           {{- if .Values.persistence.enabled }}
-            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ include "gpp-publicatiebank.fullname" . }}{{- end }}
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ include "gpp-zoeken.fullname" . }}{{- end }}
           {{- else }}
           emptyDir: { }
           {{- end }}
+        - name: elastic-ca
+          secret:
+            secretName: {{ printf "%s-es-http-certs-public" (index .Values "eck-elasticsearch" "fullnameOverride")  }}
         {{- if .Values.extraVolumes }}
-        {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
+        {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -107,103 +115,19 @@ spec:
 
 ---
 
-# Deployment Nginx
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "gpp-publicatiebank.nginxFullname" . }}
+  name: {{ include "gpp-zoeken.workerFullname" . }}
   labels:
-    {{- include "gpp-publicatiebank.nginxLabels" . | nindent 4 }}
-spec:
-  {{- if not .Values.nginx.autoscaling.enabled }}
-  replicas: {{ .Values.nginx.replicaCount }}
-  {{- end }}
-  selector:
-    matchLabels:
-      {{- include "gpp-publicatiebank.nginxSelectorLabels" . | nindent 6 }}
-  template:
-    metadata:
-      annotations:
-        checksum/configmap-nginx: {{ include (print $.Template.BasePath "/configmap-nginx.yaml") . | sha256sum }}
-        {{- with .Values.podAnnotations }}
-          {{- toYaml . | nindent 8 }}
-        {{- end }}
-      labels:
-        {{- include "gpp-publicatiebank.nginxSelectorLabels" . | nindent 8 }}
-        {{- with .Values.nginx.podLabels }}
-            {{- toYaml . | nindent 8 }}
-        {{- end }}
-    spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "gpp-publicatiebank.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      containers:
-        - name: {{ include "gpp-publicatiebank.nginxFullname" . }}
-          securityContext:
-            {{- toYaml .Values.nginx.securityContext | nindent 12 }}
-          image: "{{ .Values.nginx.image.repository }}:{{ .Values.nginx.image.tag }}"
-          imagePullPolicy: {{ .Values.nginx.image.pullPolicy }}
-          livenessProbe:
-            httpGet:
-              path: /_health/
-              port: http
-          ports:
-            - name: http
-              containerPort: 8080
-          resources:
-            {{- toYaml .Values.nginx.resources | nindent 12 }}
-          volumeMounts:
-            - name: nginx-config
-              mountPath: /etc/nginx/conf.d/
-            - name: media
-              mountPath: /app/private-media
-              subPath: {{ .Values.persistence.privateMediaMountSubpath | default "gpp-publicatiebank/private_media" }}
-            - name: media
-              mountPath: /app/media
-              subPath: {{ .Values.persistence.mediaMountSubpath  | default "gpp-publicatiebank/media" }}
-      volumes:
-        - name: media
-          {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ include "gpp-publicatiebank.fullname" . }}{{- end }}
-          {{- else }}
-          emptyDir: { }
-          {{- end }}
-        - name: nginx-config
-          configMap:
-            name: {{ if .Values.nginx.existingConfigmap }}{{ .Values.nginx.existingConfigmap  }}{{- else }}{{ include "gpp-publicatiebank.nginxFullname" . }}{{- end }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-
----
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ include "gpp-publicatiebank.workerFullname" . }}
-  labels:
-    {{- include "gpp-publicatiebank.workerLabels" . | nindent 4 }}
+    {{- include "gpp-zoeken.workerLabels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.worker.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "gpp-publicatiebank.workerSelectorLabels" . | nindent 6 }}
+      {{- include "gpp-zoeken.workerSelectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -213,7 +137,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-    {{- include "gpp-publicatiebank.workerSelectorLabels" . | nindent 8 }}
+    {{- include "gpp-zoeken.workerSelectorLabels" . | nindent 8 }}
     {{- with .Values.worker.podLabels }}
         {{- toYaml . | nindent 8 }}
     {{- end }}
@@ -222,23 +146,23 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "gpp-publicatiebank.serviceAccountName" . }}
+      serviceAccountName: {{ include "gpp-zoeken.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ include "gpp-publicatiebank.workerFullname" . }}
+        - name: {{ include "gpp-zoeken.workerFullname" . }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - secretRef:
-                name: {{ .Values.existingSecret | default (include "gpp-publicatiebank.fullname" .) }}
+                name: {{ .Values.existingSecret | default (include "gpp-zoeken.fullname" .) }}
             - configMapRef:
-                name: {{ include "gpp-publicatiebank.fullname" . }}
+                name: {{ include "gpp-zoeken.fullname" . }}         
           env:
             {{- if .Values.extraEnvVars }}
-            {{- include "gpp-publicatiebank.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
+            {{- include "gpp-zoeken.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
             {{- end }}
           {{- if .Values.worker.livenessProbe.enabled }}
           livenessProbe:
@@ -255,22 +179,33 @@ spec:
           command:
             - /celery_worker.sh
           volumeMounts:
-            - name: media
+            - name: gpp-zoeken
               mountPath: /app/media
-              subPath: {{ .Values.persistence.mediaMountSubpath  | default "gpp-publicatiebank/media" }}
+              subPath: {{ .Values.persistence.mediaMountSubpath  | default "gpp-zoeken/media" }}
+            - name: gpp-zoeken
+              mountPath: /app/private_media
+              subPath: {{ .Values.persistence.privateMediaMountSubpath | default "gpp-zoeken/private_media" }}
+            - name: gpp-zoeken
+              mountPath: /app/logs
+              subPath: {{ .Values.persistence.logsMountSubpath  | default "gpp-zoeken/logs" }}
+            - name: elastic-ca
+              mountPath: /app/certs
             {{- if .Values.extraVolumeMounts }}
-            {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
+            {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
             {{- end }}            
       volumes:
-        - name: media
+        - name: gpp-zoeken
           persistentVolumeClaim:
           {{- if .Values.persistence.enabled }}
-            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ include "gpp-publicatiebank.fullname" . }}{{- end }}
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ include "gpp-zoeken.fullname" . }}{{- end }}
           {{- else }}
           emptyDir: { }
           {{- end }}
+        - name: elastic-ca
+          secret:
+            secretName: {{ printf "%s-es-http-certs-public" (index .Values "eck-elasticsearch" "fullnameOverride")  }}
         {{- if .Values.extraVolumes }}
-        {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
+        {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -289,14 +224,14 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "gpp-publicatiebank.flowerFullname" . }}
+  name: {{ include "gpp-zoeken.flowerFullname" . }}
   labels:
-    {{- include "gpp-publicatiebank.flowerLabels" . | nindent 4 }}
+    {{- include "gpp-zoeken.flowerLabels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.flower.replicaCount }}
   selector:
     matchLabels:
-      {{- include "gpp-publicatiebank.flowerSelectorLabels" . | nindent 6 }}
+      {{- include "gpp-zoeken.flowerSelectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -306,7 +241,7 @@ spec:
           {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "gpp-publicatiebank.flowerSelectorLabels" . | nindent 8 }}
+        {{- include "gpp-zoeken.flowerSelectorLabels" . | nindent 8 }}
         {{- with .Values.flower.podLabels }}
             {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -315,11 +250,11 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "gpp-publicatiebank.serviceAccountName" . }}
+      serviceAccountName: {{ include "gpp-zoeken.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ include "gpp-publicatiebank.flowerFullname" . }}
+        - name: {{ include "gpp-zoeken.flowerFullname" . }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -329,12 +264,12 @@ spec:
             {{- toYaml .Values.flower.resources | nindent 12 }}
           envFrom:
             - secretRef:
-                name: {{ .Values.existingSecret | default (include "gpp-publicatiebank.fullname" .) }}
+                name: {{ .Values.existingSecret | default (include "gpp-zoeken.fullname" .) }}
             - configMapRef:
-                name: {{ include "gpp-publicatiebank.fullname" . }}
+                name: {{ include "gpp-zoeken.fullname" . }}
           env:
             {{- if .Values.extraEnvVars }}
-            {{- include "gpp-publicatiebank.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
+            {{- include "gpp-zoeken.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
             {{- end }}
           ports:
             - name: http
@@ -350,11 +285,11 @@ spec:
             {{- toYaml .Values.flower.readinessProbe | nindent 12 }}
           volumeMounts:
             {{- if .Values.extraVolumeMounts }}
-            {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
+            {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
             {{- end }}
       volumes:
           {{- if .Values.extraVolumes }}
-          {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
+          {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
           {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
