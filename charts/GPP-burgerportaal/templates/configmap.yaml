@@ -8,10 +8,10 @@ data:
   ODRC_BASE_URL: {{ .Values.settings.gppPublicatiebank.baseUrl | toString | quote }}
   SEARCH_BASE_URL: {{ .Values.settings.search.baseUrl | toString | quote }}
   {{- if .Values.settings.sitemapCacheDurationHours }}
-  SITEMAP_CACHE_DURATION_HOURS: {{ .Values.settings.sitemapCacheDurationHours }}
+  SITEMAP_CACHE_DURATION_HOURS: {{ .Values.settings.sitemapCacheDurationHours | toString | quote }}
   {{- end }}
   {{- if .Values.settings.downloadTimeoutMinutes }}
-  DOWNLOAD_TIMEOUT_MINUTES: {{ .Values.settings.downloadTimeoutMinutes }}
+  DOWNLOAD_TIMEOUT_MINUTES: {{ .Values.settings.downloadTimeoutMinutes | toString | quote }}
   {{- end }}
   RESOURCES__PORTAAL_TITEL	: {{ .Values.settings.resources.portaalTitel | toString | quote }}
   RESOURCES__GEMEENTE_NAAM	: {{ .Values.settings.resources.gemeenteNaam | toString | quote }}
