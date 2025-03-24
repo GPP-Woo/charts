@@ -60,6 +60,13 @@ data:
             include conf.d/proxy;
         }
 
+        {{ if .Values.flower.enabled }}
+        location /flower/ {
+            proxy_pass http://{{ include "gpp-publicatiebank.flowerFullname" . }}:5555;
+            auth_basic "Restricted";
+        }
+        {{- end }}
+
         location ~ ^/api/v1/documenten/[a-fA-F0-9-]+/bestandsdelen/[a-fA-F0-9-]+$ {
           client_max_body_size {{ .Values.settings.documentMaxBodySize | default "4G" }};
           include conf.d/proxy;
