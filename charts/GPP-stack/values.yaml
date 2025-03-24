@@ -635,6 +635,64 @@ gpp-publicatiebank:
     # -- CSS color value for the environment information text color. Defaults to black. Follows the same rules as ENVIRONMENT_BACKGROUND_COLOR.
     environmentLabelForegroundColor: ""
 
+    celery:
+      brokerUrl: ""
+      resultBackend: ""
+      logLevel: debug
+
+  worker:
+    label: "1"
+    name: ""
+    queueName: ""
+    replicaCount: 1
+    concurrency: 4
+    podLabels: {}
+    resources: {}
+    livenessProbe: 
+      enabled: false
+      exec:
+        command:
+          - /bin/sh
+          - -c
+          - celery --workdir src --app woo_publications.celery inspect --destination celery@${HOSTNAME} active
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 3
+      successThreshold: 1
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 100
+      targetCPUUtilizationPercentage: 80
+      targetMemoryUtilizationPercentage: 80
+      behavior: {}
+  
+  flower:
+    enabled: true
+    urlPrefix: "/flower/"
+    # -- Basic auth credentials in format `user:password`
+    basicAuth: ""
+    replicaCount: 1
+    podLabels: {}
+    service:
+      type: ClusterIP
+      port: 5555
+      annotations: {}
+    livenessProbe:
+      initialDelaySeconds: 60
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 6
+      successThreshold: 1
+    readinessProbe:
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 6
+      successThreshold: 1
+    resources: {}
+
   nginx:
     image:
       repository: nginxinc/nginx-unprivileged
@@ -986,15 +1044,357 @@ gpp-burgerportaal:
     secretName: "{{ .Values.existingSecret }}"
 
   settings:
-    redirectUrl: ""
-    sitemapCacheDurationHours: null
-    downloadTimeoutMinutes: null
+    # -- The number of hours the sitemap is cached. <br/> (default value is `23`)
+    sitemapCacheDurationHours: 23
+    # -- The maximum duration in minutes for downloading files. <br/> (default value is `10`)
+    downloadTimeoutMinutes: 10
 
     gppPublicatiebank:
+      # -- The secret key for the Publicatiebank to establish a connection. <details> <summary>More information </summary>For example: `VM2B!ccnebNe.M*gxH63*NXc8iTiAGhp`</details>
       apiKey: ""
+      # -- The base URL of the Publicatiebank to establish a connection. <details> <summary>More information </summary>For example: `https://publicatiebank.mijn-gemeente.nl` </details>
       baseUrl: ""
+
+    search:
+      # -- The secret key for the Search component to establish a connection. <details> <summary>More information </summary>For example: `VM2B!ccnebNe.M*gxH63*NXc8iTiAGhp`</details>
+      apiKey: ""
+      # -- The base URL of the Search component to establish a connection. <details> <summary>More information </summary>For example: `https://zoekcomponent.mijn-gemeente.nl` </details>
+      baseUrl: ""
+
+    resources:
+      # -- The title of the citizen portal. <details><summary>More information</summary> For example: Open Mijn Gemeente</details>
+      portaalTitel: ""
+      # -- The name of the municipality used within the citizen portal. <details><summary>More information</summary> For example: Mijn Gemeente</details> 
+      gemeenteNaam: ""
+      # -- Public URL where the municipality's logo is available. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/logo.svg`</details>
+      gemeenteLogoUrl: ""
+      # -- Public URL where the municipality's favicon is available. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/favicon.ico`</details>
+      gemeenteFaviconUrl: ""
+      # -- Public URL where a high-resolution atmospheric image of the municipality is available, to be included on all pages. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/main_img.jpg` </details>
+      gemeenteMainImageUrl: ""
+      # -- Public URL where the CSS file containing NL Design System tokens is available, to style the citizen portal in the municipal house style. <details><summary>More information </summary>For example: `https://unpkg.com/@gemeente/design-tokens/dist/index.css`</details>
+      gemeenteDesignTokensUrl: ""
+      # -- Public URLs referring to web font file(s) associated with the municipal house style. <details><summary>More information </summary>For example: `["https://fonts.mijn-gemeente.nl/custom-regular-font.woff2", "https://fonts.mijn-gemeente.nl/custom-bold-font.woff2"]`. A single reference to the location where all font-style files are stored is also possible: `["https://fonts.mijn-gemeente.nl/custom-font/"]`. **Note:** this configuration is only intended to allow font files to be loaded under CORS. References to files must also be specified under a `@font-face` ruleset in the theme styling.</details>
+      gemeenteWebFontSources: []
+      # -- The name of the selector from the CSS file used to scope the NLDS tokens. <details><summary>More information</summary> For example: `gemeente-theme` </details>
+      gemeenteThemeNaam: ""
+      # -- The website address of the municipality, for linking from the citizen portal to the municipal website. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl`</details>
+      gemeenteWebsiteUrl: ""
+      # -- The website address where the municipality's privacy statement is located. Used for linking from the citizen portal. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/privacy`</details>
+      gemeentePrivacyUrl: ""
+      # -- The website address where the municipality's contact details can be found. Used for linking from the citizen portal. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/contact`</details>
+      gemeenteContactUrl: ""
+      # -- The welcome text, formatted in HTML, for the homepage. <details><summary>More information</summary> **Note:** The HTML fragment must be properly escaped/formatted depending on the format (e.g., JSON or YAML) to be added as an environment variable. The following HTML elements can be used here: `<h1>, <h2>, <p>, <a>, <ul>, <ol>, <li>`</details>
+      gemeenteWelkom: ""
+      # -- The website address of the government register of accessibility declarations. Used for linking from the citizen portal. <details><summary>More information</summary> Likely: `https://www.toegankelijkheidsverklaring.nl/register`</details>
+      toegankelijkheidsverklaringRegisterUrl: ""
 
     aspnetcore:
       forwardedHeadersEnabled: true
       environment: ""
       httpPorts: ""
+
+gpp-zoeken:
+  tags:
+    redis: true
+
+  replicaCount: 1
+
+  image:
+    repository: "ghcr.io/gpp-woo/gpp-zoeken"
+    pullPolicy: IfNotPresent
+    tag: ""
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+    automountServiceAccountToken: true
+
+  podAnnotations: {}
+
+  podLabels: {}
+
+  podSecurityContext:
+    fsGroup: 1000
+
+  securityContext:
+    capabilities:
+      drop:
+      - ALL
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1000
+
+  livenessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+
+  readinessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  ingress:
+    enabled: false
+    annotations: {}
+    className: ""
+    # -- ingress hosts
+    hosts: []
+    #  - host: gpp-zoeken.gemeente.nl
+    #    paths:
+    #       - pathType: ImplementationSpecific
+    #         path: "/"
+    #         backend:
+    #           service:
+    #             name: gpp-zoeken
+    #             port:
+    #               number: 80
+    #       - pathType: ImplementationSpecific
+    #         path: "/flower/"
+    #         backend:
+    #           service:
+    #             name: gpp-zoeken-flower
+    #             port:
+    #               number: 5555
+    tls: []
+
+
+  extraIngress: []
+
+  resources: {}
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  pdb:
+    create: false
+    minAvailable: 1
+    maxUnavailable: ""
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  persistence:
+    size: 1Gi
+    storageClassName: ""
+    existingClaim: null
+    mediaMountSubpath: gpp-zoeken/media
+    privateMediaMountSubpath: gpp-zoeken/private_media
+    logsMountSubpath: gpp-zoeken/logs
+
+  # Existing Secret must be defined for AzureVaultSecret to work
+  existingSecret: null
+  existingSecretElastic: null
+
+  # This will create an AzureVaultSecret object in k8s, only Multi Key Value Secret are supported by this chart
+  # ref: https://akv2k8s.io/tutorials/sync/4-multi-key-value-secret/ https://learn.microsoft.com/en-us/azure/key-vault/secrets/multiline-secrets
+  # Using this feature requires you to define existingSecret
+  azureVaultSecret:
+    # The name of the Azure Key Vault, setting this will create the AzureVaultSecret
+    vaultName: null
+    # The name of the Multi Key Value Secret
+    objectName: ""
+    # Make sure this matches the content of the secret, can be either 'application/x-json' or 'application/x-yaml'
+    contentType: ""
+    # You must set .Values.existingSecret
+    secretName: "{{ .Values.existingSecret }}"
+
+  # -- Array with extra environment variables to add
+  extraEnvVars: []
+
+  # -- Optionally specify extra list of additional volumes
+  extraVolumes: []
+
+  # -- Optionally specify extra list of additional volumeMounts
+  extraVolumeMounts: []
+
+  settings:
+    allowedHosts: ""
+    djangoSettingsModule: woo_search.conf.docker
+    useXForwardedHost: false
+
+    # -- Generate secret key at https://djecrety.ir/
+    secretKey: ""
+
+    # -- Choises Strict or Lax
+    cookieSamesite: ""
+
+    # -- sets the 'ENVIRONMENT' variable
+    environment: ""
+    elasticapm:
+      url: ""
+      token: ""
+      serviceName: ""
+
+    database:
+      host: ""
+      port: 5432
+      username: ""
+      password: ""
+      name: ""
+      sslmode: prefer
+
+    email:
+      host: localhost
+      port: 25
+      username: ""
+      password: ""
+      useTLS: false
+      defaultFrom: ""
+
+    sentry:
+      dsn: ""
+
+    # Cache settings, when the redis subchart is enabled these settings will be ignored and caching will default to the redis subchart services.
+    cache:
+      # e.g.:
+      # default: gpp-zoeken-redis-master-0:6379/0
+      # axes: gpp-zoeken-redis-master-0:6379/0
+      default: ""
+      axes: ""
+
+    isHttps: true
+
+    debug: false
+
+    uwsgi:
+      master: ''
+      threads: ''
+      processes: ''
+      maxRequests: ''
+      harakiri: ''
+
+    # -- Disable two factor authentication
+    disable2fa: false
+
+    # -- Display environment information in the header in the admin. Defaults to True. Environment information is only displayed to logged in users.
+    showLabelEnvironment: false
+    # -- Environment information to display, defaults to the value of ENVIRONMENT. Only displayed when SHOW_ENVIRONMENT is set to True. You can set this to strings like OpenGem PROD or simply PROD, depending on your needs.
+    environmentLabelName: ""
+    # --  CSS color value for the environment information background color. Defaults to orange, example values can be specified in HEX format too, e.g.: #FF0000 for red.
+    environmentLabelBackgroundColor: ""
+    # -- CSS color value for the environment information text color. Defaults to black. Follows the same rules as ENVIRONMENT_BACKGROUND_COLOR.
+    environmentLabelForegroundColor: ""
+
+    celery:
+      brokerUrl: ""
+      resultBackend: ""
+      logLevel: debug
+
+    elastic:
+      iniIndices: true
+      user: "gpp-elastic"
+      password: ""
+      roles: "superuser"
+      # -- Path to CA bundle (in PEM) format if self-signed certificates or a private CA are used to connect to the ES cluster
+      caCertsPath: ""
+      
+    job:
+      backoffLimit: 6
+      # -- 0 Will clean the job after it is finished
+      ttlSecondsAfterFinished: 0
+      restartPolicy: OnFailure
+      resources: {}
+
+  worker:
+    label: "1"
+    name: ""
+    queueName: ""
+    replicaCount: 1
+    concurrency: 4
+    podLabels: {}
+    resources: {}
+    livenessProbe: 
+      enabled: false
+      exec:
+        command:
+          - /bin/sh
+          - -c
+          - celery --workdir src --app openforms.celery inspect --destination celery@${HOSTNAME} active
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 3
+      successThreshold: 1
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 100
+      targetCPUUtilizationPercentage: 80
+      targetMemoryUtilizationPercentage: 80
+      behavior: {}
+
+  flower:
+    enabled: false
+    # -- Basic auth credentials in format `user:password`
+    basicAuth: ""
+    urlPrefix: ""
+    replicaCount: 1
+    podLabels: {}
+    service:
+      type: ClusterIP
+      port: 5555
+      annotations: {}
+    livenessProbe:
+      initialDelaySeconds: 60
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 6
+      successThreshold: 1
+    readinessProbe:
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 6
+      successThreshold: 1
+    resources: {}
+
+  # Redis subchart 
+  redis:
+    nameOverride: "gpp-zoeken-redis"
+    architecture: standalone
+    auth:
+      enabled: false
+    master:
+      persistence:
+        enabled: true
+        size: 8Gi
+        storageClass: ""
+      resources:
+        requests:
+          cpu: 10m
+          memory: 20Mi
+
+  # eck-operator subchart
+  eck-operator:
+    enabled: true
+    nameOverride: "gpp-zoeken-eck-operator"
+    fullnameOverride: "gpp-zoeken-eck-operator"
+
+  # eck-elasticsearch subchart
+  eck-elasticsearch:
+    enabled: true
+    nameOverride: "gpp-zoeken-eck-elasticsearch"
+    fullnameOverride: "gpp-zoeken-eck-elasticsearch"
+    version: 8.17.1

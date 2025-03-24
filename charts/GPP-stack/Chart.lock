@@ -1,15 +1,18 @@
 dependencies:
 - name: openzaak
   repository: https://maykinmedia.github.io/charts/
-  version: 1.5.3
+  version: 1.8.1
 - name: gpp-app
   repository: https://GPP-Woo.github.io/charts
   version: 0.1.0
 - name: gpp-publicatiebank
   repository: https://GPP-Woo.github.io/charts
-  version: 1.0.0
+  version: 2.0.0
 - name: gpp-burgerportaal
   repository: https://GPP-Woo.github.io/charts
-  version: 0.1.0
-digest: sha256:1ae71913d9431200e9266b25273b95c754070d5e79be63d0f68938f758c45ddd
-generated: "2024-12-17T15:19:23.903385058+01:00"
+  version: 1.0.1
+- name: gpp-zoeken
+  repository: https://GPP-Woo.github.io/charts
+  version: 0.2.0
+digest: sha256:bb74176d3c9cb278329f4d95c2424bb03f27a22377dd4799e34a8f7c7cef0a4e
+generated: "2025-03-24T14:00:14.664393242+01:00"
