@@ -257,7 +257,7 @@ worker:
       command:
         - /bin/sh
         - -c
-        - celery --workdir src --app openforms.celery inspect --destination celery@${HOSTNAME} active
+        - celery --workdir src --app woo_publications.celery inspect --destination celery@${HOSTNAME} active
     initialDelaySeconds: 60
     periodSeconds: 30
     timeoutSeconds: 10
