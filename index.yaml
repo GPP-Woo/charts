@@ -45,6 +45,22 @@ entries:
   gpp-publicatiebank:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2025-03-26T13:07:32.916843543Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 20.2.1
+    description: Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
+    digest: ce53d0eac11cc152fca431463f43badb46873bdd35ba831c9bb5c0e533d8673b
+    name: gpp-publicatiebank
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-publicatiebank-2.0.2/gpp-publicatiebank-2.0.2.tgz
+    version: 2.0.2
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2025-03-26T09:38:09.879927206Z"
     dependencies:
     - name: redis
@@ -108,6 +124,37 @@ entries:
     - https://github.com/gpp-woo/charts/releases/download/gpp-publicatiebank-1.0.0/gpp-publicatiebank-1.0.0.tgz
     version: 1.0.0
   gpp-stack:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2025-03-26T13:07:33.113469141Z"
+    dependencies:
+    - condition: openzaak.enabled
+      name: openzaak
+      repository: https://maykinmedia.github.io/charts/
+      version: 1.8.1
+    - condition: gpp-app.enabled
+      name: gpp-app
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.1.0
+    - condition: gpp-publicatiebank.enabled
+      name: gpp-publicatiebank
+      repository: https://GPP-Woo.github.io/charts
+      version: 2.0.1
+    - condition: gpp-burgerportaal.enabled
+      name: gpp-burgerportaal
+      repository: https://GPP-Woo.github.io/charts
+      version: 1.0.1
+    - condition: gpp-zoeken.enabled
+      name: gpp-zoeken
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.2.1
+    description: An umbrella chart for the GPP stack
+    digest: cc761c50e9e884cc915f9af45bd342f5920ea4a4f8f4e76af08c53c0e59ff4de
+    name: gpp-stack
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-stack-0.2.0/gpp-stack-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: 0.1.0
     created: "2024-12-17T15:08:33.964857241Z"
@@ -188,4 +235,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2025-03-26T09:38:10.041515517Z"
+generated: "2025-03-26T13:07:33.113497153Z"
