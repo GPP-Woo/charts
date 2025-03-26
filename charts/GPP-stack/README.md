@@ -1,6 +1,6 @@
 # gpp-stack
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
 
 An umbrella chart for the GPP stack
 
@@ -9,9 +9,10 @@ An umbrella chart for the GPP stack
 | Repository | Name | Version |
 |------------|------|---------|
 | https://GPP-Woo.github.io/charts | gpp-app | 0.1.0 |
-| https://GPP-Woo.github.io/charts | gpp-burgerportaal | 0.1.0 |
-| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 1.0.0 |
-| https://maykinmedia.github.io/charts/ | openzaak | 1.5.2 |
+| https://GPP-Woo.github.io/charts | gpp-burgerportaal | 1.0.1 |
+| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 2.0.1 |
+| https://GPP-Woo.github.io/charts | gpp-zoeken | 0.2.1 |
+| https://maykinmedia.github.io/charts/ | openzaak | 1.8.1 |
 
 ## Values
 
@@ -154,11 +155,25 @@ An umbrella chart for the GPP stack
 | gpp-burgerportaal.settings.aspnetcore.environment | string | `""` |  |
 | gpp-burgerportaal.settings.aspnetcore.forwardedHeadersEnabled | bool | `true` |  |
 | gpp-burgerportaal.settings.aspnetcore.httpPorts | string | `""` |  |
-| gpp-burgerportaal.settings.downloadTimeoutMinutes | string | `nil` |  |
-| gpp-burgerportaal.settings.gppPublicatiebank.apiKey | string | `""` |  |
-| gpp-burgerportaal.settings.gppPublicatiebank.baseUrl | string | `""` |  |
-| gpp-burgerportaal.settings.redirectUrl | string | `""` |  |
-| gpp-burgerportaal.settings.sitemapCacheDurationHours | string | `nil` |  |
+| gpp-burgerportaal.settings.downloadTimeoutMinutes | int | `10` | The maximum duration in minutes for downloading files. <br/> (default value is `10`) |
+| gpp-burgerportaal.settings.gppPublicatiebank.apiKey | string | `""` | The secret key for the Publicatiebank to establish a connection. <details> <summary>More information </summary>For example: `VM2B!ccnebNe.M*gxH63*NXc8iTiAGhp`</details> |
+| gpp-burgerportaal.settings.gppPublicatiebank.baseUrl | string | `""` | The base URL of the Publicatiebank to establish a connection. <details> <summary>More information </summary>For example: `https://publicatiebank.mijn-gemeente.nl` </details> |
+| gpp-burgerportaal.settings.resources.gemeenteContactUrl | string | `""` | The website address where the municipality's contact details can be found. Used for linking from the citizen portal. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/contact`</details> |
+| gpp-burgerportaal.settings.resources.gemeenteDesignTokensUrl | string | `""` | Public URL where the CSS file containing NL Design System tokens is available, to style the citizen portal in the municipal house style. <details><summary>More information </summary>For example: `https://unpkg.com/@gemeente/design-tokens/dist/index.css`</details> |
+| gpp-burgerportaal.settings.resources.gemeenteFaviconUrl | string | `""` | Public URL where the municipality's favicon is available. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/favicon.ico`</details> |
+| gpp-burgerportaal.settings.resources.gemeenteLogoUrl | string | `""` | Public URL where the municipality's logo is available. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/logo.svg`</details> |
+| gpp-burgerportaal.settings.resources.gemeenteMainImageUrl | string | `""` | Public URL where a high-resolution atmospheric image of the municipality is available, to be included on all pages. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/main_img.jpg` </details> |
+| gpp-burgerportaal.settings.resources.gemeenteNaam | string | `""` | The name of the municipality used within the citizen portal. <details><summary>More information</summary> For example: Mijn Gemeente</details>  |
+| gpp-burgerportaal.settings.resources.gemeentePrivacyUrl | string | `""` | The website address where the municipality's privacy statement is located. Used for linking from the citizen portal. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/privacy`</details> |
+| gpp-burgerportaal.settings.resources.gemeenteThemeNaam | string | `""` | The name of the selector from the CSS file used to scope the NLDS tokens. <details><summary>More information</summary> For example: `gemeente-theme` </details> |
+| gpp-burgerportaal.settings.resources.gemeenteWebFontSources | list | `[]` | Public URLs referring to web font file(s) associated with the municipal house style. <details><summary>More information </summary>For example: `["https://fonts.mijn-gemeente.nl/custom-regular-font.woff2", "https://fonts.mijn-gemeente.nl/custom-bold-font.woff2"]`. A single reference to the location where all font-style files are stored is also possible: `["https://fonts.mijn-gemeente.nl/custom-font/"]`. **Note:** this configuration is only intended to allow font files to be loaded under CORS. References to files must also be specified under a `@font-face` ruleset in the theme styling.</details> |
+| gpp-burgerportaal.settings.resources.gemeenteWebsiteUrl | string | `""` | The website address of the municipality, for linking from the citizen portal to the municipal website. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl`</details> |
+| gpp-burgerportaal.settings.resources.gemeenteWelkom | string | `""` | The welcome text, formatted in HTML, for the homepage. <details><summary>More information</summary> **Note:** The HTML fragment must be properly escaped/formatted depending on the format (e.g., JSON or YAML) to be added as an environment variable. The following HTML elements can be used here: `<h1>, <h2>, <p>, <a>, <ul>, <ol>, <li>`</details> |
+| gpp-burgerportaal.settings.resources.portaalTitel | string | `""` | The title of the citizen portal. <details><summary>More information</summary> For example: Open Mijn Gemeente</details> |
+| gpp-burgerportaal.settings.resources.toegankelijkheidsverklaringRegisterUrl | string | `""` | The website address of the government register of accessibility declarations. Used for linking from the citizen portal. <details><summary>More information</summary> Likely: `https://www.toegankelijkheidsverklaring.nl/register`</details> |
+| gpp-burgerportaal.settings.search.apiKey | string | `""` | The secret key for the Search component to establish a connection. <details> <summary>More information </summary>For example: `VM2B!ccnebNe.M*gxH63*NXc8iTiAGhp`</details> |
+| gpp-burgerportaal.settings.search.baseUrl | string | `""` | The base URL of the Search component to establish a connection. <details> <summary>More information </summary>For example: `https://zoekcomponent.mijn-gemeente.nl` </details> |
+| gpp-burgerportaal.settings.sitemapCacheDurationHours | int | `23` | The number of hours the sitemap is cached. <br/> (default value is `23`) |
 | gpp-burgerportaal.tolerations | list | `[]` |  |
 | gpp-publicatiebank.affinity | object | `{}` |  |
 | gpp-publicatiebank.autoscaling.enabled | bool | `false` |  |
@@ -176,6 +191,25 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.extraIngress | list | `[]` | Specify extra ingresses, for example if you have multiple ingress classes |
 | gpp-publicatiebank.extraVolumeMounts | list | `[]` | Optionally specify extra list of additional volumeMounts |
 | gpp-publicatiebank.extraVolumes | list | `[]` | Optionally specify extra list of additional volumes |
+| gpp-publicatiebank.flower.basicAuth | string | `""` | Basic auth credentials in format `user:password` |
+| gpp-publicatiebank.flower.enabled | bool | `true` |  |
+| gpp-publicatiebank.flower.livenessProbe.failureThreshold | int | `6` |  |
+| gpp-publicatiebank.flower.livenessProbe.initialDelaySeconds | int | `60` |  |
+| gpp-publicatiebank.flower.livenessProbe.periodSeconds | int | `10` |  |
+| gpp-publicatiebank.flower.livenessProbe.successThreshold | int | `1` |  |
+| gpp-publicatiebank.flower.livenessProbe.timeoutSeconds | int | `5` |  |
+| gpp-publicatiebank.flower.podLabels | object | `{}` |  |
+| gpp-publicatiebank.flower.readinessProbe.failureThreshold | int | `6` |  |
+| gpp-publicatiebank.flower.readinessProbe.initialDelaySeconds | int | `30` |  |
+| gpp-publicatiebank.flower.readinessProbe.periodSeconds | int | `10` |  |
+| gpp-publicatiebank.flower.readinessProbe.successThreshold | int | `1` |  |
+| gpp-publicatiebank.flower.readinessProbe.timeoutSeconds | int | `5` |  |
+| gpp-publicatiebank.flower.replicaCount | int | `1` |  |
+| gpp-publicatiebank.flower.resources | object | `{}` |  |
+| gpp-publicatiebank.flower.service.annotations | object | `{}` |  |
+| gpp-publicatiebank.flower.service.port | int | `5555` |  |
+| gpp-publicatiebank.flower.service.type | string | `"ClusterIP"` |  |
+| gpp-publicatiebank.flower.urlPrefix | string | `"/flower/"` |  |
 | gpp-publicatiebank.fullnameOverride | string | `""` |  |
 | gpp-publicatiebank.image.pullPolicy | string | `"IfNotPresent"` |  |
 | gpp-publicatiebank.image.repository | string | `"ghcr.io/gpp-woo/gpp-publicatiebank"` |  |
@@ -250,6 +284,9 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.settings.cache.axes | string | `""` |  |
 | gpp-publicatiebank.settings.cache.default | string | `""` |  |
 | gpp-publicatiebank.settings.cache.oidc | string | `""` |  |
+| gpp-publicatiebank.settings.celery.brokerUrl | string | `""` |  |
+| gpp-publicatiebank.settings.celery.logLevel | string | `"debug"` |  |
+| gpp-publicatiebank.settings.celery.resultBackend | string | `""` |  |
 | gpp-publicatiebank.settings.cookieSamesite | string | `""` | Choises Strict or Lax |
 | gpp-publicatiebank.settings.database.host | string | `""` |  |
 | gpp-publicatiebank.settings.database.name | string | `""` |  |
@@ -289,6 +326,196 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.settings.uwsgi.threads | string | `""` |  |
 | gpp-publicatiebank.tags.redis | bool | `true` |  |
 | gpp-publicatiebank.tolerations | list | `[]` |  |
+| gpp-publicatiebank.worker.autoscaling.behavior | object | `{}` |  |
+| gpp-publicatiebank.worker.autoscaling.enabled | bool | `false` |  |
+| gpp-publicatiebank.worker.autoscaling.maxReplicas | int | `100` |  |
+| gpp-publicatiebank.worker.autoscaling.minReplicas | int | `1` |  |
+| gpp-publicatiebank.worker.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| gpp-publicatiebank.worker.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| gpp-publicatiebank.worker.concurrency | int | `4` |  |
+| gpp-publicatiebank.worker.label | string | `"1"` |  |
+| gpp-publicatiebank.worker.livenessProbe.enabled | bool | `false` |  |
+| gpp-publicatiebank.worker.livenessProbe.exec.command[0] | string | `"/bin/sh"` |  |
+| gpp-publicatiebank.worker.livenessProbe.exec.command[1] | string | `"-c"` |  |
+| gpp-publicatiebank.worker.livenessProbe.exec.command[2] | string | `"celery --workdir src --app woo_publications.celery inspect --destination celery@${HOSTNAME} active"` |  |
+| gpp-publicatiebank.worker.livenessProbe.failureThreshold | int | `3` |  |
+| gpp-publicatiebank.worker.livenessProbe.initialDelaySeconds | int | `60` |  |
+| gpp-publicatiebank.worker.livenessProbe.periodSeconds | int | `30` |  |
+| gpp-publicatiebank.worker.livenessProbe.successThreshold | int | `1` |  |
+| gpp-publicatiebank.worker.livenessProbe.timeoutSeconds | int | `10` |  |
+| gpp-publicatiebank.worker.name | string | `""` |  |
+| gpp-publicatiebank.worker.podLabels | object | `{}` |  |
+| gpp-publicatiebank.worker.queueName | string | `""` |  |
+| gpp-publicatiebank.worker.replicaCount | int | `1` |  |
+| gpp-publicatiebank.worker.resources | object | `{}` |  |
+| gpp-zoeken.affinity | object | `{}` |  |
+| gpp-zoeken.autoscaling.enabled | bool | `false` |  |
+| gpp-zoeken.autoscaling.maxReplicas | int | `100` |  |
+| gpp-zoeken.autoscaling.minReplicas | int | `1` |  |
+| gpp-zoeken.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| gpp-zoeken.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| gpp-zoeken.azureVaultSecret.contentType | string | `""` |  |
+| gpp-zoeken.azureVaultSecret.objectName | string | `""` |  |
+| gpp-zoeken.azureVaultSecret.secretName | string | `"{{ .Values.existingSecret }}"` |  |
+| gpp-zoeken.azureVaultSecret.vaultName | string | `nil` |  |
+| gpp-zoeken.eck-elasticsearch.enabled | bool | `true` |  |
+| gpp-zoeken.eck-elasticsearch.fullnameOverride | string | `"gpp-zoeken-eck-elasticsearch"` |  |
+| gpp-zoeken.eck-elasticsearch.nameOverride | string | `"gpp-zoeken-eck-elasticsearch"` |  |
+| gpp-zoeken.eck-elasticsearch.version | string | `"8.17.1"` |  |
+| gpp-zoeken.eck-operator.enabled | bool | `true` |  |
+| gpp-zoeken.eck-operator.fullnameOverride | string | `"gpp-zoeken-eck-operator"` |  |
+| gpp-zoeken.eck-operator.nameOverride | string | `"gpp-zoeken-eck-operator"` |  |
+| gpp-zoeken.existingSecret | string | `nil` |  |
+| gpp-zoeken.existingSecretElastic | string | `nil` |  |
+| gpp-zoeken.extraEnvVars | list | `[]` | Array with extra environment variables to add |
+| gpp-zoeken.extraIngress | list | `[]` |  |
+| gpp-zoeken.extraVolumeMounts | list | `[]` | Optionally specify extra list of additional volumeMounts |
+| gpp-zoeken.extraVolumes | list | `[]` | Optionally specify extra list of additional volumes |
+| gpp-zoeken.flower.basicAuth | string | `""` | Basic auth credentials in format `user:password` |
+| gpp-zoeken.flower.enabled | bool | `false` |  |
+| gpp-zoeken.flower.livenessProbe.failureThreshold | int | `6` |  |
+| gpp-zoeken.flower.livenessProbe.initialDelaySeconds | int | `60` |  |
+| gpp-zoeken.flower.livenessProbe.periodSeconds | int | `10` |  |
+| gpp-zoeken.flower.livenessProbe.successThreshold | int | `1` |  |
+| gpp-zoeken.flower.livenessProbe.timeoutSeconds | int | `5` |  |
+| gpp-zoeken.flower.podLabels | object | `{}` |  |
+| gpp-zoeken.flower.readinessProbe.failureThreshold | int | `6` |  |
+| gpp-zoeken.flower.readinessProbe.initialDelaySeconds | int | `30` |  |
+| gpp-zoeken.flower.readinessProbe.periodSeconds | int | `10` |  |
+| gpp-zoeken.flower.readinessProbe.successThreshold | int | `1` |  |
+| gpp-zoeken.flower.readinessProbe.timeoutSeconds | int | `5` |  |
+| gpp-zoeken.flower.replicaCount | int | `1` |  |
+| gpp-zoeken.flower.resources | object | `{}` |  |
+| gpp-zoeken.flower.service.annotations | object | `{}` |  |
+| gpp-zoeken.flower.service.port | int | `5555` |  |
+| gpp-zoeken.flower.service.type | string | `"ClusterIP"` |  |
+| gpp-zoeken.flower.urlPrefix | string | `""` |  |
+| gpp-zoeken.fullnameOverride | string | `""` |  |
+| gpp-zoeken.image.pullPolicy | string | `"IfNotPresent"` |  |
+| gpp-zoeken.image.repository | string | `"ghcr.io/gpp-woo/gpp-zoeken"` |  |
+| gpp-zoeken.image.tag | string | `""` |  |
+| gpp-zoeken.imagePullSecrets | list | `[]` |  |
+| gpp-zoeken.ingress.annotations | object | `{}` |  |
+| gpp-zoeken.ingress.className | string | `""` |  |
+| gpp-zoeken.ingress.enabled | bool | `false` |  |
+| gpp-zoeken.ingress.hosts | list | `[]` | ingress hosts |
+| gpp-zoeken.ingress.tls | list | `[]` |  |
+| gpp-zoeken.livenessProbe.failureThreshold | int | `6` |  |
+| gpp-zoeken.livenessProbe.initialDelaySeconds | int | `60` |  |
+| gpp-zoeken.livenessProbe.periodSeconds | int | `10` |  |
+| gpp-zoeken.livenessProbe.successThreshold | int | `1` |  |
+| gpp-zoeken.livenessProbe.timeoutSeconds | int | `5` |  |
+| gpp-zoeken.nameOverride | string | `""` |  |
+| gpp-zoeken.nodeSelector | object | `{}` |  |
+| gpp-zoeken.pdb.create | bool | `false` |  |
+| gpp-zoeken.pdb.maxUnavailable | string | `""` |  |
+| gpp-zoeken.pdb.minAvailable | int | `1` |  |
+| gpp-zoeken.persistence.existingClaim | string | `nil` |  |
+| gpp-zoeken.persistence.logsMountSubpath | string | `"gpp-zoeken/logs"` |  |
+| gpp-zoeken.persistence.mediaMountSubpath | string | `"gpp-zoeken/media"` |  |
+| gpp-zoeken.persistence.privateMediaMountSubpath | string | `"gpp-zoeken/private_media"` |  |
+| gpp-zoeken.persistence.size | string | `"1Gi"` |  |
+| gpp-zoeken.persistence.storageClassName | string | `""` |  |
+| gpp-zoeken.podAnnotations | object | `{}` |  |
+| gpp-zoeken.podLabels | object | `{}` |  |
+| gpp-zoeken.podSecurityContext.fsGroup | int | `1000` |  |
+| gpp-zoeken.readinessProbe.failureThreshold | int | `6` |  |
+| gpp-zoeken.readinessProbe.initialDelaySeconds | int | `30` |  |
+| gpp-zoeken.readinessProbe.periodSeconds | int | `10` |  |
+| gpp-zoeken.readinessProbe.successThreshold | int | `1` |  |
+| gpp-zoeken.readinessProbe.timeoutSeconds | int | `5` |  |
+| gpp-zoeken.redis.architecture | string | `"standalone"` |  |
+| gpp-zoeken.redis.auth.enabled | bool | `false` |  |
+| gpp-zoeken.redis.master.persistence.enabled | bool | `true` |  |
+| gpp-zoeken.redis.master.persistence.size | string | `"8Gi"` |  |
+| gpp-zoeken.redis.master.persistence.storageClass | string | `""` |  |
+| gpp-zoeken.redis.master.resources.requests.cpu | string | `"10m"` |  |
+| gpp-zoeken.redis.master.resources.requests.memory | string | `"20Mi"` |  |
+| gpp-zoeken.redis.nameOverride | string | `"gpp-zoeken-redis"` |  |
+| gpp-zoeken.replicaCount | int | `1` |  |
+| gpp-zoeken.resources | object | `{}` |  |
+| gpp-zoeken.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| gpp-zoeken.securityContext.readOnlyRootFilesystem | bool | `false` |  |
+| gpp-zoeken.securityContext.runAsNonRoot | bool | `true` |  |
+| gpp-zoeken.securityContext.runAsUser | int | `1000` |  |
+| gpp-zoeken.service.port | int | `80` |  |
+| gpp-zoeken.service.type | string | `"ClusterIP"` |  |
+| gpp-zoeken.serviceAccount.annotations | object | `{}` |  |
+| gpp-zoeken.serviceAccount.automountServiceAccountToken | bool | `true` |  |
+| gpp-zoeken.serviceAccount.create | bool | `true` |  |
+| gpp-zoeken.serviceAccount.name | string | `""` |  |
+| gpp-zoeken.settings.allowedHosts | string | `""` |  |
+| gpp-zoeken.settings.cache.axes | string | `""` |  |
+| gpp-zoeken.settings.cache.default | string | `""` |  |
+| gpp-zoeken.settings.celery.brokerUrl | string | `""` |  |
+| gpp-zoeken.settings.celery.logLevel | string | `"debug"` |  |
+| gpp-zoeken.settings.celery.resultBackend | string | `""` |  |
+| gpp-zoeken.settings.cookieSamesite | string | `""` | Choises Strict or Lax |
+| gpp-zoeken.settings.database.host | string | `""` |  |
+| gpp-zoeken.settings.database.name | string | `""` |  |
+| gpp-zoeken.settings.database.password | string | `""` |  |
+| gpp-zoeken.settings.database.port | int | `5432` |  |
+| gpp-zoeken.settings.database.sslmode | string | `"prefer"` |  |
+| gpp-zoeken.settings.database.username | string | `""` |  |
+| gpp-zoeken.settings.debug | bool | `false` |  |
+| gpp-zoeken.settings.disable2fa | bool | `false` | Disable two factor authentication |
+| gpp-zoeken.settings.djangoSettingsModule | string | `"woo_search.conf.docker"` |  |
+| gpp-zoeken.settings.elastic.caCertsPath | string | `""` | Path to CA bundle (in PEM) format if self-signed certificates or a private CA are used to connect to the ES cluster |
+| gpp-zoeken.settings.elastic.iniIndices | bool | `true` |  |
+| gpp-zoeken.settings.elastic.password | string | `""` |  |
+| gpp-zoeken.settings.elastic.roles | string | `"superuser"` |  |
+| gpp-zoeken.settings.elastic.user | string | `"gpp-elastic"` |  |
+| gpp-zoeken.settings.elasticapm.serviceName | string | `""` |  |
+| gpp-zoeken.settings.elasticapm.token | string | `""` |  |
+| gpp-zoeken.settings.elasticapm.url | string | `""` |  |
+| gpp-zoeken.settings.email.defaultFrom | string | `""` |  |
+| gpp-zoeken.settings.email.host | string | `"localhost"` |  |
+| gpp-zoeken.settings.email.password | string | `""` |  |
+| gpp-zoeken.settings.email.port | int | `25` |  |
+| gpp-zoeken.settings.email.useTLS | bool | `false` |  |
+| gpp-zoeken.settings.email.username | string | `""` |  |
+| gpp-zoeken.settings.environment | string | `""` | sets the 'ENVIRONMENT' variable |
+| gpp-zoeken.settings.environmentLabelBackgroundColor | string | `""` | CSS color value for the environment information background color. Defaults to orange, example values can be specified in HEX format too, e.g.: #FF0000 for red. |
+| gpp-zoeken.settings.environmentLabelForegroundColor | string | `""` | CSS color value for the environment information text color. Defaults to black. Follows the same rules as ENVIRONMENT_BACKGROUND_COLOR. |
+| gpp-zoeken.settings.environmentLabelName | string | `""` | Environment information to display, defaults to the value of ENVIRONMENT. Only displayed when SHOW_ENVIRONMENT is set to True. You can set this to strings like OpenGem PROD or simply PROD, depending on your needs. |
+| gpp-zoeken.settings.isHttps | bool | `true` |  |
+| gpp-zoeken.settings.job.backoffLimit | int | `6` |  |
+| gpp-zoeken.settings.job.resources | object | `{}` |  |
+| gpp-zoeken.settings.job.restartPolicy | string | `"OnFailure"` |  |
+| gpp-zoeken.settings.job.ttlSecondsAfterFinished | int | `0` | 0 Will clean the job after it is finished |
+| gpp-zoeken.settings.secretKey | string | `""` | Generate secret key at https://djecrety.ir/ |
+| gpp-zoeken.settings.sentry.dsn | string | `""` |  |
+| gpp-zoeken.settings.showLabelEnvironment | bool | `false` | Display environment information in the header in the admin. Defaults to True. Environment information is only displayed to logged in users. |
+| gpp-zoeken.settings.useXForwardedHost | bool | `false` |  |
+| gpp-zoeken.settings.uwsgi.harakiri | string | `""` |  |
+| gpp-zoeken.settings.uwsgi.master | string | `""` |  |
+| gpp-zoeken.settings.uwsgi.maxRequests | string | `""` |  |
+| gpp-zoeken.settings.uwsgi.processes | string | `""` |  |
+| gpp-zoeken.settings.uwsgi.threads | string | `""` |  |
+| gpp-zoeken.tags.redis | bool | `true` |  |
+| gpp-zoeken.tolerations | list | `[]` |  |
+| gpp-zoeken.worker.autoscaling.behavior | object | `{}` |  |
+| gpp-zoeken.worker.autoscaling.enabled | bool | `false` |  |
+| gpp-zoeken.worker.autoscaling.maxReplicas | int | `100` |  |
+| gpp-zoeken.worker.autoscaling.minReplicas | int | `1` |  |
+| gpp-zoeken.worker.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| gpp-zoeken.worker.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| gpp-zoeken.worker.concurrency | int | `4` |  |
+| gpp-zoeken.worker.label | string | `"1"` |  |
+| gpp-zoeken.worker.livenessProbe.enabled | bool | `false` |  |
+| gpp-zoeken.worker.livenessProbe.exec.command[0] | string | `"/bin/sh"` |  |
+| gpp-zoeken.worker.livenessProbe.exec.command[1] | string | `"-c"` |  |
+| gpp-zoeken.worker.livenessProbe.exec.command[2] | string | `"celery --workdir src --app openforms.celery inspect --destination celery@${HOSTNAME} active"` |  |
+| gpp-zoeken.worker.livenessProbe.failureThreshold | int | `3` |  |
+| gpp-zoeken.worker.livenessProbe.initialDelaySeconds | int | `60` |  |
+| gpp-zoeken.worker.livenessProbe.periodSeconds | int | `30` |  |
+| gpp-zoeken.worker.livenessProbe.successThreshold | int | `1` |  |
+| gpp-zoeken.worker.livenessProbe.timeoutSeconds | int | `10` |  |
+| gpp-zoeken.worker.name | string | `""` |  |
+| gpp-zoeken.worker.podLabels | object | `{}` |  |
+| gpp-zoeken.worker.queueName | string | `""` |  |
+| gpp-zoeken.worker.replicaCount | int | `1` |  |
+| gpp-zoeken.worker.resources | object | `{}` |  |
 | openzaak.affinity | object | `{}` |  |
 | openzaak.autoscaling.enabled | bool | `false` |  |
 | openzaak.autoscaling.maxReplicas | int | `100` |  |
