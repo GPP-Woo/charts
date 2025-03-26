@@ -45,6 +45,22 @@ entries:
   gpp-publicatiebank:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2025-03-26T09:38:09.879927206Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 20.2.1
+    description: Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
+    digest: f3b99c33ed4f4eb4ed24bc1d14837dfc8815d977d192d764eccbb0fdf189f72e
+    name: gpp-publicatiebank
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-publicatiebank-2.0.1/gpp-publicatiebank-2.0.1.tgz
+    version: 2.0.1
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2025-03-24T08:16:18.928239331Z"
     dependencies:
     - name: redis
@@ -122,6 +138,32 @@ entries:
   gpp-zoeken:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2025-03-26T09:38:10.04149581Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 20.2.1
+    - name: eck-operator
+      repository: https://helm.elastic.co
+      tags:
+      - eck-operator.enabled
+      version: 2.16.1
+    - name: eck-elasticsearch
+      repository: https://helm.elastic.co
+      tags:
+      - eck-elasticsearch.enabled
+      version: 0.14.1
+    description: Een zoek-component die voorziet in een "Openbare documenten"-index.
+    digest: ab0275edee97671d5ebb08b68840bf4da5128ba1916e0828792d33b20a3a8acd
+    name: gpp-zoeken
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.1/gpp-zoeken-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2025-03-24T09:49:01.614460254Z"
     dependencies:
     - name: redis
@@ -146,4 +188,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2025-03-24T12:54:19.135593773Z"
+generated: "2025-03-26T09:38:10.041515517Z"
