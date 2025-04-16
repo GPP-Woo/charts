@@ -124,10 +124,15 @@ tolerations: []
 affinity: {}
 
 persistence:
+  # -- If persistence is enabled, a PVC is used. Otherwise, the app container will use an emptyDir volume. Note: data in emptyDir volumes is lost when the pod is removed.
+  enabled: true
+  # -- If persistence.existingClaim is set, no PVC will be created, but the referenced PVC will be used to mount a volume in the app container.
+  existingClaim: null
   size: 1Gi
   storageClassName: ""
-  existingClaim: null
+  # -- Specifies a subpath for where to mount the media volume. This will be appended to the the fixed path `/app/media`.
   mediaMountSubpath: gpp-publicatiebank/media
+  # -- Specifies a subpath for where to mount the private media volume. This will be appended to the the fixed path `/app/private_media`.
   privateMediaMountSubpath: gpp-publicatiebank/private_media
 
 # Existing Secret must be defined for AzureVaultSecret to work

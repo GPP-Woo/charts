@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.3 (2025-04-16)
+
+- Add explicit persistence.enabled value.
+- Improve persistence documentation.
+
 ## 2.0.2 (2025-03-26)
 
 - Use the correct appname in the celery command/
