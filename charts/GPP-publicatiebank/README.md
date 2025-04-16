@@ -1,6 +1,6 @@
 # gpp-publicatiebank
 
-![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+![Version: 2.0.3](https://img.shields.io/badge/Version-2.0.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
 
 Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
 
@@ -86,9 +86,10 @@ Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteite
 | pdb.create | bool | `false` |  |
 | pdb.maxUnavailable | string | `""` |  |
 | pdb.minAvailable | int | `1` |  |
-| persistence.existingClaim | string | `nil` |  |
-| persistence.mediaMountSubpath | string | `"gpp-publicatiebank/media"` |  |
-| persistence.privateMediaMountSubpath | string | `"gpp-publicatiebank/private_media"` |  |
+| persistence.enabled | bool | `true` | If persistence is enabled, a PVC is used. Otherwise, the app container will use an emptyDir volume. Note: data in emptyDir volumes is lost when the pod is removed. |
+| persistence.existingClaim | string | `nil` | If persistence.existingClaim is set, no PVC will be created, but the referenced PVC will be used to mount a volume in the app container. |
+| persistence.mediaMountSubpath | string | `"gpp-publicatiebank/media"` | Specifies a subpath for where to mount the media volume. This will be appended to the the fixed path `/app/media`. |
+| persistence.privateMediaMountSubpath | string | `"gpp-publicatiebank/private_media"` | Specifies a subpath for where to mount the private media volume. This will be appended to the the fixed path `/app/private_media`. |
 | persistence.size | string | `"1Gi"` |  |
 | persistence.storageClassName | string | `""` |  |
 | podAnnotations | object | `{}` |  |
@@ -171,7 +172,7 @@ Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteite
 | worker.livenessProbe.enabled | bool | `false` |  |
 | worker.livenessProbe.exec.command[0] | string | `"/bin/sh"` |  |
 | worker.livenessProbe.exec.command[1] | string | `"-c"` |  |
-| worker.livenessProbe.exec.command[2] | string | `"celery --workdir src --app openforms.celery inspect --destination celery@${HOSTNAME} active"` |  |
+| worker.livenessProbe.exec.command[2] | string | `"celery --workdir src --app woo_publications.celery inspect --destination celery@${HOSTNAME} active"` |  |
 | worker.livenessProbe.failureThreshold | int | `3` |  |
 | worker.livenessProbe.initialDelaySeconds | int | `60` |  |
 | worker.livenessProbe.periodSeconds | int | `30` |  |
