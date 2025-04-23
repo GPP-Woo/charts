@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.4 (2025-04-23)
+
+- Serve media files directly from nginx.
+- Add location `/.well-known/security.txt` in nginx.
+
 ## 2.0.3 (2025-04-16)
 
 - Add explicit persistence.enabled value.
