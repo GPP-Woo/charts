@@ -26,3 +26,10 @@ data:
   RESOURCES__GEMEENTE_CONTACT_URL	: {{ .Values.settings.resources.gemeenteContactUrl | toString | quote }}
   RESOURCES__GEMEENTE_WELKOM	: {{ .Values.settings.resources.gemeenteWelkom | toString | quote }}
   RESOURCES__TOEGANKELIJKHEIDSVERKLARING_REGISTER_URL	: {{ .Values.settings.resources.toegankelijkheidsverklaringRegisterUrl | toString | quote }}
+  ASPNETCORE_FORWARDEDHEADERS_ENABLED: {{ .Values.settings.aspnetcore.forwardedHeadersEnabled | toString | quote }}
+  {{- if .Values.settings.aspnetcore.environment }}
+  ASPNETCORE_ENVIRONMENT: {{ .Values.settings.aspnetcore.environment | toString | quote }}
+  {{- end }}
+  {{- if .Values.settings.aspnetcore.httpPorts }}
+  ASPNETCORE_HTTP_PORTS: {{ .Values.settings.aspnetcore.httpPorts | toString | quote }}
+  {{- end }}
