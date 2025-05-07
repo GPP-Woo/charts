@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2 (2025-05-07)
+
+- Set aspnetcore related env vars in config
+- Set appversion to 2.0.1
+
 ## 1.0.1 (2025-03-24)
 
 - Wrap all environment variables in quotes to prevent patch errors during helm upgrade
