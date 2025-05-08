@@ -78,9 +78,20 @@ data:
             return 200 'OK';
         }
 
-      location /private-media/ {
+        location /media/ {
+          # Ensure the CORS policy is set properly for the font-files. Since these are publicly
+          # accessible, we can just use the wildcard variant.
+          add_header Access-Control-Allow-Origin *;
+          alias /app/media/;
+        }
+
+        location /private-media/ {
           internal;
           alias /app/private_media/;
-      }
+        }
+
+        location = /.well-known/security.txt {
+          return 302 https://www.maykinmedia.nl$request_uri;
+        }
     }
 {{- end }}
