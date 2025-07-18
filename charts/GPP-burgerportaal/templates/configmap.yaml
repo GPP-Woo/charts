@@ -25,6 +25,7 @@ data:
   RESOURCES__GEMEENTE_PRIVACY_URL	: {{ .Values.settings.resources.gemeentePrivacyUrl | toString | quote }}
   RESOURCES__GEMEENTE_CONTACT_URL	: {{ .Values.settings.resources.gemeenteContactUrl | toString | quote }}
   RESOURCES__GEMEENTE_WELKOM	: {{ .Values.settings.resources.gemeenteWelkom | toString | quote }}
+  RESOURCES__GEMEENTE_VIDEO_URL	: {{ .Values.settings.resources.gemeenteVideoUrl | toString | quote }}
   RESOURCES__TOEGANKELIJKHEIDSVERKLARING_REGISTER_URL	: {{ .Values.settings.resources.toegankelijkheidsverklaringRegisterUrl | toString | quote }}
   ASPNETCORE_FORWARDEDHEADERS_ENABLED: {{ .Values.settings.aspnetcore.forwardedHeadersEnabled | toString | quote }}
   {{- if .Values.settings.aspnetcore.environment }}

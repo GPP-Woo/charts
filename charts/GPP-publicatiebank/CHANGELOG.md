@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.5 (2025-07-18)
+
+- Set appVersion to 2.0.0-rc.0
+
 ## 2.0.4 (2025-04-23)
 
 - Serve media files directly from nginx.

@@ -1,8 +1,8 @@
 # gpp-burgerportaal
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.0](https://img.shields.io/badge/AppVersion-0.0.0-informational?style=flat-square)
+![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.0.0-rc.0](https://img.shields.io/badge/AppVersion-4.0.0--rc.0-informational?style=flat-square)
 
-A helm chart for the ICATT GPP Burgerportaal.
+A helm chart for the ICATT GPP burgerportaal.
 
 ## Values
 
@@ -79,6 +79,7 @@ A helm chart for the ICATT GPP Burgerportaal.
 | settings.resources.gemeenteNaam | string | `""` | The name of the municipality used within the citizen portal. <details><summary>More information</summary> For example: Mijn Gemeente</details>  |
 | settings.resources.gemeentePrivacyUrl | string | `""` | The website address where the municipality's privacy statement is located. Used for linking from the citizen portal. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/privacy`</details> |
 | settings.resources.gemeenteThemeNaam | string | `""` | The name of the selector from the CSS file used to scope the NLDS tokens. <details><summary>More information</summary> For example: `gemeente-theme` </details> |
+| settings.resources.gemeenteVideoUrl | string | `""` | Public Video Embedder URL used for video content on the homepage. Must be a YouTube or Vimeo embed URL. <details><summary>More information</summary> For example: `https://www.youtube.com/embed/dQw4w9WgXcQ` or `https://player.vimeo.com/video/123456789`. **Note:** Cross-Origin-Embedder-Policy will be disabled when this variable is set (see this [decision record](./coep_video.md)). The embedder is responsible for ensuring proper accessibility of the video content, including subtitles and keyboard navigation. </details> |
 | settings.resources.gemeenteWebFontSources | list | `[]` | Public URLs referring to web font file(s) associated with the municipal house style. <details><summary>More information </summary>For example: `["https://fonts.mijn-gemeente.nl/custom-regular-font.woff2", "https://fonts.mijn-gemeente.nl/custom-bold-font.woff2"]`. A single reference to the location where all font-style files are stored is also possible: `["https://fonts.mijn-gemeente.nl/custom-font/"]`. **Note:** this configuration is only intended to allow font files to be loaded under CORS. References to files must also be specified under a `@font-face` ruleset in the theme styling.</details> |
 | settings.resources.gemeenteWebsiteUrl | string | `""` | The website address of the municipality, for linking from the citizen portal to the municipal website. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl`</details> |
 | settings.resources.gemeenteWelkom | string | `""` | The welcome text, formatted in HTML, for the homepage. <details><summary>More information</summary> **Note:** The HTML fragment must be properly escaped/formatted depending on the format (e.g., JSON or YAML) to be added as an environment variable. The following HTML elements can be used here: `<h1>, <h2>, <p>, <a>, <ul>, <ol>, <li>`</details> |
