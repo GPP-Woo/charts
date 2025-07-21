@@ -185,6 +185,8 @@ settings:
     gemeenteContactUrl: ""
     # -- The welcome text, formatted in HTML, for the homepage. <details><summary>More information</summary> **Note:** The HTML fragment must be properly escaped/formatted depending on the format (e.g., JSON or YAML) to be added as an environment variable. The following HTML elements can be used here: `<h1>, <h2>, <p>, <a>, <ul>, <ol>, <li>`</details>
     gemeenteWelkom: ""
+    # -- Public Video Embedder URL used for video content on the homepage. Must be a YouTube or Vimeo embed URL. <details><summary>More information</summary> For example: `https://www.youtube.com/embed/dQw4w9WgXcQ` or `https://player.vimeo.com/video/123456789`. **Note:** Cross-Origin-Embedder-Policy will be disabled when this variable is set (see this [decision record](./coep_video.md)). The embedder is responsible for ensuring proper accessibility of the video content, including subtitles and keyboard navigation. </details>
+    gemeenteVideoUrl: ""
     # -- The website address of the government register of accessibility declarations. Used for linking from the citizen portal. <details><summary>More information</summary> Likely: `https://www.toegankelijkheidsverklaring.nl/register`</details>
     toegankelijkheidsverklaringRegisterUrl: ""
 
