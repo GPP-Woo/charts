@@ -16,21 +16,21 @@ dependencies:
     condition: openzaak.enabled
 
   - name: gpp-app
-    version: 0.1.0
+    version: 0.2.0
     repository: https://GPP-Woo.github.io/charts
     condition: gpp-app.enabled
 
   - name: gpp-publicatiebank
-    version: 2.0.4
+    version: 2.0.5
     repository: https://GPP-Woo.github.io/charts
     condition: gpp-publicatiebank.enabled
 
   - name: gpp-burgerportaal
-    version: 1.0.2
+    version: 1.1.0
     repository: https://GPP-Woo.github.io/charts
     condition: gpp-burgerportaal.enabled
 
   - name: gpp-zoeken
-    version: 0.2.1
+    version: 0.2.2
     repository: https://GPP-Woo.github.io/charts
     condition: gpp-zoeken.enabled
