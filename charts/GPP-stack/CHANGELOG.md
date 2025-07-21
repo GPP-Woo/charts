@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.3 (2025-07-21)
+
+- Bumped GPP-app to 0.2.0.
+- Bumped GPP-publicatiebank to 2.0.5.
+- Bumped GPP-burgerportaal to 1.1.0.
+- Bumped GPP-zoeken to 0.2.2.
+
 ## 0.2.2 (2025-05-20)
 
 - Bumped openzaak to 1.8.2.
