@@ -356,6 +356,34 @@ entries:
   gpp-zoeken:
   - apiVersion: v2
     appVersion: 2.1.0-rc.0
+    created: "2025-08-13T15:09:53.550453768Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 20.2.1
+    - condition: eck-operator.enabled
+      name: eck-operator
+      repository: https://helm.elastic.co
+      tags:
+      - eck-operator
+      version: 2.16.1
+    - condition: eck-elasticsearch.enabled
+      name: eck-elasticsearch
+      repository: https://helm.elastic.co
+      tags:
+      - eck-elasticsearch
+      version: 0.14.1
+    description: Een zoek-component die voorziet in een "Openbare documenten"-index.
+    digest: 15856221f29e7545b4c5e96482e418e530821d1bc548420fbc0f76f894d9ddfe
+    name: gpp-zoeken
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.3/gpp-zoeken-0.2.3.tgz
+    version: 0.2.3
+  - apiVersion: v2
+    appVersion: 2.1.0-rc.0
     created: "2025-07-21T09:56:00.115930395Z"
     dependencies:
     - name: redis
@@ -432,4 +460,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2025-07-21T11:14:12.433011585Z"
+generated: "2025-08-13T15:09:53.550518559Z"
