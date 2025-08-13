@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.3 (2025-08-13)
+
+- make dependencies conditional
+
 ## 0.2.2 (2025-07-18)
 
 - Set appVersion to 2.1.0.rc.0
