@@ -3,7 +3,7 @@ name: gpp-zoeken
 description: Een zoek-component die voorziet in een "Openbare documenten"-index.
 
 type: application
-version: 0.2.2
+version: 0.2.3
 appVersion: 2.1.0-rc.0
 
 dependencies:
@@ -16,9 +16,11 @@ dependencies:
     version: 2.16.1
     repository: https://helm.elastic.co
     tags:
-      - eck-operator.enabled
+      - eck-operator
+    condition: eck-operator.enabled
   - name: eck-elasticsearch
     version: 0.14.1
     repository: https://helm.elastic.co
     tags:
-      - eck-elasticsearch.enabled
+      - eck-elasticsearch
+    condition: eck-elasticsearch.enabled
