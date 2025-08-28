@@ -1,6 +1,6 @@
 # gpp-burgerportaal
 
-![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.0.0-rc.0](https://img.shields.io/badge/AppVersion-4.0.0--rc.0-informational?style=flat-square)
+![Version: 1.2.0](https://img.shields.io/badge/Version-1.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.0.0](https://img.shields.io/badge/AppVersion-4.0.0-informational?style=flat-square)
 
 A helm chart for the ICATT GPP burgerportaal.
 
@@ -20,6 +20,8 @@ A helm chart for the ICATT GPP burgerportaal.
 | azureVaultSecret.vaultName | string | `nil` |  |
 | existingSecret | string | `nil` |  |
 | extraIngress | list | `[]` | Specify extra ingresses, for example if you have multiple ingress classes |
+| extraVolumeMounts | list | `[]` | Optionally specify extra list of additional volumeMounts, for example to trust extra ca certificates. |
+| extraVolumes | list | `[]` | Optionally specify extra list of additional volumes, for example to trust extra ca certificates. |
 | fullnameOverride | string | `""` |  |
 | global.settings.databaseHost | string | `""` | Global databasehost, overrides setting.database.host |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
