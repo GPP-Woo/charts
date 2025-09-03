@@ -94,6 +94,22 @@ entries:
     version: 0.1.0
   gpp-publicatiebank:
   - apiVersion: v2
+    appVersion: 2.0.0
+    created: "2025-09-03T09:56:02.061142865Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 20.2.1
+    description: Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
+    digest: 96d26f759448ceac93f410cad15d1eb3f4bf4496bdf1ee18ac0678f766a0de39
+    name: gpp-publicatiebank
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-publicatiebank-2.0.6/gpp-publicatiebank-2.0.6.tgz
+    version: 2.0.6
+  - apiVersion: v2
     appVersion: 2.0.0-rc.0
     created: "2025-07-21T09:55:59.887208851Z"
     dependencies:
@@ -406,6 +422,34 @@ entries:
     version: 0.1.0
   gpp-zoeken:
   - apiVersion: v2
+    appVersion: 2.1.0
+    created: "2025-09-03T09:56:02.303458922Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 20.2.1
+    - condition: eck-operator.enabled
+      name: eck-operator
+      repository: https://helm.elastic.co
+      tags:
+      - eck-operator
+      version: 2.16.1
+    - condition: eck-elasticsearch.enabled
+      name: eck-elasticsearch
+      repository: https://helm.elastic.co
+      tags:
+      - eck-elasticsearch
+      version: 0.14.1
+    description: Een zoek-component die voorziet in een "Openbare documenten"-index.
+    digest: 18b65a4206294daf653b7a2769fc57dce10fc01ad47c645616e8ef7e7f0301a9
+    name: gpp-zoeken
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.4/gpp-zoeken-0.2.4.tgz
+    version: 0.2.4
+  - apiVersion: v2
     appVersion: 2.1.0-rc.0
     created: "2025-08-13T15:09:53.550453768Z"
     dependencies:
@@ -511,4 +555,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2025-09-03T09:34:13.960653256Z"
+generated: "2025-09-03T09:56:02.303517282Z"
