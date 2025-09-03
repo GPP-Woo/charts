@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.6 (2025-09-03)
+
+- Set appVersion to 2.0.0
+
 ## 2.0.5 (2025-07-18)
 
 - Set appVersion to 2.0.0-rc.0
