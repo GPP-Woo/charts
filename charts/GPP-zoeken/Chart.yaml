@@ -3,8 +3,8 @@ name: gpp-zoeken
 description: Een zoek-component die voorziet in een "Openbare documenten"-index.
 
 type: application
-version: 0.2.3
-appVersion: 2.1.0-rc.0
+version: 0.2.4
+appVersion: 2.1.0
 
 dependencies:
   - name: redis
