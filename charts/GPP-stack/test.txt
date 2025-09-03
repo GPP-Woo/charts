@@ -1,0 +1,3902 @@
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/charts/redis/templates/networkpolicy.yaml
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: release-name-gpp-publicatiebank-redis
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-publicatiebank-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: gpp-publicatiebank-redis
+  policyTypes:
+    - Ingress
+    - Egress
+  egress:
+    - {}
+  ingress:
+    # Allow inbound connections
+    - ports:
+        - port: 6379
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/redis/templates/networkpolicy.yaml
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: release-name-gpp-zoeken-redis
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-zoeken-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: gpp-zoeken-redis
+  policyTypes:
+    - Ingress
+    - Egress
+  egress:
+    - {}
+  ingress:
+    # Allow inbound connections
+    - ports:
+        - port: 6379
+---
+# Source: gpp-stack/charts/openzaak/charts/redis/templates/networkpolicy.yaml
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: release-name-openzaak-redis
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: openzaak-redis
+    app.kubernetes.io/version: 8.2.0
+    helm.sh/chart: redis-22.0.1
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: openzaak-redis
+  policyTypes:
+    - Ingress
+    - Egress
+  egress:
+    - {}
+  ingress:
+    # Allow inbound connections
+    - ports:
+        - port: 6379
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/charts/redis/templates/master/pdb.yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: release-name-gpp-publicatiebank-redis-master
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-publicatiebank-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+    app.kubernetes.io/component: master
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: gpp-publicatiebank-redis
+      app.kubernetes.io/component: master
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/redis/templates/master/pdb.yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: release-name-gpp-zoeken-redis-master
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-zoeken-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+    app.kubernetes.io/component: master
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: gpp-zoeken-redis
+      app.kubernetes.io/component: master
+---
+# Source: gpp-stack/charts/openzaak/charts/redis/templates/master/pdb.yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: release-name-openzaak-redis-master
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: openzaak-redis
+    app.kubernetes.io/version: 8.2.0
+    helm.sh/chart: redis-22.0.1
+    app.kubernetes.io/component: master
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: openzaak-redis
+      app.kubernetes.io/component: master
+---
+# Source: gpp-stack/charts/gpp-app/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: release-name-gpp-app
+  labels:
+    helm.sh/chart: gpp-app-0.3.0
+    app.kubernetes.io/name: gpp-app
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken:
+---
+# Source: gpp-stack/charts/gpp-burgerportaal/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: release-name-gpp-burgerportaal
+  labels:
+    helm.sh/chart: gpp-burgerportaal-1.2.0
+    app.kubernetes.io/name: gpp-burgerportaal
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "4.0.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken:
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/charts/redis/templates/master/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: false
+metadata:
+  name: release-name-gpp-publicatiebank-redis-master
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-publicatiebank-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: true
+metadata:
+  name: release-name-gpp-publicatiebank
+  labels:
+    
+    app.kubernetes.io/version: "2.0.0"
+    helm.sh/chart: gpp-publicatiebank-2.0.6
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-publicatiebank
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/eck-operator/templates/service-account.yaml
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: true
+metadata:
+  name: gpp-zoeken-eck-operator
+  namespace: ita-ns
+  labels:
+    
+    app.kubernetes.io/name: gpp-zoeken-eck-operator
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2.16.1"
+    helm.sh/chart: eck-operator-2.16.1
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/redis/templates/master/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: false
+metadata:
+  name: release-name-gpp-zoeken-redis-master
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-zoeken-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+---
+# Source: gpp-stack/charts/gpp-zoeken/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: true
+metadata:
+  name: release-name-gpp-zoeken
+  labels:
+    
+    app.kubernetes.io/version: "2.1.0"
+    helm.sh/chart: gpp-zoeken-0.2.4
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-zoeken
+---
+# Source: gpp-stack/charts/openzaak/charts/redis/templates/master/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: false
+metadata:
+  name: release-name-openzaak-redis-master
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: openzaak-redis
+    app.kubernetes.io/version: 8.2.0
+    helm.sh/chart: redis-22.0.1
+---
+# Source: gpp-stack/charts/openzaak/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+automountServiceAccountToken: true
+metadata:
+  name: release-name-openzaak
+  labels:
+    
+    app.kubernetes.io/version: "1.21.2"
+    helm.sh/chart: openzaak-1.10.1
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: openzaak
+---
+# Source: gpp-stack/charts/gpp-app/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: release-name-gpp-app
+  labels:
+    helm.sh/chart: gpp-app-0.3.0
+    app.kubernetes.io/name: gpp-app
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/managed-by: Helm
+stringData:
+  POSTGRES_PASSWORD: ""
+  ODRC_API_KEY: ""
+---
+# Source: gpp-stack/charts/gpp-burgerportaal/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: release-name-gpp-burgerportaal
+  labels:
+    helm.sh/chart: gpp-burgerportaal-1.2.0
+    app.kubernetes.io/name: gpp-burgerportaal
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "4.0.0"
+    app.kubernetes.io/managed-by: Helm
+stringData:
+  ODRC_API_KEY: ""
+  SEARCH_API_KEY: ""
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: release-name-gpp-publicatiebank
+  labels:
+    
+    app.kubernetes.io/version: "2.0.0"
+    helm.sh/chart: gpp-publicatiebank-2.0.6
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-publicatiebank
+stringData:
+  DB_PASSWORD: ""
+  SECRET_KEY: ""
+  FLOWER_BASIC_AUTH:  ""
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/eck-operator/templates/webhook.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gpp-zoeken-eck-operator-webhook-cert
+  namespace: ita-ns
+  labels:
+    
+    app.kubernetes.io/name: gpp-zoeken-eck-operator
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2.16.1"
+    helm.sh/chart: eck-operator-2.16.1
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: gpp-stack/charts/gpp-zoeken/templates/secret-elastic.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: release-name-gpp-zoeken-elastic
+  labels:
+    
+    app.kubernetes.io/version: "2.1.0"
+    helm.sh/chart: gpp-zoeken-0.2.4
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-zoeken
+stringData:
+  username: gpp-elastic
+  password: 
+  roles: superuser
+---
+# Source: gpp-stack/charts/gpp-zoeken/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: release-name-gpp-zoeken
+  labels:
+    
+    app.kubernetes.io/version: "2.1.0"
+    helm.sh/chart: gpp-zoeken-0.2.4
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-zoeken
+stringData:
+  DB_PASSWORD: ""
+  SECRET_KEY: ""
+  ELASTICSEARCH_PASSWORD: ""
+---
+# Source: gpp-stack/charts/openzaak/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: release-name-openzaak
+  labels:
+    
+    app.kubernetes.io/version: "1.21.2"
+    helm.sh/chart: openzaak-1.10.1
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: openzaak
+stringData:
+  DB_PASSWORD: ""
+  SECRET_KEY: ""
+  FLOWER_BASIC_AUTH:  ""
+---
+# Source: gpp-stack/charts/gpp-app/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-gpp-app
+  labels:
+    helm.sh/chart: gpp-app-0.3.0
+    app.kubernetes.io/name: gpp-app
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  POSTGRES_HOST: ""
+  POSTGRES_DB: ""
+  POSTGRES_PORT: "5432"
+  POSTGRES_USER: ""
+  ODRC_BASE_URL: ""
+  OIDC_ADMIN_ROLE: ""
+  ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+---
+# Source: gpp-stack/charts/gpp-burgerportaal/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-gpp-burgerportaal
+  labels:
+    helm.sh/chart: gpp-burgerportaal-1.2.0
+    app.kubernetes.io/name: gpp-burgerportaal
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "4.0.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  ODRC_BASE_URL: ""
+  SEARCH_BASE_URL: ""
+  SITEMAP_CACHE_DURATION_HOURS: "23"
+  DOWNLOAD_TIMEOUT_MINUTES: "10"
+  RESOURCES__PORTAAL_TITEL	: ""
+  RESOURCES__GEMEENTE_NAAM	: ""
+  RESOURCES__GEMEENTE_LOGO_URL	: ""
+  RESOURCES__GEMEENTE_FAVICON_URL	: ""
+  RESOURCES__GEMEENTE_MAIN_IMAGE_URL	: ""
+  RESOURCES__GEMEENTE_DESIGN_TOKENS_URL	: ""
+  RESOURCES__GEMEENTE_WEB_FONT_SOURCES	: ""
+  RESOURCES__GEMEENTE_THEME_NAAM	: ""
+  RESOURCES__GEMEENTE_WEBSITE_URL	: ""
+  RESOURCES__GEMEENTE_PRIVACY_URL	: ""
+  RESOURCES__GEMEENTE_CONTACT_URL	: ""
+  RESOURCES__GEMEENTE_WELKOM	: ""
+  RESOURCES__GEMEENTE_VIDEO_URL	: ""
+  RESOURCES__TOEGANKELIJKHEIDSVERKLARING_REGISTER_URL	: ""
+  ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/charts/redis/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-gpp-publicatiebank-redis-configuration
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-publicatiebank-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+data:
+  redis.conf: |-
+    # User-supplied common configuration:
+    # Enable AOF https://redis.io/topics/persistence#append-only-file
+    appendonly yes
+    # Disable RDB persistence, AOF persistence already enabled.
+    save ""
+    # End of common configuration
+  master.conf: |-
+    dir /data
+    # User-supplied master configuration:
+    rename-command FLUSHDB ""
+    rename-command FLUSHALL ""
+    # End of master configuration
+  replica.conf: |-
+    dir /data
+    # User-supplied replica configuration:
+    rename-command FLUSHDB ""
+    rename-command FLUSHALL ""
+    # End of replica configuration
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/charts/redis/templates/health-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-gpp-publicatiebank-redis-health
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-publicatiebank-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+data:
+  ping_readiness_local.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_PASSWORD_FILE ]] && export REDIS_PASSWORD="$(< "${REDIS_PASSWORD_FILE}")"
+    [[ -n "$REDIS_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_PASSWORD"
+    response=$(
+      timeout -s 15 $1 \
+      redis-cli \
+        -h localhost \
+        -p $REDIS_PORT \
+        ping
+    )
+    if [ "$?" -eq "124" ]; then
+      echo "Timed out"
+      exit 1
+    fi
+    if [ "$response" != "PONG" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_liveness_local.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_PASSWORD_FILE ]] && export REDIS_PASSWORD="$(< "${REDIS_PASSWORD_FILE}")"
+    [[ -n "$REDIS_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_PASSWORD"
+    response=$(
+      timeout -s 15 $1 \
+      redis-cli \
+        -h localhost \
+        -p $REDIS_PORT \
+        ping
+    )
+    if [ "$?" -eq "124" ]; then
+      echo "Timed out"
+      exit 1
+    fi
+    responseFirstWord=$(echo $response | head -n1 | awk '{print $1;}')
+    if [ "$response" != "PONG" ] && [ "$responseFirstWord" != "LOADING" ] && [ "$responseFirstWord" != "MASTERDOWN" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_readiness_master.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_MASTER_PASSWORD_FILE ]] && export REDIS_MASTER_PASSWORD="$(< "${REDIS_MASTER_PASSWORD_FILE}")"
+    [[ -n "$REDIS_MASTER_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_MASTER_PASSWORD"
+    response=$(
+      timeout -s 15 $1 \
+      redis-cli \
+        -h $REDIS_MASTER_HOST \
+        -p $REDIS_MASTER_PORT_NUMBER \
+        ping
+    )
+    if [ "$?" -eq "124" ]; then
+      echo "Timed out"
+      exit 1
+    fi
+    if [ "$response" != "PONG" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_liveness_master.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_MASTER_PASSWORD_FILE ]] && export REDIS_MASTER_PASSWORD="$(< "${REDIS_MASTER_PASSWORD_FILE}")"
+    [[ -n "$REDIS_MASTER_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_MASTER_PASSWORD"
+    response=$(
+      timeout -s 15 $1 \
+      redis-cli \
+        -h $REDIS_MASTER_HOST \
+        -p $REDIS_MASTER_PORT_NUMBER \
+        ping
+    )
+    if [ "$?" -eq "124" ]; then
+      echo "Timed out"
+      exit 1
+    fi
+    responseFirstWord=$(echo $response | head -n1 | awk '{print $1;}')
+    if [ "$response" != "PONG" ] && [ "$responseFirstWord" != "LOADING" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_readiness_local_and_master.sh: |-
+    script_dir="$(dirname "$0")"
+    exit_status=0
+    "$script_dir/ping_readiness_local.sh" $1 || exit_status=$?
+    "$script_dir/ping_readiness_master.sh" $1 || exit_status=$?
+    exit $exit_status
+  ping_liveness_local_and_master.sh: |-
+    script_dir="$(dirname "$0")"
+    exit_status=0
+    "$script_dir/ping_liveness_local.sh" $1 || exit_status=$?
+    "$script_dir/ping_liveness_master.sh" $1 || exit_status=$?
+    exit $exit_status
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/charts/redis/templates/scripts-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-gpp-publicatiebank-redis-scripts
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-publicatiebank-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+data:
+  start-master.sh: |
+    #!/bin/bash
+
+    [[ -f $REDIS_PASSWORD_FILE ]] && export REDIS_PASSWORD="$(< "${REDIS_PASSWORD_FILE}")"
+    if [[ -f /opt/bitnami/redis/mounted-etc/master.conf ]];then
+        cp /opt/bitnami/redis/mounted-etc/master.conf /opt/bitnami/redis/etc/master.conf
+    fi
+    if [[ -f /opt/bitnami/redis/mounted-etc/redis.conf ]];then
+        cp /opt/bitnami/redis/mounted-etc/redis.conf /opt/bitnami/redis/etc/redis.conf
+    fi
+    ARGS=("--port" "${REDIS_PORT}")
+    ARGS+=("--protected-mode" "no")
+    ARGS+=("--include" "/opt/bitnami/redis/etc/redis.conf")
+    ARGS+=("--include" "/opt/bitnami/redis/etc/master.conf")
+    exec redis-server "${ARGS[@]}"
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/templates/configmap-nginx.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-gpp-publicatiebank-nginx
+  labels:
+    helm.sh/chart: gpp-publicatiebank-2.0.6
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-publicatiebank-nginx
+data:
+  proxy: |
+    proxy_pass_header Server;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_connect_timeout 300s;
+    proxy_read_timeout 300s;
+    proxy_redirect off;
+    proxy_pass_request_headers on;
+    proxy_http_version 1.1;
+    proxy_pass http://release-name-gpp-publicatiebank.ita-ns:80;
+    proxy_set_header Host $http_host;
+
+  default.conf: |
+    server {
+        listen 8080 default_server;
+        server_name  localhost;
+        server_tokens off;
+
+        gzip  on;
+        gzip_http_version 1.0;
+        gzip_comp_level 2;
+        gzip_min_length 1100;
+        gzip_buffers     4 8k;
+        gzip_proxied any;
+        gzip_types
+
+          # text/html is always compressed by HttpGzipModule
+          text/css
+          text/javascript
+          text/xml
+          text/plain
+          text/x-component
+          application/javascript
+          application/json
+          application/xml
+          application/rss+xml
+          font/truetype
+          font/opentype
+          application/vnd.ms-fontobject
+          image/svg+xml;
+
+        gzip_static on;
+
+        gzip_proxied        expired no-cache no-store private auth;
+        gzip_disable        "MSIE [1-6]\.";
+        gzip_vary           on;
+
+        location / {
+            include conf.d/proxy;
+        }
+
+        
+        location /flower/ {
+            proxy_pass http://release-name-gpp-publicatiebank-flower:5555;
+            auth_basic "Restricted";
+        }
+
+        location ~ ^/api/v1/documenten/[a-fA-F0-9-]+/bestandsdelen/[a-fA-F0-9-]+$ {
+          client_max_body_size 4G;
+          include conf.d/proxy;
+        }
+
+        location /_health/ {
+            access_log /var/log/nginx/access.log;
+            error_log /var/log/nginx/error.log error;
+            return 200 'OK';
+        }
+
+        location /media/ {
+          # Ensure the CORS policy is set properly for the font-files. Since these are publicly
+          # accessible, we can just use the wildcard variant.
+          add_header Access-Control-Allow-Origin *;
+          alias /app/media/;
+        }
+
+        location /private-media/ {
+          internal;
+          alias /app/private_media/;
+        }
+
+        location = /.well-known/security.txt {
+          return 302 https://www.maykinmedia.nl$request_uri;
+        }
+    }
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-gpp-publicatiebank
+  labels:
+    
+    app.kubernetes.io/version: "2.0.0"
+    helm.sh/chart: gpp-publicatiebank-2.0.6
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-publicatiebank
+data:
+  DJANGO_SETTINGS_MODULE: "woo_publications.conf.docker"
+  ENVIRONMENT: release-name-gpp-publicatiebank
+  ALLOWED_HOSTS: "release-name-gpp-publicatiebank,release-name-gpp-publicatiebank.ita-ns,"
+  CACHE_DEFAULT: "release-name-gpp-publicatiebank-redis-master.ita-ns:6379/0"
+  CACHE_AXES: "release-name-gpp-publicatiebank-redis-master.ita-ns:6379/0"
+  CELERY_BROKER_URL: "redis://release-name-gpp-publicatiebank-redis-master.ita-ns:6379/1"
+  CELERY_RESULT_BACKEND: "redis://release-name-gpp-publicatiebank-redis-master.ita-ns:6379/1"
+  
+  CELERY_LOGLEVEL:  "DEBUG"
+  DB_NAME: ""
+  DB_HOST: ""
+  DB_USER: ""
+  DB_PORT: "5432"
+  PGSSLMODE: "prefer"
+  
+  IS_HTTPS: "True"
+  EMAIL_HOST: "localhost"
+  EMAIL_PORT: "25"
+  
+  
+  SHOW_ENVIRONMENT: "False"
+  FLOWER_URL_PREFIX:  "/flower/"
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/eck-operator/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gpp-zoeken-eck-operator
+  namespace: ita-ns
+  labels:
+    
+    app.kubernetes.io/name: gpp-zoeken-eck-operator
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2.16.1"
+    helm.sh/chart: eck-operator-2.16.1
+    app.kubernetes.io/managed-by: Helm
+data:
+  eck.yaml: |-
+    log-verbosity: 0
+    metrics-port: 0
+    metrics-secure: false
+    container-registry: docker.elastic.co
+    max-concurrent-reconciles: 3
+    ca-cert-validity: 8760h
+    ca-cert-rotate-before: 24h
+    cert-validity: 8760h
+    cert-rotate-before: 24h
+    disable-config-watch: false
+    exposed-node-labels: [topology.kubernetes.io/.*,failure-domain.beta.kubernetes.io/.*]
+    set-default-security-context: auto-detect
+    kube-client-timeout: 60s
+    elasticsearch-client-timeout: 180s
+    disable-telemetry: false
+    distribution-channel: helm
+    validate-storage-class: true
+    enable-webhook: true
+    webhook-name: gpp-zoeken-eck-operator.ita-ns.k8s.elastic.co
+    webhook-port: 9443
+    operator-namespace: ita-ns
+    enable-leader-election: true
+    elasticsearch-observation-interval: 10s
+    ubi-only: false
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/redis/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-gpp-zoeken-redis-configuration
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-zoeken-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+data:
+  redis.conf: |-
+    # User-supplied common configuration:
+    # Enable AOF https://redis.io/topics/persistence#append-only-file
+    appendonly yes
+    # Disable RDB persistence, AOF persistence already enabled.
+    save ""
+    # End of common configuration
+  master.conf: |-
+    dir /data
+    # User-supplied master configuration:
+    rename-command FLUSHDB ""
+    rename-command FLUSHALL ""
+    # End of master configuration
+  replica.conf: |-
+    dir /data
+    # User-supplied replica configuration:
+    rename-command FLUSHDB ""
+    rename-command FLUSHALL ""
+    # End of replica configuration
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/redis/templates/health-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-gpp-zoeken-redis-health
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-zoeken-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+data:
+  ping_readiness_local.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_PASSWORD_FILE ]] && export REDIS_PASSWORD="$(< "${REDIS_PASSWORD_FILE}")"
+    [[ -n "$REDIS_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_PASSWORD"
+    response=$(
+      timeout -s 15 $1 \
+      redis-cli \
+        -h localhost \
+        -p $REDIS_PORT \
+        ping
+    )
+    if [ "$?" -eq "124" ]; then
+      echo "Timed out"
+      exit 1
+    fi
+    if [ "$response" != "PONG" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_liveness_local.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_PASSWORD_FILE ]] && export REDIS_PASSWORD="$(< "${REDIS_PASSWORD_FILE}")"
+    [[ -n "$REDIS_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_PASSWORD"
+    response=$(
+      timeout -s 15 $1 \
+      redis-cli \
+        -h localhost \
+        -p $REDIS_PORT \
+        ping
+    )
+    if [ "$?" -eq "124" ]; then
+      echo "Timed out"
+      exit 1
+    fi
+    responseFirstWord=$(echo $response | head -n1 | awk '{print $1;}')
+    if [ "$response" != "PONG" ] && [ "$responseFirstWord" != "LOADING" ] && [ "$responseFirstWord" != "MASTERDOWN" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_readiness_master.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_MASTER_PASSWORD_FILE ]] && export REDIS_MASTER_PASSWORD="$(< "${REDIS_MASTER_PASSWORD_FILE}")"
+    [[ -n "$REDIS_MASTER_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_MASTER_PASSWORD"
+    response=$(
+      timeout -s 15 $1 \
+      redis-cli \
+        -h $REDIS_MASTER_HOST \
+        -p $REDIS_MASTER_PORT_NUMBER \
+        ping
+    )
+    if [ "$?" -eq "124" ]; then
+      echo "Timed out"
+      exit 1
+    fi
+    if [ "$response" != "PONG" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_liveness_master.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_MASTER_PASSWORD_FILE ]] && export REDIS_MASTER_PASSWORD="$(< "${REDIS_MASTER_PASSWORD_FILE}")"
+    [[ -n "$REDIS_MASTER_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_MASTER_PASSWORD"
+    response=$(
+      timeout -s 15 $1 \
+      redis-cli \
+        -h $REDIS_MASTER_HOST \
+        -p $REDIS_MASTER_PORT_NUMBER \
+        ping
+    )
+    if [ "$?" -eq "124" ]; then
+      echo "Timed out"
+      exit 1
+    fi
+    responseFirstWord=$(echo $response | head -n1 | awk '{print $1;}')
+    if [ "$response" != "PONG" ] && [ "$responseFirstWord" != "LOADING" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_readiness_local_and_master.sh: |-
+    script_dir="$(dirname "$0")"
+    exit_status=0
+    "$script_dir/ping_readiness_local.sh" $1 || exit_status=$?
+    "$script_dir/ping_readiness_master.sh" $1 || exit_status=$?
+    exit $exit_status
+  ping_liveness_local_and_master.sh: |-
+    script_dir="$(dirname "$0")"
+    exit_status=0
+    "$script_dir/ping_liveness_local.sh" $1 || exit_status=$?
+    "$script_dir/ping_liveness_master.sh" $1 || exit_status=$?
+    exit $exit_status
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/redis/templates/scripts-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-gpp-zoeken-redis-scripts
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-zoeken-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+data:
+  start-master.sh: |
+    #!/bin/bash
+
+    [[ -f $REDIS_PASSWORD_FILE ]] && export REDIS_PASSWORD="$(< "${REDIS_PASSWORD_FILE}")"
+    if [[ -f /opt/bitnami/redis/mounted-etc/master.conf ]];then
+        cp /opt/bitnami/redis/mounted-etc/master.conf /opt/bitnami/redis/etc/master.conf
+    fi
+    if [[ -f /opt/bitnami/redis/mounted-etc/redis.conf ]];then
+        cp /opt/bitnami/redis/mounted-etc/redis.conf /opt/bitnami/redis/etc/redis.conf
+    fi
+    ARGS=("--port" "${REDIS_PORT}")
+    ARGS+=("--protected-mode" "no")
+    ARGS+=("--include" "/opt/bitnami/redis/etc/redis.conf")
+    ARGS+=("--include" "/opt/bitnami/redis/etc/master.conf")
+    exec redis-server "${ARGS[@]}"
+---
+# Source: gpp-stack/charts/gpp-zoeken/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-gpp-zoeken
+  labels:
+    
+    app.kubernetes.io/version: "2.1.0"
+    helm.sh/chart: gpp-zoeken-0.2.4
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-zoeken
+data:
+  DJANGO_SETTINGS_MODULE: "woo_search.conf.docker"
+  ENVIRONMENT: release-name-gpp-zoeken
+  ALLOWED_HOSTS: "release-name-gpp-zoeken,release-name-gpp-zoeken.ita-ns,"
+  CACHE_DEFAULT: "release-name-gpp-zoeken-redis-master.ita-ns:6379/0"
+  CACHE_AXES: "release-name-gpp-zoeken-redis-master.ita-ns:6379/0"
+  CELERY_BROKER_URL: "redis://release-name-gpp-zoeken-redis-master.ita-ns:6379/1"
+  CELERY_RESULT_BACKEND: "redis://release-name-gpp-zoeken-redis-master.ita-ns:6379/1"
+  
+  CELERY_LOGLEVEL:  "DEBUG"
+  DB_NAME: ""
+  DB_HOST: ""
+  DB_USER: ""
+  DB_PORT: "5432"
+  PGSSLMODE: "prefer"
+  INIT_ES_INDICES: "True"
+  ELASTICSEARCH_HOST: "https://gpp-zoeken-eck-elasticsearch-es-http:9200"
+  ELASTICSEARCH_USER: "gpp-elastic"
+  ELASTICSEARCH_CA_CERTS: ""
+  
+  IS_HTTPS: "True"
+  EMAIL_HOST: "localhost"
+  EMAIL_PORT: "25"
+  
+  
+  SHOW_ENVIRONMENT: "False"
+---
+# Source: gpp-stack/charts/openzaak/charts/redis/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-openzaak-redis-configuration
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: openzaak-redis
+    app.kubernetes.io/version: 8.2.0
+    helm.sh/chart: redis-22.0.1
+data:
+  redis.conf: |-
+    # User-supplied common configuration:
+    # Enable AOF https://redis.io/topics/persistence#append-only-file
+    appendonly yes
+    # Disable RDB persistence, AOF persistence already enabled.
+    save ""
+    # End of common configuration
+  master.conf: |-
+    dir /data
+    # User-supplied master configuration:
+    rename-command FLUSHDB ""
+    rename-command FLUSHALL ""
+    # End of master configuration
+  replica.conf: |-
+    dir /data
+    # User-supplied replica configuration:
+    rename-command FLUSHDB ""
+    rename-command FLUSHALL ""
+    # End of replica configuration
+  users.acl: |-
+---
+# Source: gpp-stack/charts/openzaak/charts/redis/templates/health-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-openzaak-redis-health
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: openzaak-redis
+    app.kubernetes.io/version: 8.2.0
+    helm.sh/chart: redis-22.0.1
+data:
+  ping_readiness_local.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_PASSWORD_FILE ]] && export REDIS_PASSWORD="$(< "${REDIS_PASSWORD_FILE}")"
+    [[ -n "$REDIS_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_PASSWORD"
+    response=$(
+      timeout -s 15 $1 \
+      redis-cli \
+        -h localhost \
+        -p $REDIS_PORT \
+        ping
+    )
+    if [ "$?" -eq "124" ]; then
+      echo "Timed out"
+      exit 1
+    fi
+    if [ "$response" != "PONG" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_liveness_local.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_PASSWORD_FILE ]] && export REDIS_PASSWORD="$(< "${REDIS_PASSWORD_FILE}")"
+    [[ -n "$REDIS_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_PASSWORD"
+    response=$(
+      timeout -s 15 $1 \
+      redis-cli \
+        -h localhost \
+        -p $REDIS_PORT \
+        ping
+    )
+    if [ "$?" -eq "124" ]; then
+      echo "Timed out"
+      exit 1
+    fi
+    responseFirstWord=$(echo $response | head -n1 | awk '{print $1;}')
+    if [ "$response" != "PONG" ] && [ "$responseFirstWord" != "LOADING" ] && [ "$responseFirstWord" != "MASTERDOWN" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_readiness_master.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_MASTER_PASSWORD_FILE ]] && export REDIS_MASTER_PASSWORD="$(< "${REDIS_MASTER_PASSWORD_FILE}")"
+    [[ -n "$REDIS_MASTER_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_MASTER_PASSWORD"
+    response=$(
+      timeout -s 15 $1 \
+      redis-cli \
+        -h $REDIS_MASTER_HOST \
+        -p $REDIS_MASTER_PORT_NUMBER \
+        ping
+    )
+    if [ "$?" -eq "124" ]; then
+      echo "Timed out"
+      exit 1
+    fi
+    if [ "$response" != "PONG" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_liveness_master.sh: |-
+    #!/bin/bash
+
+    [[ -f $REDIS_MASTER_PASSWORD_FILE ]] && export REDIS_MASTER_PASSWORD="$(< "${REDIS_MASTER_PASSWORD_FILE}")"
+    [[ -n "$REDIS_MASTER_PASSWORD" ]] && export REDISCLI_AUTH="$REDIS_MASTER_PASSWORD"
+    response=$(
+      timeout -s 15 $1 \
+      redis-cli \
+        -h $REDIS_MASTER_HOST \
+        -p $REDIS_MASTER_PORT_NUMBER \
+        ping
+    )
+    if [ "$?" -eq "124" ]; then
+      echo "Timed out"
+      exit 1
+    fi
+    responseFirstWord=$(echo $response | head -n1 | awk '{print $1;}')
+    if [ "$response" != "PONG" ] && [ "$responseFirstWord" != "LOADING" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_readiness_local_and_master.sh: |-
+    script_dir="$(dirname "$0")"
+    exit_status=0
+    "$script_dir/ping_readiness_local.sh" $1 || exit_status=$?
+    "$script_dir/ping_readiness_master.sh" $1 || exit_status=$?
+    exit $exit_status
+  ping_liveness_local_and_master.sh: |-
+    script_dir="$(dirname "$0")"
+    exit_status=0
+    "$script_dir/ping_liveness_local.sh" $1 || exit_status=$?
+    "$script_dir/ping_liveness_master.sh" $1 || exit_status=$?
+    exit $exit_status
+---
+# Source: gpp-stack/charts/openzaak/charts/redis/templates/scripts-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-openzaak-redis-scripts
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: openzaak-redis
+    app.kubernetes.io/version: 8.2.0
+    helm.sh/chart: redis-22.0.1
+data:
+  start-master.sh: |
+    #!/bin/bash
+
+    [[ -f $REDIS_PASSWORD_FILE ]] && export REDIS_PASSWORD="$(< "${REDIS_PASSWORD_FILE}")"
+    if [[ -f /opt/bitnami/redis/mounted-etc/master.conf ]];then
+        cp /opt/bitnami/redis/mounted-etc/master.conf /opt/bitnami/redis/etc/master.conf
+    fi
+    if [[ -f /opt/bitnami/redis/mounted-etc/redis.conf ]];then
+        cp /opt/bitnami/redis/mounted-etc/redis.conf /opt/bitnami/redis/etc/redis.conf
+    fi
+    if [[ -f /opt/bitnami/redis/mounted-etc/users.acl ]];then
+        cp /opt/bitnami/redis/mounted-etc/users.acl /opt/bitnami/redis/etc/users.acl
+    fi
+    ARGS=("--port" "${REDIS_PORT}")
+    ARGS+=("--protected-mode" "no")
+    ARGS+=("--include" "/opt/bitnami/redis/etc/redis.conf")
+    ARGS+=("--include" "/opt/bitnami/redis/etc/master.conf")
+    exec redis-server "${ARGS[@]}"
+---
+# Source: gpp-stack/charts/openzaak/templates/configmap-nginx.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-openzaak-nginx
+  labels:
+    helm.sh/chart: openzaak-1.10.1
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: openzaak-nginx
+data:
+  proxy: |
+    proxy_pass_header Server;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Scheme $scheme;
+    proxy_connect_timeout 300s;
+    proxy_read_timeout 300s;
+    proxy_set_header X-Forwarded-Host $http_host;
+    
+
+    proxy_redirect off;
+    proxy_pass_request_headers on;
+    proxy_pass http://release-name-openzaak.ita-ns:80;
+    proxy_http_version 1.1;  # required if you're using istio, otherwise you get HTTP 426 errors
+
+  default.conf: |
+    server {
+      listen       8080 default_server;
+      server_name  localhost;
+      server_tokens off;
+      client_max_body_size 4G;
+
+      gzip on;
+      gzip_http_version 1.0;
+      gzip_comp_level 2;
+      gzip_min_length 1100;
+      gzip_buffers 4 8k;
+      gzip_proxied any;
+      gzip_types
+        # text/html is always compressed by HttpGzipModule
+        text/css
+        text/javascript
+        text/xml
+        text/plain
+        text/x-component
+        application/javascript
+        application/json
+        application/xml
+        application/rss+xml
+        font/truetypenginc
+        font/opentype
+        application/vnd.ms-fontobject
+        image/svg+xml;
+      gzip_static on;
+      gzip_proxied  expired no-cache no-store private auth;
+      gzip_disable "MSIE [1-6]\.";
+      gzip_vary on;
+
+      add_header Feature-Policy "autoplay 'none'; camera 'none'" always;
+      add_header Referrer-Policy "same-origin";
+      add_header X-Content-Type-Options "nosniff";
+      add_header X-XSS-Protection "1; mode=block";
+
+      location / {
+          include conf.d/proxy;
+      }
+
+      location /_health/ {
+          access_log off;
+          error_log /var/log/nginx/error.log error;
+          return 200 'OK';
+      }
+
+      location /private-media/ {
+          internal;
+          alias /app/private-media/;
+      }
+
+      error_page  404              /404.html;
+      error_page  413              /413.json;
+      error_page  500 502 503 504  /500.json;
+    }
+---
+# Source: gpp-stack/charts/openzaak/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-openzaak
+  labels:
+    
+    app.kubernetes.io/version: "1.21.2"
+    helm.sh/chart: openzaak-1.10.1
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: openzaak
+data:
+  DJANGO_SETTINGS_MODULE: "openzaak.conf.docker"
+  USE_X_FORWARDED_HOST: "True"
+  ENVIRONMENT: release-name-openzaak
+  ALLOWED_HOSTS: "release-name-openzaak,release-name-openzaak.ita-ns,"
+  CACHE_DEFAULT: "release-name-openzaak-redis-master.ita-ns:6379/0"
+  CACHE_AXES: "release-name-openzaak-redis-master.ita-ns:6379/0"
+  CELERY_BROKER_URL: "redis://release-name-openzaak-redis-master.ita-ns:6379/1"
+  CELERY_RESULT_BACKEND: "redis://release-name-openzaak-redis-master.ita-ns:6379/1"
+  CELERY_LOGLEVEL: "DEBUG"
+  CELERY_WORKER_CONCURRENCY: "4"
+    
+  DB_NAME: "openzaak"
+  DB_HOST: "open-zaak-postgresql"
+  DB_USER: "postgres"
+  DB_PORT: "5432"
+  PGSSLMODE: "prefer"
+  DEBUG: "False"
+  NUM_PROXIES: "1"
+  IS_HTTPS: "True"
+  JWT_EXPIRY: "3600"
+  FLOWER_URL_PREFIX: ""
+  EMAIL_HOST: "localhost"
+  EMAIL_PORT: "25"
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: release-name-gpp-publicatiebank
+  labels:
+    
+    app.kubernetes.io/version: "2.0.0"
+    helm.sh/chart: gpp-publicatiebank-2.0.6
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-publicatiebank
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: 
+  resources:
+    requests:
+      storage: 1Gi
+---
+# Source: gpp-stack/charts/openzaak/templates/persistent-volume-claim.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: release-name-openzaak
+  labels:
+    
+    app.kubernetes.io/version: "1.21.2"
+    helm.sh/chart: openzaak-1.10.1
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: openzaak
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: 
+  resources:
+    requests:
+      storage: 1Gi
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/eck-operator/templates/cluster-roles.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gpp-zoeken-eck-operator
+  labels:
+    
+    app.kubernetes.io/name: gpp-zoeken-eck-operator
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2.16.1"
+    helm.sh/chart: eck-operator-2.16.1
+    app.kubernetes.io/managed-by: Helm
+rules:
+- apiGroups:
+  - "authorization.k8s.io"
+  resources:
+  - subjectaccessreviews
+  verbs:
+  - create
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  resourceNames:
+  - elastic-operator-leader
+  verbs:
+  - get
+  - watch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - endpoints
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - events
+  - persistentvolumeclaims
+  - secrets
+  - services
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - statefulsets
+  - daemonsets
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - elasticsearch.k8s.elastic.co
+  resources:
+  - elasticsearches
+  - elasticsearches/status
+  - elasticsearches/finalizers # needed for ownerReferences with blockOwnerDeletion on OCP
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+- apiGroups:
+  - autoscaling.k8s.elastic.co
+  resources:
+  - elasticsearchautoscalers
+  - elasticsearchautoscalers/status
+  - elasticsearchautoscalers/finalizers # needed for ownerReferences with blockOwnerDeletion on OCP
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+- apiGroups:
+  - kibana.k8s.elastic.co
+  resources:
+  - kibanas
+  - kibanas/status
+  - kibanas/finalizers # needed for ownerReferences with blockOwnerDeletion on OCP
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+- apiGroups:
+  - apm.k8s.elastic.co
+  resources:
+  - apmservers
+  - apmservers/status
+  - apmservers/finalizers # needed for ownerReferences with blockOwnerDeletion on OCP
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+- apiGroups:
+  - enterprisesearch.k8s.elastic.co
+  resources:
+  - enterprisesearches
+  - enterprisesearches/status
+  - enterprisesearches/finalizers # needed for ownerReferences with blockOwnerDeletion on OCP
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+- apiGroups:
+  - beat.k8s.elastic.co
+  resources:
+  - beats
+  - beats/status
+  - beats/finalizers # needed for ownerReferences with blockOwnerDeletion on OCP
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+- apiGroups:
+  - agent.k8s.elastic.co
+  resources:
+  - agents
+  - agents/status
+  - agents/finalizers # needed for ownerReferences with blockOwnerDeletion on OCP
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+- apiGroups:
+  - maps.k8s.elastic.co
+  resources:
+  - elasticmapsservers
+  - elasticmapsservers/status
+  - elasticmapsservers/finalizers # needed for ownerReferences with blockOwnerDeletion on OCP
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+- apiGroups:
+  - stackconfigpolicy.k8s.elastic.co
+  resources:
+  - stackconfigpolicies
+  - stackconfigpolicies/status
+  - stackconfigpolicies/finalizers # needed for ownerReferences with blockOwnerDeletion on OCP
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+- apiGroups:
+  - logstash.k8s.elastic.co
+  resources:
+  - logstashes
+  - logstashes/status
+  - logstashes/finalizers # needed for ownerReferences with blockOwnerDeletion on OCP
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+- apiGroups:
+  - storage.k8s.io
+  resources:
+  - storageclasses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - validatingwebhookconfigurations
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  verbs:
+  - get
+  - list
+  - watch
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/eck-operator/templates/cluster-roles.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: "gpp-zoeken-eck-operator-view"
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+    
+    app.kubernetes.io/name: gpp-zoeken-eck-operator
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2.16.1"
+    helm.sh/chart: eck-operator-2.16.1
+    app.kubernetes.io/managed-by: Helm
+rules:
+  - apiGroups: ["elasticsearch.k8s.elastic.co"]
+    resources: ["elasticsearches"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["autoscaling.k8s.elastic.co"]
+    resources: ["elasticsearchautoscalers"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apm.k8s.elastic.co"]
+    resources: ["apmservers"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["kibana.k8s.elastic.co"]
+    resources: ["kibanas"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["enterprisesearch.k8s.elastic.co"]
+    resources: ["enterprisesearches"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["beat.k8s.elastic.co"]
+    resources: ["beats"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["agent.k8s.elastic.co"]
+    resources: ["agents"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["maps.k8s.elastic.co"]
+    resources: ["elasticmapsservers"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["stackconfigpolicy.k8s.elastic.co"]
+    resources: ["stackconfigpolicies"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["logstash.k8s.elastic.co"]
+    resources: ["logstashes"]
+    verbs: ["get", "list", "watch"]
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/eck-operator/templates/cluster-roles.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: "gpp-zoeken-eck-operator-edit"
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+    
+    app.kubernetes.io/name: gpp-zoeken-eck-operator
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2.16.1"
+    helm.sh/chart: eck-operator-2.16.1
+    app.kubernetes.io/managed-by: Helm
+rules:
+  - apiGroups: ["elasticsearch.k8s.elastic.co"]
+    resources: ["elasticsearches"]
+    verbs: ["create", "delete", "deletecollection", "patch", "update"]
+  - apiGroups: ["autoscaling.k8s.elastic.co"]
+    resources: ["elasticsearchautoscalers"]
+    verbs: ["create", "delete", "deletecollection", "patch", "update"]
+  - apiGroups: ["apm.k8s.elastic.co"]
+    resources: ["apmservers"]
+    verbs: ["create", "delete", "deletecollection", "patch", "update"]
+  - apiGroups: ["kibana.k8s.elastic.co"]
+    resources: ["kibanas"]
+    verbs: ["create", "delete", "deletecollection", "patch", "update"]
+  - apiGroups: ["enterprisesearch.k8s.elastic.co"]
+    resources: ["enterprisesearches"]
+    verbs: ["create", "delete", "deletecollection", "patch", "update"]
+  - apiGroups: ["beat.k8s.elastic.co"]
+    resources: ["beats"]
+    verbs: ["create", "delete", "deletecollection", "patch", "update"]
+  - apiGroups: ["agent.k8s.elastic.co"]
+    resources: ["agents"]
+    verbs: ["create", "delete", "deletecollection", "patch", "update"]
+  - apiGroups: ["maps.k8s.elastic.co"]
+    resources: ["elasticmapsservers"]
+    verbs: ["create", "delete", "deletecollection", "patch", "update"]
+  - apiGroups: ["stackconfigpolicy.k8s.elastic.co"]
+    resources: ["stackconfigpolicies"]
+    verbs: ["create", "delete", "deletecollection", "patch", "update"]
+  - apiGroups: ["logstash.k8s.elastic.co"]
+    resources: ["logstashes"]
+    verbs: ["create", "delete", "deletecollection", "patch", "update"]
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/eck-operator/templates/role-bindings.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding 
+metadata:
+  name: gpp-zoeken-eck-operator
+  labels:
+    
+    app.kubernetes.io/name: gpp-zoeken-eck-operator
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2.16.1"
+    helm.sh/chart: eck-operator-2.16.1
+    app.kubernetes.io/managed-by: Helm
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: gpp-zoeken-eck-operator
+subjects:
+- kind: ServiceAccount
+  name: gpp-zoeken-eck-operator
+  namespace: ita-ns
+---
+# Source: gpp-stack/charts/gpp-app/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-gpp-app
+  labels:
+    helm.sh/chart: gpp-app-0.3.0
+    app.kubernetes.io/name: gpp-app
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: gpp-app
+    app.kubernetes.io/instance: release-name
+---
+# Source: gpp-stack/charts/gpp-burgerportaal/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-gpp-burgerportaal
+  labels:
+    helm.sh/chart: gpp-burgerportaal-1.2.0
+    app.kubernetes.io/name: gpp-burgerportaal
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "4.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: gpp-burgerportaal
+    app.kubernetes.io/instance: release-name
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/charts/redis/templates/headless-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-gpp-publicatiebank-redis-headless
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-publicatiebank-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: tcp-redis
+      port: 6379
+      targetPort: redis
+  selector:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-publicatiebank-redis
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/charts/redis/templates/master/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-gpp-publicatiebank-redis-master
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-publicatiebank-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+    app.kubernetes.io/component: master
+spec:
+  type: ClusterIP
+  internalTrafficPolicy: Cluster
+  sessionAffinity: None
+  ports:
+    - name: tcp-redis
+      port: 6379
+      targetPort: redis
+      nodePort: null
+  selector:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-publicatiebank-redis
+    app.kubernetes.io/component: master
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-gpp-publicatiebank
+  labels:
+    
+    app.kubernetes.io/version: "2.0.0"
+    helm.sh/chart: gpp-publicatiebank-2.0.6
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-publicatiebank
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8000
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: gpp-publicatiebank
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/templates/service.yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-gpp-publicatiebank-nginx
+  labels:
+    helm.sh/chart: gpp-publicatiebank-2.0.6
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-publicatiebank-nginx
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+      name: http
+  selector:
+    app.kubernetes.io/name: gpp-publicatiebank-nginx
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-gpp-publicatiebank-flower
+  labels:
+    helm.sh/chart: gpp-publicatiebank-2.0.6
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-publicatiebank-flower
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5555
+      targetPort: 5555
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: gpp-publicatiebank-flower
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/eck-operator/templates/webhook.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: gpp-zoeken-eck-operator-webhook
+  namespace: ita-ns
+  labels:
+    
+    app.kubernetes.io/name: gpp-zoeken-eck-operator
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2.16.1"
+    helm.sh/chart: eck-operator-2.16.1
+    app.kubernetes.io/managed-by: Helm
+spec:
+  ports:
+    - name: https
+      port: 443
+      targetPort: 9443
+  selector:
+    
+    app.kubernetes.io/name: gpp-zoeken-eck-operator
+    app.kubernetes.io/instance: release-name
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/redis/templates/headless-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-gpp-zoeken-redis-headless
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-zoeken-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: tcp-redis
+      port: 6379
+      targetPort: redis
+  selector:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-zoeken-redis
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/redis/templates/master/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-gpp-zoeken-redis-master
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-zoeken-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+    app.kubernetes.io/component: master
+spec:
+  type: ClusterIP
+  internalTrafficPolicy: Cluster
+  sessionAffinity: None
+  ports:
+    - name: tcp-redis
+      port: 6379
+      targetPort: redis
+      nodePort: null
+  selector:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-zoeken-redis
+    app.kubernetes.io/component: master
+---
+# Source: gpp-stack/charts/gpp-zoeken/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-gpp-zoeken
+  labels:
+    
+    app.kubernetes.io/version: "2.1.0"
+    helm.sh/chart: gpp-zoeken-0.2.4
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-zoeken
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8000
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: gpp-zoeken
+---
+# Source: gpp-stack/charts/openzaak/charts/redis/templates/headless-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-openzaak-redis-headless
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: openzaak-redis
+    app.kubernetes.io/version: 8.2.0
+    helm.sh/chart: redis-22.0.1
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: tcp-redis
+      port: 6379
+      targetPort: redis
+  selector:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: openzaak-redis
+---
+# Source: gpp-stack/charts/openzaak/charts/redis/templates/master/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-openzaak-redis-master
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: openzaak-redis
+    app.kubernetes.io/version: 8.2.0
+    helm.sh/chart: redis-22.0.1
+    app.kubernetes.io/component: master
+spec:
+  type: ClusterIP
+  internalTrafficPolicy: Cluster
+  sessionAffinity: None
+  ports:
+    - name: tcp-redis
+      port: 6379
+      targetPort: redis
+      nodePort: null
+  selector:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: openzaak-redis
+    app.kubernetes.io/component: master
+---
+# Source: gpp-stack/charts/openzaak/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-openzaak
+  labels:
+    
+    app.kubernetes.io/version: "1.21.2"
+    helm.sh/chart: openzaak-1.10.1
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: openzaak
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8000
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: openzaak
+---
+# Source: gpp-stack/charts/openzaak/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-openzaak-nginx
+  labels:
+    helm.sh/chart: openzaak-1.10.1
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: openzaak-nginx
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+      name: http
+  selector:
+    app.kubernetes.io/name: openzaak-nginx
+---
+# Source: gpp-stack/charts/gpp-app/templates/deployment.yaml
+# Application ODPC
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-gpp-app
+  labels:
+    helm.sh/chart: gpp-app-0.3.0
+    app.kubernetes.io/name: gpp-app
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gpp-app
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: aeb7a31632a93bc778199581f1872c15ce29ec0a07041332780c17cfd171b9dd
+        checksum/secret: 66bfdeffedf0b3f4adc64b279ff2a25fcf26110f28af2496251c3b993e6a0ce5
+      labels:
+        helm.sh/chart: gpp-app-0.3.0
+        app.kubernetes.io/name: gpp-app
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/version: "3.0.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: release-name-gpp-app
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: gpp-app
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "ghcr.io/gpp-woo/gpp-app:3.0.0"
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: release-name-gpp-app
+            - configMapRef:
+                name: release-name-gpp-app
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: "release-name-gpp-app"
+            failureThreshold: 6
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: "release-name-gpp-app"
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources:
+            {}
+---
+# Source: gpp-stack/charts/gpp-burgerportaal/templates/deployment.yaml
+# Application Burgerportaal
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-gpp-burgerportaal
+  labels:
+    helm.sh/chart: gpp-burgerportaal-1.2.0
+    app.kubernetes.io/name: gpp-burgerportaal
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "4.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gpp-burgerportaal
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: c98348a3bab71a85fa352522fe66b98fc3151d0d8ad36630f80d4f1e8dac6614
+        checksum/secret: 8a7b71a66dc72a75b3e437d6e9bbf3e960a4cf787d4062765904128d5de8aad2
+      labels:
+        helm.sh/chart: gpp-burgerportaal-1.2.0
+        app.kubernetes.io/name: gpp-burgerportaal
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/version: "4.0.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: release-name-gpp-burgerportaal
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: gpp-burgerportaal
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "ghcr.io/gpp-woo/gpp-burgerportaal:4.0.0"
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: release-name-gpp-burgerportaal
+            - configMapRef:
+                name: release-name-gpp-burgerportaal
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: "release-name-gpp-burgerportaal"
+            failureThreshold: 6
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: "release-name-gpp-burgerportaal"
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources:
+            {}
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/templates/deployment.yaml
+# Deployment of the django app
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-gpp-publicatiebank
+  labels:
+    
+    app.kubernetes.io/version: "2.0.0"
+    helm.sh/chart: gpp-publicatiebank-2.0.6
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-publicatiebank
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gpp-publicatiebank
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: 4916e37e9a68b3c14700cfeacf63e8080017f4ab65a574e4d9c218cc5986707b
+        checksum/secret: 25d6bf23d654aeab74f6af8f642fb784178f23f724b926eba266f3797224edc0
+      labels:
+        app.kubernetes.io/name: gpp-publicatiebank
+    spec:
+      serviceAccountName: release-name-gpp-publicatiebank
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: gpp-publicatiebank
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "ghcr.io/gpp-woo/gpp-publicatiebank:2.0.0"
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: release-name-gpp-publicatiebank
+            - configMapRef:
+                name: release-name-gpp-publicatiebank
+          env:
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: "release-name-gpp-publicatiebank"
+            failureThreshold: 6
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: "release-name-gpp-publicatiebank"
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources:
+            {}
+          volumeMounts:
+            - name: media
+              mountPath: /app/private_media
+              subPath: gpp-app/private_media          
+            - name: media
+              mountPath: /app/media
+              subPath: gpp-app/media
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: release-name-gpp-publicatiebank
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/templates/deployment.yaml
+# Deployment Nginx
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-gpp-publicatiebank-nginx
+  labels:
+    helm.sh/chart: gpp-publicatiebank-2.0.6
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-publicatiebank-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gpp-publicatiebank-nginx
+  template:
+    metadata:
+      annotations:
+        checksum/configmap-nginx: 965a5a8a2b230803cbc1eb2d59efb671d7b32de88cc8d17c02a405c6f024297a
+      labels:
+        app.kubernetes.io/name: gpp-publicatiebank-nginx
+    spec:
+      serviceAccountName: release-name-gpp-publicatiebank
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: release-name-gpp-publicatiebank-nginx
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 101
+          image: "nginxinc/nginx-unprivileged:stable"
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /_health/
+              port: http
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            {}
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d/
+            - name: media
+              mountPath: /app/private-media
+              subPath: gpp-app/private_media
+            - name: media
+              mountPath: /app/media
+              subPath: gpp-app/media
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: release-name-gpp-publicatiebank
+        - name: nginx-config
+          configMap:
+            name: release-name-gpp-publicatiebank-nginx
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-gpp-publicatiebank-worker
+  labels:
+    helm.sh/chart: gpp-publicatiebank-2.0.6
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-publicatiebank-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gpp-publicatiebank-worker
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: 4916e37e9a68b3c14700cfeacf63e8080017f4ab65a574e4d9c218cc5986707b
+        checksum/secret: 25d6bf23d654aeab74f6af8f642fb784178f23f724b926eba266f3797224edc0
+      labels:
+        app.kubernetes.io/name: gpp-publicatiebank-worker
+    spec:
+      serviceAccountName: release-name-gpp-publicatiebank
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: release-name-gpp-publicatiebank-worker
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "ghcr.io/gpp-woo/gpp-publicatiebank:2.0.0"
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: release-name-gpp-publicatiebank
+            - configMapRef:
+                name: release-name-gpp-publicatiebank
+          env:
+          resources:
+            {}
+          command:
+            - /celery_worker.sh
+          volumeMounts:
+            - name: media
+              mountPath: /app/media
+              subPath: gpp-app/media            
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: release-name-gpp-publicatiebank
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-gpp-publicatiebank-flower
+  labels:
+    helm.sh/chart: gpp-publicatiebank-2.0.6
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-publicatiebank-flower
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gpp-publicatiebank-flower
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: 4916e37e9a68b3c14700cfeacf63e8080017f4ab65a574e4d9c218cc5986707b
+        checksum/secret: 25d6bf23d654aeab74f6af8f642fb784178f23f724b926eba266f3797224edc0
+      labels:
+        app.kubernetes.io/name: gpp-publicatiebank-flower
+    spec:
+      serviceAccountName: release-name-gpp-publicatiebank
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: release-name-gpp-publicatiebank-flower
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "ghcr.io/gpp-woo/gpp-publicatiebank:2.0.0"
+          imagePullPolicy: IfNotPresent
+          command: ["/celery_flower.sh"]
+          resources:
+            {}
+          envFrom:
+            - secretRef:
+                name: release-name-gpp-publicatiebank
+            - configMapRef:
+                name: release-name-gpp-publicatiebank
+          env:
+          ports:
+            - name: http
+              containerPort: 5555
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: 5555
+            failureThreshold: 6
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            tcpSocket:
+              port: 5555
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          volumeMounts:
+      volumes:
+---
+# Source: gpp-stack/charts/gpp-zoeken/templates/deployment.yaml
+# Deployment of the django app
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-gpp-zoeken
+  labels:
+    
+    app.kubernetes.io/version: "2.1.0"
+    helm.sh/chart: gpp-zoeken-0.2.4
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-zoeken
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gpp-zoeken
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: 80c4663255f7af696afcb69f71fb1cc59d7dfd1a02146ba7937fb752fecbdf6e
+        checksum/secret: 6a6acc1b3b1f45dc44ec0e9892ce8c2a8f493850247277fb9eaf0e88c7a9e0e4
+      labels:
+        app.kubernetes.io/name: gpp-zoeken
+    spec:
+      serviceAccountName: release-name-gpp-zoeken
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: gpp-zoeken
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "ghcr.io/gpp-woo/gpp-zoeken:2.1.0"
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: release-name-gpp-zoeken
+            - configMapRef:
+                name: release-name-gpp-zoeken
+          env:
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: "release-name-gpp-zoeken"
+            failureThreshold: 6
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: "release-name-gpp-zoeken"
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources:
+            {}
+          volumeMounts:
+            - name: gpp-zoeken
+              mountPath: /app/private_media
+              subPath: gpp-zoeken/private_media          
+            - name: gpp-zoeken
+              mountPath: /app/media
+              subPath: gpp-zoeken/media
+            - name: gpp-zoeken
+              mountPath: /app/logs
+              subPath: gpp-zoeken/logs
+            - name: elastic-ca
+              mountPath: /app/certs
+      volumes:
+        - name: gpp-zoeken
+          persistentVolumeClaim:
+          emptyDir: { }
+        - name: elastic-ca
+          secret:
+            secretName: gpp-zoeken-eck-elasticsearch-es-http-certs-public
+---
+# Source: gpp-stack/charts/gpp-zoeken/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-gpp-zoeken-worker
+  labels:
+    helm.sh/chart: gpp-zoeken-0.2.4
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-zoeken-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gpp-zoeken-worker
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: 80c4663255f7af696afcb69f71fb1cc59d7dfd1a02146ba7937fb752fecbdf6e
+        checksum/secret: 6a6acc1b3b1f45dc44ec0e9892ce8c2a8f493850247277fb9eaf0e88c7a9e0e4
+      labels:
+        app.kubernetes.io/name: gpp-zoeken-worker
+    spec:
+      serviceAccountName: release-name-gpp-zoeken
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: release-name-gpp-zoeken-worker
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "ghcr.io/gpp-woo/gpp-zoeken:2.1.0"
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: release-name-gpp-zoeken
+            - configMapRef:
+                name: release-name-gpp-zoeken         
+          env:
+          resources:
+            {}
+          command:
+            - /celery_worker.sh
+          volumeMounts:
+            - name: gpp-zoeken
+              mountPath: /app/media
+              subPath: gpp-zoeken/media
+            - name: gpp-zoeken
+              mountPath: /app/private_media
+              subPath: gpp-zoeken/private_media
+            - name: gpp-zoeken
+              mountPath: /app/logs
+              subPath: gpp-zoeken/logs
+            - name: elastic-ca
+              mountPath: /app/certs            
+      volumes:
+        - name: gpp-zoeken
+          persistentVolumeClaim:
+          emptyDir: { }
+        - name: elastic-ca
+          secret:
+            secretName: gpp-zoeken-eck-elasticsearch-es-http-certs-public
+---
+# Source: gpp-stack/charts/openzaak/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-openzaak
+  labels:
+    
+    app.kubernetes.io/version: "1.21.2"
+    helm.sh/chart: openzaak-1.10.1
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: openzaak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: openzaak
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: dbe7fa1b341096c4d4bfc4a3f415561e2cf5edb34ddfb36966fe4d1dc92338ce
+        checksum/secret: f23aead87711448fd9bbc4b2c036990a4d2562af88bd447077d32b46ba6d98da
+      labels:
+        app.kubernetes.io/name: openzaak
+    spec:
+      serviceAccountName: release-name-openzaak
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: openzaak
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "openzaak/open-zaak:1.21.2"
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: release-name-openzaak
+            - configMapRef:
+                name: release-name-openzaak
+          env:
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: "release-name-openzaak"
+            failureThreshold: 6
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: "release-name-openzaak"
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources:
+            {}
+          volumeMounts:
+            - name: media
+              mountPath: /app/private-media
+              subPath: openzaak/private_media
+            - name: media
+              mountPath: /app/media
+              subPath: openzaak/media
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: release-name-openzaak
+---
+# Source: gpp-stack/charts/openzaak/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-openzaak-nginx
+  labels:
+    helm.sh/chart: openzaak-1.10.1
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: openzaak-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: openzaak-nginx
+  template:
+    metadata:
+      annotations:
+        checksum/configmap-nginx: 76ea058e08acffe5c73db69c603781848a7ed1f12f2d9d3e5372acab40ad5b2a
+      labels:
+        app.kubernetes.io/name: openzaak-nginx
+    spec:
+      serviceAccountName: release-name-openzaak
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: nginx
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 101
+          image: "nginxinc/nginx-unprivileged:stable"
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /_health/
+              port: http
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            {}
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d/
+            - name: media
+              mountPath: /app/private-media
+              subPath: openzaak/private_media
+            - name: media
+              mountPath: /app/media
+              subPath: openzaak/media
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: release-name-openzaak
+        - name: nginx-config
+          configMap:
+            name: release-name-openzaak-nginx
+---
+# Source: gpp-stack/charts/openzaak/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-openzaak-worker
+  labels:
+    helm.sh/chart: openzaak-1.10.1
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: openzaak-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: openzaak-worker
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: dbe7fa1b341096c4d4bfc4a3f415561e2cf5edb34ddfb36966fe4d1dc92338ce
+        checksum/secret: f23aead87711448fd9bbc4b2c036990a4d2562af88bd447077d32b46ba6d98da
+      labels:
+        app.kubernetes.io/name: openzaak-worker
+    spec:
+      serviceAccountName: release-name-openzaak
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: release-name-openzaak-worker
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "openzaak/open-zaak:1.21.2"
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: release-name-openzaak
+            - configMapRef:
+                name: release-name-openzaak
+          env:
+          resources:
+            {}
+          command:
+            - /celery_worker.sh
+          volumeMounts:
+            - name: media
+              mountPath: /app/private-media
+              subPath: openzaak/private_media
+            - name: media
+              mountPath: /app/media
+              subPath: openzaak/media
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: release-name-openzaak
+---
+# Source: gpp-stack/charts/openzaak/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-openzaak-flower
+  labels:
+    helm.sh/chart: openzaak-1.10.1
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: openzaak-flower
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: openzaak-flower
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: dbe7fa1b341096c4d4bfc4a3f415561e2cf5edb34ddfb36966fe4d1dc92338ce
+        checksum/secret: f23aead87711448fd9bbc4b2c036990a4d2562af88bd447077d32b46ba6d98da
+      labels:
+        app.kubernetes.io/name: openzaak-flower
+    spec:
+      serviceAccountName: release-name-openzaak
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: release-name-openzaak-flower
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "openzaak/open-zaak:1.21.2"
+          imagePullPolicy: IfNotPresent
+          command: ["/celery_flower.sh"]
+          resources:
+            {}
+          envFrom:
+            - secretRef:
+                name: release-name-openzaak
+            - configMapRef:
+                name: release-name-openzaak
+          env:
+          ports:
+            - name: http
+              containerPort: 5555
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: 5555
+            failureThreshold: 6
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            tcpSocket:
+              port: 5555
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          volumeMounts:
+      volumes:
+---
+# Source: gpp-stack/charts/openzaak/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-openzaak-beat
+  labels:
+    helm.sh/chart: openzaak-1.10.1
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: openzaak-beat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: openzaak-beat
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: dbe7fa1b341096c4d4bfc4a3f415561e2cf5edb34ddfb36966fe4d1dc92338ce
+        checksum/secret: f23aead87711448fd9bbc4b2c036990a4d2562af88bd447077d32b46ba6d98da
+      labels:
+        app.kubernetes.io/name: openzaak-beat
+    spec:
+      serviceAccountName: release-name-openzaak
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: release-name-openzaak-beat
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "openzaak/open-zaak:1.21.2"
+          imagePullPolicy: IfNotPresent
+          env:
+          envFrom:
+            - secretRef:
+                name: release-name-openzaak
+            - configMapRef:
+                name: release-name-openzaak
+          resources:
+            {}
+          command:
+            - /celery_beat.sh
+          volumeMounts:
+            - name: media
+              mountPath: /app/private-media
+              subPath: openzaak/private_media
+            - name: media
+              mountPath: /app/media
+              subPath: openzaak/media
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: release-name-openzaak
+---
+# Source: gpp-stack/charts/gpp-publicatiebank/charts/redis/templates/master/application.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: release-name-gpp-publicatiebank-redis-master
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-publicatiebank-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+    app.kubernetes.io/component: master
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: gpp-publicatiebank-redis
+      app.kubernetes.io/component: master
+  serviceName: release-name-gpp-publicatiebank-redis-headless
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: gpp-publicatiebank-redis
+        app.kubernetes.io/version: 7.4.1
+        helm.sh/chart: redis-20.2.1
+        app.kubernetes.io/component: master
+      annotations:
+        checksum/configmap: 86bcc953bb473748a3d3dc60b7c11f34e60c93519234d4c37f42e22ada559d47
+        checksum/health: aff24913d801436ea469d8d374b2ddb3ec4c43ee7ab24663d5f8ff1a1b6991a9
+        checksum/scripts: 43cdf68c28f3abe25ce017a82f74dbf2437d1900fd69df51a55a3edf6193d141
+        checksum/secret: 44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a
+    spec:
+      
+      securityContext:
+        fsGroup: 1001
+        fsGroupChangePolicy: Always
+        supplementalGroups: []
+        sysctls: []
+      serviceAccountName: release-name-gpp-publicatiebank-redis-master
+      automountServiceAccountToken: false
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/instance: release-name
+                    app.kubernetes.io/name: gpp-publicatiebank-redis
+                    app.kubernetes.io/component: master
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      enableServiceLinks: true
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: redis
+          image: docker.io/bitnami/redis:7.4.1-debian-12-r0
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 1001
+            runAsNonRoot: true
+            runAsUser: 1001
+            seLinuxOptions: {}
+            seccompProfile:
+              type: RuntimeDefault
+          command:
+            - /bin/bash
+          args:
+            - -c
+            - /opt/bitnami/scripts/start-scripts/start-master.sh
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: REDIS_REPLICATION_MODE
+              value: master
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "yes"
+            - name: REDIS_TLS_ENABLED
+              value: "no"
+            - name: REDIS_PORT
+              value: "6379"
+          ports:
+            - name: redis
+              containerPort: 6379
+          livenessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            # One second longer than command timeout should prevent generation of zombie processes.
+            timeoutSeconds: 6
+            successThreshold: 1
+            failureThreshold: 5
+            exec:
+              command:
+                - sh
+                - -c
+                - /health/ping_liveness_local.sh 5
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 2
+            successThreshold: 1
+            failureThreshold: 5
+            exec:
+              command:
+                - sh
+                - -c
+                - /health/ping_readiness_local.sh 1
+          resources:
+            requests:
+              cpu: 10m
+              memory: 20Mi
+          volumeMounts:
+            - name: start-scripts
+              mountPath: /opt/bitnami/scripts/start-scripts
+            - name: health
+              mountPath: /health
+            - name: redis-data
+              mountPath: /data
+            - name: config
+              mountPath: /opt/bitnami/redis/mounted-etc
+            - name: empty-dir
+              mountPath: /opt/bitnami/redis/etc/
+              subPath: app-conf-dir
+            - name: empty-dir
+              mountPath: /tmp
+              subPath: tmp-dir
+      volumes:
+        - name: start-scripts
+          configMap:
+            name: release-name-gpp-publicatiebank-redis-scripts
+            defaultMode: 0755
+        - name: health
+          configMap:
+            name: release-name-gpp-publicatiebank-redis-health
+            defaultMode: 0755
+        - name: config
+          configMap:
+            name: release-name-gpp-publicatiebank-redis-configuration
+        - name: empty-dir
+          emptyDir: {}
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: redis-data
+        labels:
+          app.kubernetes.io/instance: release-name
+          app.kubernetes.io/name: gpp-publicatiebank-redis
+          app.kubernetes.io/component: master
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/eck-operator/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: gpp-zoeken-eck-operator
+  namespace: ita-ns
+  labels:
+    
+    app.kubernetes.io/name: gpp-zoeken-eck-operator
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2.16.1"
+    helm.sh/chart: eck-operator-2.16.1
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      
+      app.kubernetes.io/name: gpp-zoeken-eck-operator
+      app.kubernetes.io/instance: release-name
+  serviceName: gpp-zoeken-eck-operator
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        # Rename the fields "error" to "error.message" and "source" to "event.source"
+        # This is to avoid a conflict with the ECS "error" and "source" documents.
+        "co.elastic.logs/raw": "[{\"type\":\"container\",\"json.keys_under_root\":true,\"paths\":[\"/var/log/containers/*${data.kubernetes.container.id}.log\"],\"processors\":[{\"convert\":{\"mode\":\"rename\",\"ignore_missing\":true,\"fields\":[{\"from\":\"error\",\"to\":\"_error\"}]}},{\"convert\":{\"mode\":\"rename\",\"ignore_missing\":true,\"fields\":[{\"from\":\"_error\",\"to\":\"error.message\"}]}},{\"convert\":{\"mode\":\"rename\",\"ignore_missing\":true,\"fields\":[{\"from\":\"source\",\"to\":\"_source\"}]}},{\"convert\":{\"mode\":\"rename\",\"ignore_missing\":true,\"fields\":[{\"from\":\"_source\",\"to\":\"event.source\"}]}}]}]"
+        "checksum/config": f95efb4156148d697fb1657ada5dbb54787c9771174604241349a95372fd98b2
+      labels:
+        
+        app.kubernetes.io/name: gpp-zoeken-eck-operator
+        app.kubernetes.io/instance: release-name
+    spec:
+      terminationGracePeriodSeconds: 10
+      serviceAccountName: gpp-zoeken-eck-operator
+      automountServiceAccountToken: true
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - image: "docker.elastic.co/eck/eck-operator:2.16.1"
+          imagePullPolicy: IfNotPresent
+          name: manager
+          args:
+            - "manager"
+            - "--config=/conf/eck.yaml"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          env:
+            - name: OPERATOR_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: WEBHOOK_SECRET
+              value: gpp-zoeken-eck-operator-webhook-cert
+          resources:
+            limits:
+              cpu: 1
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 150Mi
+          ports:
+            - containerPort: 9443
+              name: https-webhook
+              protocol: TCP
+          volumeMounts:
+            - mountPath: "/conf"
+              name: conf
+              readOnly: true
+            - mountPath: /tmp/k8s-webhook-server/serving-certs
+              name: cert
+              readOnly: true
+      volumes:
+        - name: conf
+          configMap:
+            name: gpp-zoeken-eck-operator
+        - name: cert
+          secret:
+            defaultMode: 420
+            secretName: gpp-zoeken-eck-operator-webhook-cert
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/redis/templates/master/application.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: release-name-gpp-zoeken-redis-master
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: gpp-zoeken-redis
+    app.kubernetes.io/version: 7.4.1
+    helm.sh/chart: redis-20.2.1
+    app.kubernetes.io/component: master
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: gpp-zoeken-redis
+      app.kubernetes.io/component: master
+  serviceName: release-name-gpp-zoeken-redis-headless
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: gpp-zoeken-redis
+        app.kubernetes.io/version: 7.4.1
+        helm.sh/chart: redis-20.2.1
+        app.kubernetes.io/component: master
+      annotations:
+        checksum/configmap: 86bcc953bb473748a3d3dc60b7c11f34e60c93519234d4c37f42e22ada559d47
+        checksum/health: aff24913d801436ea469d8d374b2ddb3ec4c43ee7ab24663d5f8ff1a1b6991a9
+        checksum/scripts: 43cdf68c28f3abe25ce017a82f74dbf2437d1900fd69df51a55a3edf6193d141
+        checksum/secret: 44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a
+    spec:
+      
+      securityContext:
+        fsGroup: 1001
+        fsGroupChangePolicy: Always
+        supplementalGroups: []
+        sysctls: []
+      serviceAccountName: release-name-gpp-zoeken-redis-master
+      automountServiceAccountToken: false
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/instance: release-name
+                    app.kubernetes.io/name: gpp-zoeken-redis
+                    app.kubernetes.io/component: master
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      enableServiceLinks: true
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: redis
+          image: docker.io/bitnami/redis:7.4.1-debian-12-r0
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 1001
+            runAsNonRoot: true
+            runAsUser: 1001
+            seLinuxOptions: {}
+            seccompProfile:
+              type: RuntimeDefault
+          command:
+            - /bin/bash
+          args:
+            - -c
+            - /opt/bitnami/scripts/start-scripts/start-master.sh
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: REDIS_REPLICATION_MODE
+              value: master
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "yes"
+            - name: REDIS_TLS_ENABLED
+              value: "no"
+            - name: REDIS_PORT
+              value: "6379"
+          ports:
+            - name: redis
+              containerPort: 6379
+          livenessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            # One second longer than command timeout should prevent generation of zombie processes.
+            timeoutSeconds: 6
+            successThreshold: 1
+            failureThreshold: 5
+            exec:
+              command:
+                - sh
+                - -c
+                - /health/ping_liveness_local.sh 5
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 2
+            successThreshold: 1
+            failureThreshold: 5
+            exec:
+              command:
+                - sh
+                - -c
+                - /health/ping_readiness_local.sh 1
+          resources:
+            requests:
+              cpu: 10m
+              memory: 20Mi
+          volumeMounts:
+            - name: start-scripts
+              mountPath: /opt/bitnami/scripts/start-scripts
+            - name: health
+              mountPath: /health
+            - name: redis-data
+              mountPath: /data
+            - name: config
+              mountPath: /opt/bitnami/redis/mounted-etc
+            - name: empty-dir
+              mountPath: /opt/bitnami/redis/etc/
+              subPath: app-conf-dir
+            - name: empty-dir
+              mountPath: /tmp
+              subPath: tmp-dir
+      volumes:
+        - name: start-scripts
+          configMap:
+            name: release-name-gpp-zoeken-redis-scripts
+            defaultMode: 0755
+        - name: health
+          configMap:
+            name: release-name-gpp-zoeken-redis-health
+            defaultMode: 0755
+        - name: config
+          configMap:
+            name: release-name-gpp-zoeken-redis-configuration
+        - name: empty-dir
+          emptyDir: {}
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: redis-data
+        labels:
+          app.kubernetes.io/instance: release-name
+          app.kubernetes.io/name: gpp-zoeken-redis
+          app.kubernetes.io/component: master
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"
+---
+# Source: gpp-stack/charts/openzaak/charts/redis/templates/master/application.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: release-name-openzaak-redis-master
+  namespace: "ita-ns"
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: openzaak-redis
+    app.kubernetes.io/version: 8.2.0
+    helm.sh/chart: redis-22.0.1
+    app.kubernetes.io/component: master
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: openzaak-redis
+      app.kubernetes.io/component: master
+  serviceName: release-name-openzaak-redis-headless
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: openzaak-redis
+        app.kubernetes.io/version: 8.2.0
+        helm.sh/chart: redis-22.0.1
+        app.kubernetes.io/component: master
+      annotations:
+        checksum/configmap: 2a9ab4a5432825504d910f022638674ce88eaefe9f9f595ad8bc107377d104fb
+        checksum/health: aff24913d801436ea469d8d374b2ddb3ec4c43ee7ab24663d5f8ff1a1b6991a9
+        checksum/scripts: bdec350b84a1ace7cc118db113a21c9f160bde3425b07714e1c0c1da722621cf
+        checksum/secret: 44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a
+    spec:
+      
+      securityContext:
+        fsGroup: 1001
+        fsGroupChangePolicy: Always
+        supplementalGroups: []
+        sysctls: []
+      serviceAccountName: release-name-openzaak-redis-master
+      automountServiceAccountToken: false
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/instance: release-name
+                    app.kubernetes.io/name: openzaak-redis
+                    app.kubernetes.io/component: master
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      enableServiceLinks: true
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: redis
+          image: docker.io/redis:8.0
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 1001
+            runAsNonRoot: true
+            runAsUser: 1001
+            seLinuxOptions: {}
+            seccompProfile:
+              type: RuntimeDefault
+          command:
+            - /bin/bash
+          args:
+            - -ec
+            - /opt/bitnami/scripts/start-scripts/start-master.sh
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: REDIS_REPLICATION_MODE
+              value: master
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "yes"
+            - name: REDIS_TLS_ENABLED
+              value: "no"
+            - name: REDIS_PORT
+              value: "6379"
+          ports:
+            - name: redis
+              containerPort: 6379
+          livenessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            # One second longer than command timeout should prevent generation of zombie processes.
+            timeoutSeconds: 6
+            successThreshold: 1
+            failureThreshold: 5
+            exec:
+              command:
+                - /bin/bash
+                - -ec
+                - "/health/ping_liveness_local.sh 5"
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 2
+            successThreshold: 1
+            failureThreshold: 5
+            exec:
+              command:
+                - /bin/bash
+                - -ec
+                - "/health/ping_readiness_local.sh 1"
+          resources:
+            requests:
+              cpu: 10m
+              memory: 20Mi
+          volumeMounts:
+            - name: start-scripts
+              mountPath: /opt/bitnami/scripts/start-scripts
+            - name: health
+              mountPath: /health
+            - name: redis-data
+              mountPath: /data
+            - name: config
+              mountPath: /opt/bitnami/redis/mounted-etc
+            - name: empty-dir
+              mountPath: /opt/bitnami/redis/etc/
+              subPath: app-conf-dir
+            - name: empty-dir
+              mountPath: /tmp
+              subPath: tmp-dir
+      volumes:
+        - name: start-scripts
+          configMap:
+            name: release-name-openzaak-redis-scripts
+            defaultMode: 0755
+        - name: health
+          configMap:
+            name: release-name-openzaak-redis-health
+            defaultMode: 0755
+        - name: config
+          configMap:
+            name: release-name-openzaak-redis-configuration
+        - name: empty-dir
+          emptyDir: {}
+        - name: redis-data
+          emptyDir: {}
+---
+# Source: gpp-stack/charts/gpp-zoeken/templates/job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: release-name-gpp-zoeken-index
+  labels:
+    
+    app.kubernetes.io/version: "2.1.0"
+    helm.sh/chart: gpp-zoeken-0.2.4
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: gpp-zoeken
+spec:
+  backoffLimit: 6
+  ttlSecondsAfterFinished: 0
+  template:
+    metadata:
+      annotations:
+      labels:
+        
+        app.kubernetes.io/version: "2.1.0"
+        helm.sh/chart: gpp-zoeken-0.2.4
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/name: gpp-zoeken
+    spec:
+      serviceAccountName: release-name-gpp-zoeken
+      securityContext:
+        fsGroup: 1000
+      restartPolicy: OnFailure
+      containers:
+        - name: gpp-zoeken
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "ghcr.io/gpp-woo/gpp-zoeken:2.1.0"
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: release-name-gpp-zoeken
+            - configMapRef:
+                name: release-name-gpp-zoeken
+          volumeMounts:
+            - name: elastic-ca
+              mountPath: /app/certs
+          env:
+          resources:
+            {}
+          command:
+            - "/bin/bash"
+            - "-c"
+          args:
+          - |
+            /app/src/manage.py initialize_mappings --wait
+      volumes:
+        - name: elastic-ca
+          secret:
+            secretName: gpp-zoeken-eck-elasticsearch-es-http-certs-public
+---
+# Source: gpp-stack/charts/openzaak/templates/hpa.yaml
+---
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/eck-elasticsearch/templates/elasticsearch.yaml
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: gpp-zoeken-eck-elasticsearch
+  labels:
+    helm.sh/chart: eck-elasticsearch-0.14.1
+    app.kubernetes.io/name: gpp-zoeken-eck-elasticsearch
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    eck.k8s.elastic.co/license: basic
+spec:
+  version: 8.17.1
+  nodeSets:
+    
+    - config:
+        node.store.allow_mmap: false
+      count: 1
+      name: default
+      podTemplate:
+        spec:
+          containers:
+          - name: elasticsearch
+            resources:
+              limits:
+                memory: 2Gi
+              requests:
+                memory: 2Gi
+---
+# Source: gpp-stack/charts/gpp-zoeken/charts/eck-operator/templates/webhook.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: gpp-zoeken-eck-operator.ita-ns.k8s.elastic.co
+  labels:
+    
+    app.kubernetes.io/name: gpp-zoeken-eck-operator
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "2.16.1"
+    helm.sh/chart: eck-operator-2.16.1
+    app.kubernetes.io/managed-by: Helm
+webhooks:
+- clientConfig:
+    service:
+      name: gpp-zoeken-eck-operator-webhook
+      namespace: ita-ns
+      path: /validate-agent-k8s-elastic-co-v1alpha1-agent
+  failurePolicy: Ignore
+  name: elastic-agent-validation-v1alpha1.k8s.elastic.co
+  matchPolicy: Exact
+  admissionReviewVersions: [v1,v1beta1]
+  sideEffects: None
+  rules:
+  - apiGroups:
+    - agent.k8s.elastic.co
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - agents
+- clientConfig:
+    service:
+      name: gpp-zoeken-eck-operator-webhook
+      namespace: ita-ns
+      path: /validate-apm-k8s-elastic-co-v1-apmserver
+  failurePolicy: Ignore
+  name: elastic-apm-validation-v1.k8s.elastic.co
+  matchPolicy: Exact
+  admissionReviewVersions: [v1,v1beta1]
+  sideEffects: None
+  rules:
+  - apiGroups:
+    - apm.k8s.elastic.co
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - apmservers
+- clientConfig:
+    service:
+      name: gpp-zoeken-eck-operator-webhook
+      namespace: ita-ns
+      path: /validate-apm-k8s-elastic-co-v1beta1-apmserver
+  failurePolicy: Ignore
+  name: elastic-apm-validation-v1beta1.k8s.elastic.co
+  matchPolicy: Exact
+  admissionReviewVersions: [v1,v1beta1]
+  sideEffects: None
+  rules:
+  - apiGroups:
+    - apm.k8s.elastic.co
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - apmservers
+- clientConfig:
+    service:
+      name: gpp-zoeken-eck-operator-webhook
+      namespace: ita-ns
+      path: /validate-beat-k8s-elastic-co-v1beta1-beat
+  failurePolicy: Ignore
+  name: elastic-beat-validation-v1beta1.k8s.elastic.co
+  matchPolicy: Exact
+  admissionReviewVersions: [v1,v1beta1]
+  sideEffects: None
+  rules:
+  - apiGroups:
+    - beat.k8s.elastic.co
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - beats
+- clientConfig:
+    service:
+      name: gpp-zoeken-eck-operator-webhook
+      namespace: ita-ns
+      path: /validate-enterprisesearch-k8s-elastic-co-v1-enterprisesearch
+  failurePolicy: Ignore
+  name: elastic-ent-validation-v1.k8s.elastic.co
+  matchPolicy: Exact
+  admissionReviewVersions: [v1,v1beta1]
+  sideEffects: None
+  rules:
+  - apiGroups:
+    - enterprisesearch.k8s.elastic.co
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - enterprisesearches
+- clientConfig:
+    service:
+      name: gpp-zoeken-eck-operator-webhook
+      namespace: ita-ns
+      path: /validate-enterprisesearch-k8s-elastic-co-v1beta1-enterprisesearch
+  failurePolicy: Ignore
+  name: elastic-ent-validation-v1beta1.k8s.elastic.co
+  matchPolicy: Exact
+  admissionReviewVersions: [v1,v1beta1]
+  sideEffects: None
+  rules:
+  - apiGroups:
+    - enterprisesearch.k8s.elastic.co
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - enterprisesearches
+- clientConfig:
+    service:
+      name: gpp-zoeken-eck-operator-webhook
+      namespace: ita-ns
+      path: /validate-elasticsearch-k8s-elastic-co-v1-elasticsearch
+  failurePolicy: Ignore
+  name: elastic-es-validation-v1.k8s.elastic.co
+  matchPolicy: Exact
+  admissionReviewVersions: [v1,v1beta1]
+  sideEffects: None
+  rules:
+  - apiGroups:
+    - elasticsearch.k8s.elastic.co
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - elasticsearches
+- clientConfig:
+    service:
+      name: gpp-zoeken-eck-operator-webhook
+      namespace: ita-ns
+      path: /validate-elasticsearch-k8s-elastic-co-v1beta1-elasticsearch
+  failurePolicy: Ignore
+  name: elastic-es-validation-v1beta1.k8s.elastic.co
+  matchPolicy: Exact
+  admissionReviewVersions: [v1,v1beta1]
+  sideEffects: None
+  rules:
+  - apiGroups:
+    - elasticsearch.k8s.elastic.co
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - elasticsearches
+- clientConfig:
+    service:
+      name: gpp-zoeken-eck-operator-webhook
+      namespace: ita-ns
+      path: /validate-ems-k8s-elastic-co-v1alpha1-mapsservers
+  failurePolicy: Ignore
+  name: elastic-ems-validation-v1alpha1.k8s.elastic.co
+  matchPolicy: Exact
+  admissionReviewVersions: [v1,v1beta1]
+  sideEffects: None
+  rules:
+    - apiGroups:
+        - maps.k8s.elastic.co
+      apiVersions:
+        - v1alpha1
+      operations:
+        - CREATE
+        - UPDATE
+      resources:
+        - mapsservers
+- clientConfig:
+    service:
+      name: gpp-zoeken-eck-operator-webhook
+      namespace: ita-ns
+      path: /validate-kibana-k8s-elastic-co-v1-kibana
+  failurePolicy: Ignore
+  name: elastic-kb-validation-v1.k8s.elastic.co
+  matchPolicy: Exact
+  admissionReviewVersions: [v1,v1beta1]
+  sideEffects: None
+  rules:
+  - apiGroups:
+    - kibana.k8s.elastic.co
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - kibanas
+- clientConfig:
+    service:
+      name: gpp-zoeken-eck-operator-webhook
+      namespace: ita-ns
+      path: /validate-kibana-k8s-elastic-co-v1beta1-kibana
+  failurePolicy: Ignore
+  name: elastic-kb-validation-v1beta1.k8s.elastic.co
+  matchPolicy: Exact
+  admissionReviewVersions: [v1,v1beta1]
+  sideEffects: None
+  rules:
+  - apiGroups:
+    - kibana.k8s.elastic.co
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - kibanas
+- clientConfig:
+    service:
+      name: gpp-zoeken-eck-operator-webhook
+      namespace: ita-ns
+      path: /validate-autoscaling-k8s-elastic-co-v1alpha1-elasticsearchautoscaler
+  failurePolicy: Ignore
+  name: elastic-esa-validation-v1alpha1.k8s.elastic.co
+  matchPolicy: Exact
+  admissionReviewVersions: [v1,v1beta1]
+  sideEffects: None
+  rules:
+    - apiGroups:
+        - autoscaling.k8s.elastic.co
+      apiVersions:
+        - v1alpha1
+      operations:
+        - CREATE
+        - UPDATE
+      resources:
+      - elasticsearchautoscalers
+- clientConfig:
+    service:
+      name: gpp-zoeken-eck-operator-webhook
+      namespace: ita-ns
+      path: /validate-scp-k8s-elastic-co-v1alpha1-stackconfigpolicies
+  failurePolicy: Ignore
+  name: elastic-scp-validation-v1alpha1.k8s.elastic.co
+  matchPolicy: Exact
+  admissionReviewVersions: [v1,v1beta1]
+  sideEffects: None
+  rules:
+    - apiGroups:
+        - stackconfigpolicy.k8s.elastic.co
+      apiVersions:
+        - v1alpha1
+      operations:
+        - CREATE
+        - UPDATE
+      resources:
+      - stackconfigpolicies
+- clientConfig:
+    service:
+      name: gpp-zoeken-eck-operator-webhook
+      namespace: ita-ns
+      path: /validate-logstash-k8s-elastic-co-v1alpha1-logstash
+  failurePolicy: Ignore
+  name: elastic-logstash-validation-v1alpha1.k8s.elastic.co
+  matchPolicy: Exact
+  admissionReviewVersions: [v1,v1beta1]
+  sideEffects: None
+  rules:
+    - apiGroups:
+        - logstash.k8s.elastic.co
+      apiVersions:
+        - v1alpha1
+      operations:
+        - CREATE
+        - UPDATE
+      resources:
+        - logstashes
