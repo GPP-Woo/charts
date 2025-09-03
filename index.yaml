@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   gpp-app:
   - apiVersion: v2
+    appVersion: 3.0.0
+    created: "2025-09-03T09:34:13.788599024Z"
+    description: A helm chart for the ICATT GPP app.
+    digest: eae462b84bcfd9a74b7304f95b6b1c2ed8febc163e9b7f565d893d06a2a50bc6
+    name: gpp-app
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-app-0.3.0/gpp-app-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
     appVersion: 3.0.0-rc.0
     created: "2025-07-21T09:55:59.425792342Z"
     description: A helm chart for the ICATT GPP app.
@@ -22,6 +32,16 @@ entries:
     - https://github.com/gpp-woo/charts/releases/download/gpp-app-0.1.0/gpp-app-0.1.0.tgz
     version: 0.1.0
   gpp-burgerportaal:
+  - apiVersion: v2
+    appVersion: 4.0.0
+    created: "2025-09-03T09:34:13.96058034Z"
+    description: A helm chart for the ICATT GPP burgerportaal.
+    digest: f4140148f805caea965420acf7c4fe80b25559caa9089bb24baeebdd88ada66e
+    name: gpp-burgerportaal
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-burgerportaal-1.2.0/gpp-burgerportaal-1.2.0.tgz
+    version: 1.2.0
   - apiVersion: v2
     appVersion: 4.0.0-rc.0
     created: "2025-07-21T09:55:59.654186347Z"
@@ -491,4 +511,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2025-08-13T15:16:30.929719443Z"
+generated: "2025-09-03T09:34:13.960653256Z"
