@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.6 (2025-09-03)
+
+- Bumped GPP-zoeken to 0.2.5.
+
 ## 0.2.5 (2025-09-03)
 
 - Bumped GPP-app to 0.3.0.

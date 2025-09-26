@@ -5,7 +5,7 @@ description: An umbrella chart for the GPP stack
 type: application
 
 # Chart version
-version: 0.2.5
+version: 0.2.6
 
 appVersion: "0.1.0"
 
@@ -31,6 +31,6 @@ dependencies:
     condition: gpp-burgerportaal.enabled
 
   - name: gpp-zoeken
-    version: 0.2.4
+    version: 0.2.5
     repository: https://GPP-Woo.github.io/charts
     condition: gpp-zoeken.enabled
