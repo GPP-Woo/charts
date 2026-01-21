@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.7 (2026-01-21)
+
+- Bumped GPP-app to 0.3.1.
+- Bumped GPP-publicatiebank to 2.0.7.
+
 ## 0.2.6 (2025-09-03)
 
 - Bumped GPP-zoeken to 0.2.5.

@@ -1,6 +1,6 @@
 # gpp-stack
 
-![Version: 0.2.6](https://img.shields.io/badge/Version-0.2.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+![Version: 0.2.7](https://img.shields.io/badge/Version-0.2.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
 
 An umbrella chart for the GPP stack
 
@@ -8,9 +8,9 @@ An umbrella chart for the GPP stack
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://GPP-Woo.github.io/charts | gpp-app | 0.3.0 |
+| https://GPP-Woo.github.io/charts | gpp-app | 0.3.1 |
 | https://GPP-Woo.github.io/charts | gpp-burgerportaal | 1.2.0 |
-| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 2.0.6 |
+| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 2.0.7 |
 | https://GPP-Woo.github.io/charts | gpp-zoeken | 0.2.5 |
 | https://maykinmedia.github.io/charts/ | openzaak | 1.10.1 |
 
