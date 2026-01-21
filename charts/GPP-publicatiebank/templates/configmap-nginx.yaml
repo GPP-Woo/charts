@@ -67,7 +67,7 @@ data:
         }
         {{- end }}
 
-        location ~ ^/api/v1/documenten/[a-fA-F0-9-]+/bestandsdelen/[a-fA-F0-9-]+$ {
+        location ~ ^/api/v[0-9]+/documenten/[a-fA-F0-9-]+/bestandsdelen/[a-fA-F0-9-]+$ {
           client_max_body_size {{ .Values.settings.documentMaxBodySize | default "4G" }};
           include conf.d/proxy;
         }
