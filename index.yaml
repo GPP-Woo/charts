@@ -266,6 +266,37 @@ entries:
   gpp-stack:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2026-01-21T13:53:00.707296013Z"
+    dependencies:
+    - condition: openzaak.enabled
+      name: openzaak
+      repository: https://maykinmedia.github.io/charts/
+      version: 1.10.1
+    - condition: gpp-app.enabled
+      name: gpp-app
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.3.1
+    - condition: gpp-publicatiebank.enabled
+      name: gpp-publicatiebank
+      repository: https://GPP-Woo.github.io/charts
+      version: 2.0.7
+    - condition: gpp-burgerportaal.enabled
+      name: gpp-burgerportaal
+      repository: https://GPP-Woo.github.io/charts
+      version: 1.2.0
+    - condition: gpp-zoeken.enabled
+      name: gpp-zoeken
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.2.5
+    description: An umbrella chart for the GPP stack
+    digest: d32a1b5d8a0aaf4cf4fd7c061622bc1f6f51422f6d8e4273a0d42cf18d9dfdec
+    name: gpp-stack
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-stack-0.2.7/gpp-stack-0.2.7.tgz
+    version: 0.2.7
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2025-09-26T09:45:21.845090436Z"
     dependencies:
     - condition: openzaak.enabled
@@ -671,4 +702,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2026-01-21T13:47:05.514098847Z"
+generated: "2026-01-21T13:53:00.707381453Z"
