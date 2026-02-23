@@ -1,0 +1,47 @@
+name: Generate Helm documentation
+on:
+  pull_request:
+    paths:
+      - "**/values.yaml"
+      - "**/Chart.yaml"
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Generate Helm Docs
+        run: |
+          CHART=charts/GPP-stack/Chart.yaml
+
+          # Backup original Chart.yaml
+          cp "$CHART" "${CHART}.bak"
+
+          # Temporarily change repository URLs to local paths for helm-docs
+          yq -i '
+            (.dependencies[] | select(.name == "gpp-app")).repository = "file://../GPP-app" |
+            (.dependencies[] | select(.name == "gpp-publicatiebank")).repository = "file://../GPP-publicatiebank" |
+            (.dependencies[] | select(.name == "gpp-burgerportaal")).repository = "file://../GPP-burgerportaal" |
+            (.dependencies[] | select(.name == "gpp-zoeken")).repository = "file://../GPP-zoeken"
+          ' "$CHART"
+
+          # Generate documentation with dependency values included
+          docker run --rm --volume "$(pwd):/helm-docs" -u $(id -u) jnorwood/helm-docs:latest --document-dependency-values
+          
+          # Restore original Chart.yaml
+          mv "${CHART}.bak" "$CHART"
+
+          # Fix repository URLs in generated markdown
+          sed -i 's|file://\.\./[a-zA-Z-]*|https://GPP-Woo.github.io/charts|g' charts/GPP-stack/README.md
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "docs: update helm chart documentation"
+          git push
