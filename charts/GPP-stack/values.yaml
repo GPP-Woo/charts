@@ -18,6 +18,17 @@ gpp-zoeken:
   enabled: true
   redis:
     nameOverride: "gpp-zoeken-redis"
+  # eck-operator subchart
+  eck-operator:
+    enabled: true
+    nameOverride: "gpp-zoeken-eck-operator"
+    fullnameOverride: "gpp-zoeken-eck-operator"
+
+  # eck-elasticsearch subchart
+  eck-elasticsearch:
+    enabled: true
+    nameOverride: "gpp-zoeken-eck-elasticsearch"
+    fullnameOverride: "gpp-zoeken-eck-elasticsearch"
 
 
 openzaak:
