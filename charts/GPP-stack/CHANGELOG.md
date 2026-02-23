@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.8 (2026-02-23)
+
+- Keep docs up to date with github action, using values from subcharts
+
 ## 0.2.7 (2026-01-21)
 
 - Bumped GPP-app to 0.3.1.
