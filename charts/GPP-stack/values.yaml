@@ -5,6 +5,8 @@ global:
 
 gpp-publicatiebank: 
   enabled: true
+  redis:
+    nameOverride: "gpp-publicatiebank-redis"
 
 gpp-app:
   enabled: true
@@ -14,6 +16,8 @@ gpp-burgerportaal:
 
 gpp-zoeken:
   enabled: true
+  redis:
+    nameOverride: "gpp-zoeken-redis"
 
 
 openzaak:
