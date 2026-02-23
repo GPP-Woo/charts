@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.9 (2026-02-23)
+
+- re-enable name overrides for redis chart
+
 ## 0.2.8 (2026-02-23)
 
 - Keep docs up to date with github action, using values from subcharts
