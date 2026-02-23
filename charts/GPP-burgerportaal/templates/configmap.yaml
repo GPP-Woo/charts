@@ -5,7 +5,31 @@ metadata:
   labels:
     {{- include "gpp-burgerportaal.labels" . | nindent 4 }}
 data:
+  BLOCK_ROBOTS: {{ .Values.settings.blockRobots | toString | quote }}
   ODRC_BASE_URL: {{ .Values.settings.gppPublicatiebank.baseUrl | toString | quote }}
+  POSTGRES_HOST: {{ .Values.global.settings.databaseHost | default .Values.settings.database.host | toString | quote }}
+  POSTGRES_DB: {{ .Values.settings.database.name | toString | quote }}
+  POSTGRES_PORT: {{ .Values.settings.database.port | toString | quote }}
+  POSTGRES_USER: {{ .Values.settings.database.username | toString | quote }}
+  OIDC_ADMIN_ROLE: {{ .Values.settings.oidc.adminRole | toString | quote }}
+  {{- if .Values.settings.oidc.authority }}
+  OIDC_AUTHORITY: {{ .Values.settings.oidc.authority | toString | quote }}
+  {{- end }}
+  {{- if .Values.settings.oidc.clientId }}
+  OIDC_CLIENT_ID: {{ .Values.settings.oidc.clientId | toString | quote }}
+  {{- end }}
+  {{- if .Values.settings.oidc.clientSecret }}
+  OIDC_CLIENT_SECRET: {{ .Values.settings.oidc.clientSecret | toString | quote }}
+  {{- end }}
+  {{- if .Values.settings.oidc.roleClaimType }}
+  OIDC_ROLE_CLAIM_TYPE: {{ .Values.settings.oidc.roleClaimType | toString | quote }}
+  {{- end }}
+  {{- if .Values.settings.oidc.idClaimType }}
+  OIDC_ID_CLAIM_TYPE: {{ .Values.settings.oidc.idClaimType | toString | quote }}
+  {{- end }}
+  {{- if .Values.settings.oidc.nameClaimType }}
+  OIDC_NAME_CLAIM_TYPE: {{ .Values.settings.oidc.nameClaimType | toString | quote }}
+  {{- end }}
   SEARCH_BASE_URL: {{ .Values.settings.search.baseUrl | toString | quote }}
   {{- if .Values.settings.sitemapCacheDurationHours }}
   SITEMAP_CACHE_DURATION_HOURS: {{ .Values.settings.sitemapCacheDurationHours | toString | quote }}
@@ -15,12 +39,17 @@ data:
   {{- end }}
   RESOURCES__PORTAAL_TITEL	: {{ .Values.settings.resources.portaalTitel | toString | quote }}
   RESOURCES__GEMEENTE_NAAM	: {{ .Values.settings.resources.gemeenteNaam | toString | quote }}
+  RESOURCES__ORGANISATIE_NAAM	: {{ .Values.settings.resources.organisatieNaam | toString | quote }}
+  RESOURCES__ORGANISATIE_TYPE	: {{ .Values.settings.resources.organisatieType | toString | quote }}
   RESOURCES__GEMEENTE_LOGO_URL	: {{ .Values.settings.resources.gemeenteLogoUrl | toString | quote }}
   RESOURCES__GEMEENTE_FAVICON_URL	: {{ .Values.settings.resources.gemeenteFaviconUrl | toString | quote }}
   RESOURCES__GEMEENTE_MAIN_IMAGE_URL	: {{ .Values.settings.resources.gemeenteMainImageUrl | toString | quote }}
   RESOURCES__GEMEENTE_DESIGN_TOKENS_URL	: {{ .Values.settings.resources.gemeenteDesignTokensUrl | toString | quote }}
+  RESOURCES__DESIGN_TOKENS_URL	: {{ .Values.settings.resources.designTokensUrl | toString | quote }}
   RESOURCES__GEMEENTE_WEB_FONT_SOURCES	: {{ join " " .Values.settings.resources.gemeenteWebFontSources | quote }}
+  RESOURCES__WEB_FONT_SOURCES	: {{ join " " .Values.settings.resources.webFontSources | quote }}
   RESOURCES__GEMEENTE_THEME_NAAM	: {{ .Values.settings.resources.gemeenteThemeNaam | toString | quote }}
+  RESOURCES__THEME_NAAM	: {{ .Values.settings.resources.themeNaam | toString | quote }}
   RESOURCES__GEMEENTE_WEBSITE_URL	: {{ .Values.settings.resources.gemeenteWebsiteUrl | toString | quote }}
   RESOURCES__GEMEENTE_PRIVACY_URL	: {{ .Values.settings.resources.gemeentePrivacyUrl | toString | quote }}
   RESOURCES__GEMEENTE_CONTACT_URL	: {{ .Values.settings.resources.gemeenteContactUrl | toString | quote }}

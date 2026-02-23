@@ -1,4 +1,11 @@
 # Changelog
+## 2.0.0 (2026-02-23)
+
+- Add new environment variables for docker image version 5.0.0
+- Add volume (mount) to allow saving images for image version 5.0.0
+- Remove unused values
+
+
 ## 1.2.0 (2025-08-28)
 
 - Add extraVolumes/extraVolumeMounts

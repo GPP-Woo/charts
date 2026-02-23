@@ -70,25 +70,6 @@ ingress:
   #    hosts:
   #      - gpp-burgerportaal.gemeente.nl
 
-# -- Specify extra ingresses, for example if you have multiple ingress classes
-extraIngress: []
-# e.g:
-# extraIngress:
-#  - name: gpp-burgerportaal-azuregateway
-#    annotations:
-#      appgw.ingress.kubernetes.io/ssl-redirect: "true"
-#    className: azure-application-gateway
-#    hosts:
-#      - host: gpp-burgerportaal.gemeente.nl
-#        paths:
-#          - path: /
-#            pathType: ImplementationSpecific
-#            servicename: gpp-burgerportaal
-#            portNumber: 8000
-#    tls:
-#      - secretName: gpp-burgerportaal-tls
-#        hosts:
-#          - "gpp-burgerportaal.gemeente.nl"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -121,38 +102,50 @@ tolerations: []
 affinity: {}
 
 persistence:
+  # -- If persistence is enabled, a PVC is used. Otherwise, the app container will use an emptyDir volume. Note: data in emptyDir volumes is lost when the pod is removed.
   enabled: true
-  size: 1Gi
-  storageClassName: ""
+  # -- If persistence.existingClaim is set, no PVC will be created, but the referenced PVC will be used to mount a volume in the app container.
   existingClaim: null
-
-# Existing Secret must be defined for AzureVaultSecret to work
-existingSecret: null
-
-# This will create an AzureVaultSecret object in k8s, only Multi Key Value Secret are supported by this chart
-# ref: https://akv2k8s.io/tutorials/sync/4-multi-key-value-secret/ https://learn.microsoft.com/en-us/azure/key-vault/secrets/multiline-secrets
-# Using this feature requires you to define existingSecret
-azureVaultSecret:
-  # The name of the Azure Key Vault, setting this will create the AzureVaultSecret
-  vaultName: null
-  # The name of the Multi Key Value Secret
-  objectName: ""
-  # Make sure this matches the content of the secret, can be either 'application/x-json' or 'application/x-yaml'
-  contentType: ""
-  # You must set .Values.existingSecret
-  secretName: "{{ .Values.existingSecret }}"
+  size: 1Gi
+  storageClassName: default
+  accessMode: ReadWriteOnce
 
 settings:
+  # -- Whether to block robots from crawling the citizen portal. <details><summary>More information</summary> If set to `true`, a `robots.txt` file will be served with the content `User-agent: *\nDisallow: /`, which blocks all robots from crawling the citizen portal. Default value is `false`.</details>
+  blockRobots: false
   # -- The number of hours the sitemap is cached. <br/> (default value is `23`)
   sitemapCacheDurationHours: 23
   # -- The maximum duration in minutes for downloading files. <br/> (default value is `10`)
   downloadTimeoutMinutes: 10
+
+  database:
+    host: ""
+    port: 5432
+    username: ""
+    password: ""
+    name: ""
 
   gppPublicatiebank:
     # -- The secret key for the Publicatiebank to establish a connection. <details> <summary>More information </summary>For example: `VM2B!ccnebNe.M*gxH63*NXc8iTiAGhp`</details>
     apiKey: ""
     # -- The base URL of the Publicatiebank to establish a connection. <details> <summary>More information </summary>For example: `https://publicatiebank.mijn-gemeente.nl` </details>
     baseUrl: ""
+
+  oidc:
+    # -- The role that will be used to determine if a user is an administrator in the citizen portal. <details> <summary>More information </summary>For example: `admin`</details>
+    adminRole: ""
+    # -- The OpenID Connect authority of the Identity Provider to establish a connection. <details> <summary>More information </summary>For example: `https://auth.mijn-gemeente.nl/realms/gpp` </details>
+    authority: ""
+    # -- The client ID for the OpenID Connect connection. <details> <summary>More information </summary>For example: `gpp-burgerportaal`</details>
+    clientId: ""
+    # -- The client secret for the OpenID Connect connection. <details> <summary>More information </summary>For example: `VM2B!ccnebNe.M*gxH63*NXc8iTiAGhp`</details>
+    clientSecret: ""
+    # -- The claim type in which the user roles are stored. <details> <summary>More information </summary>For example: `roles`</details>
+    roleClaimType: ""
+    # -- The claim type in which the user ID is stored. <details> <summary>More information </summary>For example: `sub`</details>
+    idClaimType: ""
+    # -- The claim type in which the user name is stored. <details> <summary>More information </summary>For example: `name`</details>
+    nameClaimType: ""
 
   search:
     # -- The secret key for the Search component to establish a connection. <details> <summary>More information </summary>For example: `VM2B!ccnebNe.M*gxH63*NXc8iTiAGhp`</details>
@@ -163,32 +156,43 @@ settings:
   resources:
     # -- The title of the citizen portal. <details><summary>More information</summary> For example: Open Mijn Gemeente</details>
     portaalTitel: ""
-    # -- The name of the municipality used within the citizen portal. <details><summary>More information</summary> For example: Mijn Gemeente</details> 
+    # -- DEPRECATED - use resources.organisatieNaam instead. this setting will be removed in a future version
     gemeenteNaam: ""
-    # -- Public URL where the municipality's logo is available. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/logo.svg`</details>
+    # -- DEPRECATED - this setting is managed in the application and will be removed in a future version
     gemeenteLogoUrl: ""
-    # -- Public URL where the municipality's favicon is available. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/favicon.ico`</details>
+    # -- DEPRECATED - this setting is managed in the application and will be removed in a future version
     gemeenteFaviconUrl: ""
-    # -- Public URL where a high-resolution atmospheric image of the municipality is available, to be included on all pages. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/main_img.jpg` </details>
+    # -- DEPRECATED - this setting is managed in the application and will be removed in a future version
     gemeenteMainImageUrl: ""
-    # -- Public URL where the CSS file containing NL Design System tokens is available, to style the citizen portal in the municipal house style. <details><summary>More information </summary>For example: `https://unpkg.com/@gemeente/design-tokens/dist/index.css`</details>
+    # -- DEPRECATED - use resources.designTokensUrl instead. this setting will be removed in a future version
     gemeenteDesignTokensUrl: ""
-    # -- Public URLs referring to web font file(s) associated with the municipal house style. <details><summary>More information </summary>For example: `["https://fonts.mijn-gemeente.nl/custom-regular-font.woff2", "https://fonts.mijn-gemeente.nl/custom-bold-font.woff2"]`. A single reference to the location where all font-style files are stored is also possible: `["https://fonts.mijn-gemeente.nl/custom-font/"]`. **Note:** this configuration is only intended to allow font files to be loaded under CORS. References to files must also be specified under a `@font-face` ruleset in the theme styling.</details>
+    # -- DEPRECATED - use resources.webFontSources instead . this setting will be removed in a future version
     gemeenteWebFontSources: []
-    # -- The name of the selector from the CSS file used to scope the NLDS tokens. <details><summary>More information</summary> For example: `gemeente-theme` </details>
+    # -- DEPRECATED - use resources.themeNaam instead. this setting will be removed in a future version
     gemeenteThemeNaam: ""
-    # -- The website address of the municipality, for linking from the citizen portal to the municipal website. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl`</details>
+    # -- DEPRECATED - this setting is managed in the application and will be removed in a future version
     gemeenteWebsiteUrl: ""
-    # -- The website address where the municipality's privacy statement is located. Used for linking from the citizen portal. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/privacy`</details>
+    # -- DEPRECATED - this setting is managed in the application and will be removed in a future version
     gemeentePrivacyUrl: ""
-    # -- The website address where the municipality's contact details can be found. Used for linking from the citizen portal. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/contact`</details>
+    # -- DEPRECATED - this setting is managed in the application and will be removed in a future version
     gemeenteContactUrl: ""
-    # -- The welcome text, formatted in HTML, for the homepage. <details><summary>More information</summary> **Note:** The HTML fragment must be properly escaped/formatted depending on the format (e.g., JSON or YAML) to be added as an environment variable. The following HTML elements can be used here: `<h1>, <h2>, <p>, <a>, <ul>, <ol>, <li>`</details>
+    # -- DEPRECATED - this setting is managed in the application and will be removed in a future version
     gemeenteWelkom: ""
-    # -- Public Video Embedder URL used for video content on the homepage. Must be a YouTube or Vimeo embed URL. <details><summary>More information</summary> For example: `https://www.youtube.com/embed/dQw4w9WgXcQ` or `https://player.vimeo.com/video/123456789`. **Note:** Cross-Origin-Embedder-Policy will be disabled when this variable is set (see this [decision record](./coep_video.md)). The embedder is responsible for ensuring proper accessibility of the video content, including subtitles and keyboard navigation. </details>
+    # -- DEPRECATED - this setting is managed in the application and will be removed in a future version
     gemeenteVideoUrl: ""
-    # -- The website address of the government register of accessibility declarations. Used for linking from the citizen portal. <details><summary>More information</summary> Likely: `https://www.toegankelijkheidsverklaring.nl/register`</details>
+    # -- DEPRECATED - this setting is managed in the application and will be removed in a future version
     toegankelijkheidsverklaringRegisterUrl: ""
+
+    # -- Public URL where the CSS file containing NL Design System tokens is available, to style the citizen portal in the organisational house style. <details><summary>More information </summary>For example: `https://unpkg.com/@gemeente/design-tokens/dist/index.css`</details>
+    designTokensUrl: ""
+    # -- The name of the organisation used within the citizen portal. <details><summary>More information</summary> For example: My Organization. Please note: only mention the name here, not the type (so “Demodam” instead of Gemeente Demodam”)</details> 
+    organisatieNaam: ""
+    # -- The type of organisation used within the citizen portal. <details><summary>More information</summary> Possible values: `gemeente`, `provincie`, `waterschap`, `stichting`, `vereniging`, `organisatie`. This determines how the organization is referred to in the Citizen Portal (e.g. "Naar de gemeente" or "Naar het waterschap"). Default: `organisatie`. </details> 
+    organisatieType: ""
+    # -- The name of the selector from the CSS file used to scope the NLDS tokens. <details><summary>More information</summary> For example: `gemeente-theme` </details>
+    themeNaam: ""
+    # -- Public URLs referring to web font file(s) associated with the organisation house style. <details><summary>More information </summary>For example: `["https://fonts.mijn-gemeente.nl/custom-regular-font.woff2", "https://fonts.mijn-gemeente.nl/custom-bold-font.woff2"]`. A single reference to the location where all font-style files are stored is also possible: `["https://fonts.mijn-gemeente.nl/custom-font/"]`. **Note:** this configuration is only intended to allow font files to be loaded under CORS. References to files must also be specified under a `@font-face` ruleset in the theme styling.</details>
+    webFontSources: []
 
   aspnetcore:
     forwardedHeadersEnabled: true
