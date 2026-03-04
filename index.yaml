@@ -135,6 +135,22 @@ entries:
   gpp-publicatiebank:
   - apiVersion: v2
     appVersion: 2.1.0-rc.0
+    created: "2026-03-04T17:39:17.742424282Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 22.0.1
+    description: Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
+    digest: 70b90a00aaf8ca5eb7c994c464d2128e4bbfa947a35e3573199ba65b3f3d2b12
+    name: gpp-publicatiebank
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-publicatiebank-2.0.8-rc.3/gpp-publicatiebank-2.0.8-rc.3.tgz
+    version: 2.0.8-rc.3
+  - apiVersion: v2
+    appVersion: 2.1.0-rc.0
     created: "2026-03-04T15:04:51.698912503Z"
     dependencies:
     - name: redis
@@ -635,6 +651,34 @@ entries:
   gpp-zoeken:
   - apiVersion: v2
     appVersion: 2.2.0-rc.0
+    created: "2026-03-04T17:39:18.145591434Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 22.0.1
+    - condition: eck-operator.enabled
+      name: eck-operator
+      repository: https://helm.elastic.co
+      tags:
+      - eck-operator
+      version: 3.3.1
+    - condition: eck-elasticsearch.enabled
+      name: eck-elasticsearch
+      repository: https://helm.elastic.co
+      tags:
+      - eck-elasticsearch
+      version: 0.18.1
+    description: Een zoek-component die voorziet in een "Openbare documenten"-index.
+    digest: 7f4e7ceb8f41e5c8a30856901ff7a7073c5477121b26332730c5b3909873da20
+    name: gpp-zoeken
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.6-rc.3/gpp-zoeken-0.2.6-rc.3.tgz
+    version: 0.2.6-rc.3
+  - apiVersion: v2
+    appVersion: 2.2.0-rc.0
     created: "2026-03-04T15:04:52.281131216Z"
     dependencies:
     - name: redis
@@ -851,4 +895,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2026-03-04T15:04:52.28129355Z"
+generated: "2026-03-04T17:39:18.145746632Z"
