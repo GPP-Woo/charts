@@ -2,12 +2,9 @@
 
 ## 2.0.0-rc.2 (2026-03-04)
 
-- use ReadWriteMany storage by default
-
-## 2.0.0-rc.1 (2026-03-04)
-
 - Add new environment variables for docker image version 5.0.0-rc.1
 - Add volume (mount) to allow saving images for image version 5.0.0-rc.1
+- use ReadWriteMany storage by default
 - Remove unused values
 - update appversion to 5.0.0-rc.1
 
