@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.2-rc.0 (2026-03-04)
+## 0.3.2-rc.1 (2026-03-04)
 
 - Set appversion to 3.1.0-rc.1
 - Remove unused values
