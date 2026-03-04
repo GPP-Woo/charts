@@ -601,7 +601,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.eck-elasticsearch.secureSettings | list | `[]` |  |
 | gpp-zoeken.eck-elasticsearch.transport | object | `{}` |  |
 | gpp-zoeken.eck-elasticsearch.updateStrategy | object | `{}` |  |
-| gpp-zoeken.eck-elasticsearch.version | string | `"8.17.1"` |  |
+| gpp-zoeken.eck-elasticsearch.version | string | `"8.19.12"` |  |
 | gpp-zoeken.eck-elasticsearch.volumeClaimDeletePolicy | string | `""` |  |
 | gpp-zoeken.eck-operator.affinity | object | `{}` |  |
 | gpp-zoeken.eck-operator.automountServiceAccountToken | bool | `true` |  |

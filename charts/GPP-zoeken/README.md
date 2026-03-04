@@ -1,6 +1,6 @@
 # gpp-zoeken
 
-![Version: 0.2.6-rc.2](https://img.shields.io/badge/Version-0.2.6--rc.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.0-rc.0](https://img.shields.io/badge/AppVersion-2.2.0--rc.0-informational?style=flat-square)
+![Version: 0.2.6-rc.3](https://img.shields.io/badge/Version-0.2.6--rc.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.0-rc.0](https://img.shields.io/badge/AppVersion-2.2.0--rc.0-informational?style=flat-square)
 
 Een zoek-component die voorziet in een "Openbare documenten"-index.
 
@@ -8,9 +8,9 @@ Een zoek-component die voorziet in een "Openbare documenten"-index.
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | redis | 20.2.1 |
-| https://helm.elastic.co | eck-elasticsearch | 0.14.1 |
-| https://helm.elastic.co | eck-operator | 2.16.1 |
+| https://charts.bitnami.com/bitnami | redis | 22.0.1 |
+| https://helm.elastic.co | eck-elasticsearch | 0.18.1 |
+| https://helm.elastic.co | eck-operator | 3.3.1 |
 
 ## Values
 
@@ -51,7 +51,7 @@ Een zoek-component die voorziet in een "Openbare documenten"-index.
 | eck-elasticsearch.secureSettings | list | `[]` |  |
 | eck-elasticsearch.transport | object | `{}` |  |
 | eck-elasticsearch.updateStrategy | object | `{}` |  |
-| eck-elasticsearch.version | string | `"8.17.1"` |  |
+| eck-elasticsearch.version | string | `"8.19.12"` |  |
 | eck-elasticsearch.volumeClaimDeletePolicy | string | `""` |  |
 | eck-operator.affinity | object | `{}` |  |
 | eck-operator.automountServiceAccountToken | bool | `true` |  |

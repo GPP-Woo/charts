@@ -1,8 +1,10 @@
 # Changelog
 
-## 2.0.8-rc.2 (2026-03-04)
+## 2.0.8-rc.3 (2026-03-04)
 
 - Set appVersion to 2.1.0-rc.0
+- update chart dependencies
+
 
 ## 2.0.7 (2026-01-21)
 
