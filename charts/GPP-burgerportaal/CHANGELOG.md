@@ -1,10 +1,10 @@
 # Changelog
-## 2.0.0 (2026-02-23)
+## 2.0.0-rc.0 (2026-03-04)
 
-- Add new environment variables for docker image version 5.0.0
-- Add volume (mount) to allow saving images for image version 5.0.0
+- Add new environment variables for docker image version 5.0.0-rc.1
+- Add volume (mount) to allow saving images for image version 5.0.0-rc.1
 - Remove unused values
-
+- update appversion to 5.0.0-rc.1
 
 ## 1.2.0 (2025-08-28)
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.8-rc.0 (2026-03-04)
+
+- Set appVersion to 2.1.0-rc.0
+
 ## 2.0.7 (2026-01-21)
 
 - Allow any api version in the regex for the bestandsdelen route in the nginx proxy that sets the `client_max_body_size` to `Values.documentMaxBodySize` 
