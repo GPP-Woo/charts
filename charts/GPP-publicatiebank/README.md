@@ -1,6 +1,6 @@
 # gpp-publicatiebank
 
-![Version: 2.0.8-rc.1](https://img.shields.io/badge/Version-2.0.8--rc.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.1.0-rc.1](https://img.shields.io/badge/AppVersion-2.1.0--rc.1-informational?style=flat-square)
+![Version: 2.0.8-rc.2](https://img.shields.io/badge/Version-2.0.8--rc.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.1.0-rc.0](https://img.shields.io/badge/AppVersion-2.1.0--rc.0-informational?style=flat-square)
 
 Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
 

@@ -331,11 +331,11 @@ An umbrella chart for the GPP stack
 | gpp-burgerportaal.pdb.create | bool | `false` |  |
 | gpp-burgerportaal.pdb.maxUnavailable | string | `""` |  |
 | gpp-burgerportaal.pdb.minAvailable | int | `1` |  |
-| gpp-burgerportaal.persistence.accessMode | string | `"ReadWriteOnce"` |  |
+| gpp-burgerportaal.persistence.accessMode | string | `"ReadWriteMany"` |  |
 | gpp-burgerportaal.persistence.enabled | bool | `true` | If persistence is enabled, a PVC is used. Otherwise, the app container will use an emptyDir volume. Note: data in emptyDir volumes is lost when the pod is removed. |
 | gpp-burgerportaal.persistence.existingClaim | string | `nil` | If persistence.existingClaim is set, no PVC will be created, but the referenced PVC will be used to mount a volume in the app container. |
 | gpp-burgerportaal.persistence.size | string | `"1Gi"` |  |
-| gpp-burgerportaal.persistence.storageClassName | string | `"default"` |  |
+| gpp-burgerportaal.persistence.storageClassName | string | `""` |  |
 | gpp-burgerportaal.podAnnotations | object | `{}` |  |
 | gpp-burgerportaal.podLabels | object | `{}` |  |
 | gpp-burgerportaal.podSecurityContext.fsGroup | int | `1000` |  |
