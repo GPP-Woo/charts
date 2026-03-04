@@ -721,7 +721,7 @@ eck-elasticsearch:
 
   # Version of Elasticsearch.
   #
-  version: 8.17.1
+  version: 8.19.12
 
   # Elasticsearch Docker image to deploy
   #
