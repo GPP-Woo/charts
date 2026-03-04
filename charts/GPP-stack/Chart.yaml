@@ -5,32 +5,32 @@ description: An umbrella chart for the GPP stack
 type: application
 
 # Chart version
-version: 0.2.10
+version: 0.3.0-rc.0
 
 appVersion: "0.1.0"
 
 dependencies:
   - name: openzaak
-    version:  1.10.1
+    version:  1.13.1
     repository: https://maykinmedia.github.io/charts/
     condition: openzaak.enabled
 
   - name: gpp-app
-    version: 0.3.1
+    version: 0.3.2-rc.1
     repository: https://GPP-Woo.github.io/charts
     condition: gpp-app.enabled
 
   - name: gpp-publicatiebank
-    version: 2.0.7
+    version: 2.0.8-rc.3
     repository: https://GPP-Woo.github.io/charts
     condition: gpp-publicatiebank.enabled
 
   - name: gpp-burgerportaal
-    version: 1.2.0
+    version: 2.0.0-rc.2
     repository: https://GPP-Woo.github.io/charts
     condition: gpp-burgerportaal.enabled
 
   - name: gpp-zoeken
-    version: 0.2.5
+    version: 0.2.6-rc.3
     repository: https://GPP-Woo.github.io/charts
     condition: gpp-zoeken.enabled

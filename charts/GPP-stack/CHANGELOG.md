@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0-rc.0 (2026-03-04)
+
+- Bumped GPP-app to 0.3.2-rc.1.
+- Bumped GPP-publicatiebank to 2.0.8-rc.3.
+- Bumped GPP-burgerportaal to 2.0.0-rc.2.
+- Bumped GPP-zoeken to 0.2.6-rc.3.
+- Bumped openzaak to 1.13.1.
+
 ## 0.2.10 (2026-02-23)
 
 - re-enable name overrides for eck charts
