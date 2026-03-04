@@ -1,6 +1,6 @@
 # gpp-burgerportaal
 
-![Version: 1.2.0](https://img.shields.io/badge/Version-1.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.0.0](https://img.shields.io/badge/AppVersion-4.0.0-informational?style=flat-square)
+![Version: 2.0.0-rc.0](https://img.shields.io/badge/Version-2.0.0--rc.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 5.0.0-rc.1](https://img.shields.io/badge/AppVersion-5.0.0--rc.1-informational?style=flat-square)
 
 A helm chart for the ICATT GPP burgerportaal.
 
@@ -14,12 +14,6 @@ A helm chart for the ICATT GPP burgerportaal.
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
-| azureVaultSecret.contentType | string | `""` |  |
-| azureVaultSecret.objectName | string | `""` |  |
-| azureVaultSecret.secretName | string | `"{{ .Values.existingSecret }}"` |  |
-| azureVaultSecret.vaultName | string | `nil` |  |
-| existingSecret | string | `nil` |  |
-| extraIngress | list | `[]` | Specify extra ingresses, for example if you have multiple ingress classes |
 | extraVolumeMounts | list | `[]` | Optionally specify extra list of additional volumeMounts, for example to trust extra ca certificates. |
 | extraVolumes | list | `[]` | Optionally specify extra list of additional volumes, for example to trust extra ca certificates. |
 | fullnameOverride | string | `""` |  |
@@ -43,10 +37,11 @@ A helm chart for the ICATT GPP burgerportaal.
 | pdb.create | bool | `false` |  |
 | pdb.maxUnavailable | string | `""` |  |
 | pdb.minAvailable | int | `1` |  |
-| persistence.enabled | bool | `true` |  |
-| persistence.existingClaim | string | `nil` |  |
+| persistence.accessMode | string | `"ReadWriteOnce"` |  |
+| persistence.enabled | bool | `true` | If persistence is enabled, a PVC is used. Otherwise, the app container will use an emptyDir volume. Note: data in emptyDir volumes is lost when the pod is removed. |
+| persistence.existingClaim | string | `nil` | If persistence.existingClaim is set, no PVC will be created, but the referenced PVC will be used to mount a volume in the app container. |
 | persistence.size | string | `"1Gi"` |  |
-| persistence.storageClassName | string | `""` |  |
+| persistence.storageClassName | string | `"default"` |  |
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext.fsGroup | int | `1000` |  |
@@ -70,23 +65,41 @@ A helm chart for the ICATT GPP burgerportaal.
 | settings.aspnetcore.environment | string | `""` |  |
 | settings.aspnetcore.forwardedHeadersEnabled | bool | `true` |  |
 | settings.aspnetcore.httpPorts | string | `""` |  |
+| settings.blockRobots | bool | `false` | Whether to block robots from crawling the citizen portal. <details><summary>More information</summary> If set to `true`, a `robots.txt` file will be served with the content `User-agent: *\nDisallow: /`, which blocks all robots from crawling the citizen portal. Default value is `false`.</details> |
+| settings.database.host | string | `""` |  |
+| settings.database.name | string | `""` |  |
+| settings.database.password | string | `""` |  |
+| settings.database.port | int | `5432` |  |
+| settings.database.username | string | `""` |  |
 | settings.downloadTimeoutMinutes | int | `10` | The maximum duration in minutes for downloading files. <br/> (default value is `10`) |
 | settings.gppPublicatiebank.apiKey | string | `""` | The secret key for the Publicatiebank to establish a connection. <details> <summary>More information </summary>For example: `VM2B!ccnebNe.M*gxH63*NXc8iTiAGhp`</details> |
 | settings.gppPublicatiebank.baseUrl | string | `""` | The base URL of the Publicatiebank to establish a connection. <details> <summary>More information </summary>For example: `https://publicatiebank.mijn-gemeente.nl` </details> |
-| settings.resources.gemeenteContactUrl | string | `""` | The website address where the municipality's contact details can be found. Used for linking from the citizen portal. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/contact`</details> |
-| settings.resources.gemeenteDesignTokensUrl | string | `""` | Public URL where the CSS file containing NL Design System tokens is available, to style the citizen portal in the municipal house style. <details><summary>More information </summary>For example: `https://unpkg.com/@gemeente/design-tokens/dist/index.css`</details> |
-| settings.resources.gemeenteFaviconUrl | string | `""` | Public URL where the municipality's favicon is available. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/favicon.ico`</details> |
-| settings.resources.gemeenteLogoUrl | string | `""` | Public URL where the municipality's logo is available. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/logo.svg`</details> |
-| settings.resources.gemeenteMainImageUrl | string | `""` | Public URL where a high-resolution atmospheric image of the municipality is available, to be included on all pages. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/main_img.jpg` </details> |
-| settings.resources.gemeenteNaam | string | `""` | The name of the municipality used within the citizen portal. <details><summary>More information</summary> For example: Mijn Gemeente</details>  |
-| settings.resources.gemeentePrivacyUrl | string | `""` | The website address where the municipality's privacy statement is located. Used for linking from the citizen portal. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl/privacy`</details> |
-| settings.resources.gemeenteThemeNaam | string | `""` | The name of the selector from the CSS file used to scope the NLDS tokens. <details><summary>More information</summary> For example: `gemeente-theme` </details> |
-| settings.resources.gemeenteVideoUrl | string | `""` | Public Video Embedder URL used for video content on the homepage. Must be a YouTube or Vimeo embed URL. <details><summary>More information</summary> For example: `https://www.youtube.com/embed/dQw4w9WgXcQ` or `https://player.vimeo.com/video/123456789`. **Note:** Cross-Origin-Embedder-Policy will be disabled when this variable is set (see this [decision record](./coep_video.md)). The embedder is responsible for ensuring proper accessibility of the video content, including subtitles and keyboard navigation. </details> |
-| settings.resources.gemeenteWebFontSources | list | `[]` | Public URLs referring to web font file(s) associated with the municipal house style. <details><summary>More information </summary>For example: `["https://fonts.mijn-gemeente.nl/custom-regular-font.woff2", "https://fonts.mijn-gemeente.nl/custom-bold-font.woff2"]`. A single reference to the location where all font-style files are stored is also possible: `["https://fonts.mijn-gemeente.nl/custom-font/"]`. **Note:** this configuration is only intended to allow font files to be loaded under CORS. References to files must also be specified under a `@font-face` ruleset in the theme styling.</details> |
-| settings.resources.gemeenteWebsiteUrl | string | `""` | The website address of the municipality, for linking from the citizen portal to the municipal website. <details><summary>More information</summary> For example: `https://www.mijn-gemeente.nl`</details> |
-| settings.resources.gemeenteWelkom | string | `""` | The welcome text, formatted in HTML, for the homepage. <details><summary>More information</summary> **Note:** The HTML fragment must be properly escaped/formatted depending on the format (e.g., JSON or YAML) to be added as an environment variable. The following HTML elements can be used here: `<h1>, <h2>, <p>, <a>, <ul>, <ol>, <li>`</details> |
+| settings.oidc.adminRole | string | `""` | The role that will be used to determine if a user is an administrator in the citizen portal. <details> <summary>More information </summary>For example: `admin`</details> |
+| settings.oidc.authority | string | `""` | The OpenID Connect authority of the Identity Provider to establish a connection. <details> <summary>More information </summary>For example: `https://auth.mijn-gemeente.nl/realms/gpp` </details> |
+| settings.oidc.clientId | string | `""` | The client ID for the OpenID Connect connection. <details> <summary>More information </summary>For example: `gpp-burgerportaal`</details> |
+| settings.oidc.clientSecret | string | `""` | The client secret for the OpenID Connect connection. <details> <summary>More information </summary>For example: `VM2B!ccnebNe.M*gxH63*NXc8iTiAGhp`</details> |
+| settings.oidc.idClaimType | string | `""` | The claim type in which the user ID is stored. <details> <summary>More information </summary>For example: `sub`</details> |
+| settings.oidc.nameClaimType | string | `""` | The claim type in which the user name is stored. <details> <summary>More information </summary>For example: `name`</details> |
+| settings.oidc.roleClaimType | string | `""` | The claim type in which the user roles are stored. <details> <summary>More information </summary>For example: `roles`</details> |
+| settings.resources.designTokensUrl | string | `""` | Public URL where the CSS file containing NL Design System tokens is available, to style the citizen portal in the organisational house style. <details><summary>More information </summary>For example: `https://unpkg.com/@gemeente/design-tokens/dist/index.css`</details> |
+| settings.resources.gemeenteContactUrl | string | `""` | DEPRECATED - this setting is managed in the application and will be removed in a future version |
+| settings.resources.gemeenteDesignTokensUrl | string | `""` | DEPRECATED - use resources.designTokensUrl instead. this setting will be removed in a future version |
+| settings.resources.gemeenteFaviconUrl | string | `""` | DEPRECATED - this setting is managed in the application and will be removed in a future version |
+| settings.resources.gemeenteLogoUrl | string | `""` | DEPRECATED - this setting is managed in the application and will be removed in a future version |
+| settings.resources.gemeenteMainImageUrl | string | `""` | DEPRECATED - this setting is managed in the application and will be removed in a future version |
+| settings.resources.gemeenteNaam | string | `""` | DEPRECATED - use resources.organisatieNaam instead. this setting will be removed in a future version |
+| settings.resources.gemeentePrivacyUrl | string | `""` | DEPRECATED - this setting is managed in the application and will be removed in a future version |
+| settings.resources.gemeenteThemeNaam | string | `""` | DEPRECATED - use resources.themeNaam instead. this setting will be removed in a future version |
+| settings.resources.gemeenteVideoUrl | string | `""` | DEPRECATED - this setting is managed in the application and will be removed in a future version |
+| settings.resources.gemeenteWebFontSources | list | `[]` | DEPRECATED - use resources.webFontSources instead . this setting will be removed in a future version |
+| settings.resources.gemeenteWebsiteUrl | string | `""` | DEPRECATED - this setting is managed in the application and will be removed in a future version |
+| settings.resources.gemeenteWelkom | string | `""` | DEPRECATED - this setting is managed in the application and will be removed in a future version |
+| settings.resources.organisatieNaam | string | `""` | The name of the organisation used within the citizen portal. <details><summary>More information</summary> For example: My Organization. Please note: only mention the name here, not the type (so “Demodam” instead of Gemeente Demodam”)</details>  |
+| settings.resources.organisatieType | string | `""` | The type of organisation used within the citizen portal. <details><summary>More information</summary> Possible values: `gemeente`, `provincie`, `waterschap`, `stichting`, `vereniging`, `organisatie`. This determines how the organization is referred to in the Citizen Portal (e.g. "Naar de gemeente" or "Naar het waterschap"). Default: `organisatie`. </details>  |
 | settings.resources.portaalTitel | string | `""` | The title of the citizen portal. <details><summary>More information</summary> For example: Open Mijn Gemeente</details> |
-| settings.resources.toegankelijkheidsverklaringRegisterUrl | string | `""` | The website address of the government register of accessibility declarations. Used for linking from the citizen portal. <details><summary>More information</summary> Likely: `https://www.toegankelijkheidsverklaring.nl/register`</details> |
+| settings.resources.themeNaam | string | `""` | The name of the selector from the CSS file used to scope the NLDS tokens. <details><summary>More information</summary> For example: `gemeente-theme` </details> |
+| settings.resources.toegankelijkheidsverklaringRegisterUrl | string | `""` | DEPRECATED - this setting is managed in the application and will be removed in a future version |
+| settings.resources.webFontSources | list | `[]` | Public URLs referring to web font file(s) associated with the organisation house style. <details><summary>More information </summary>For example: `["https://fonts.mijn-gemeente.nl/custom-regular-font.woff2", "https://fonts.mijn-gemeente.nl/custom-bold-font.woff2"]`. A single reference to the location where all font-style files are stored is also possible: `["https://fonts.mijn-gemeente.nl/custom-font/"]`. **Note:** this configuration is only intended to allow font files to be loaded under CORS. References to files must also be specified under a `@font-face` ruleset in the theme styling.</details> |
 | settings.search.apiKey | string | `""` | The secret key for the Search component to establish a connection. <details> <summary>More information </summary>For example: `VM2B!ccnebNe.M*gxH63*NXc8iTiAGhp`</details> |
 | settings.search.baseUrl | string | `""` | The base URL of the Search component to establish a connection. <details> <summary>More information </summary>For example: `https://zoekcomponent.mijn-gemeente.nl` </details> |
 | settings.sitemapCacheDurationHours | int | `23` | The number of hours the sitemap is cached. <br/> (default value is `23`) |

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.6-rc.0 (2026-03-04)
+
+- Set appVersion to 2.2.0-rc.0
+
 ## 0.2.5 (2025-09-26)
 
 - Fix elastic password not being quoted. 
