@@ -54,6 +54,16 @@ entries:
   gpp-burgerportaal:
   - apiVersion: v2
     appVersion: 5.0.0-rc.1
+    created: "2026-03-04T15:04:51.313497222Z"
+    description: A helm chart for the ICATT GPP burgerportaal.
+    digest: eba8cfb3b045587fdf28b02f868513be67976ab2304947dea4897a2d744525ed
+    name: gpp-burgerportaal
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-burgerportaal-2.0.0-rc.2/gpp-burgerportaal-2.0.0-rc.2.tgz
+    version: 2.0.0-rc.2
+  - apiVersion: v2
+    appVersion: 5.0.0-rc.1
     created: "2026-03-04T14:22:44.659831869Z"
     description: A helm chart for the ICATT GPP burgerportaal.
     digest: 68e1f374fcfcf9de296c1bb6afa4c6d48706ea452fa73fd95b23e109755c3a36
@@ -123,6 +133,22 @@ entries:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-burgerportaal-0.1.0/gpp-burgerportaal-0.1.0.tgz
     version: 0.1.0
   gpp-publicatiebank:
+  - apiVersion: v2
+    appVersion: 2.1.0-rc.0
+    created: "2026-03-04T15:04:51.698912503Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 20.2.1
+    description: Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
+    digest: 8a5d322ff6efc4f3726bbd700bb1f6b4b62dcacdf70c2b885afb5bda038665d0
+    name: gpp-publicatiebank
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-publicatiebank-2.0.8-rc.2/gpp-publicatiebank-2.0.8-rc.2.tgz
+    version: 2.0.8-rc.2
   - apiVersion: v2
     appVersion: 2.1.0-rc.1
     created: "2026-03-04T14:22:44.806970264Z"
@@ -608,6 +634,34 @@ entries:
     version: 0.1.0
   gpp-zoeken:
   - apiVersion: v2
+    appVersion: 2.2.0-rc.0
+    created: "2026-03-04T15:04:52.281131216Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 20.2.1
+    - condition: eck-operator.enabled
+      name: eck-operator
+      repository: https://helm.elastic.co
+      tags:
+      - eck-operator
+      version: 2.16.1
+    - condition: eck-elasticsearch.enabled
+      name: eck-elasticsearch
+      repository: https://helm.elastic.co
+      tags:
+      - eck-elasticsearch
+      version: 0.14.1
+    description: Een zoek-component die voorziet in een "Openbare documenten"-index.
+    digest: 9f42b43c5f94da8736a5f76c67ac05155e89d3fa1ef2ad74f92339c99965da14
+    name: gpp-zoeken
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.6-rc.2/gpp-zoeken-0.2.6-rc.2.tgz
+    version: 0.2.6-rc.2
+  - apiVersion: v2
     appVersion: 2.2.0-rc.1
     created: "2026-03-04T14:22:44.993231137Z"
     dependencies:
@@ -797,4 +851,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2026-03-04T14:22:44.993324851Z"
+generated: "2026-03-04T15:04:52.28129355Z"
