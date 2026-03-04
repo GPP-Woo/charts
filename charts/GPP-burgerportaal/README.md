@@ -1,6 +1,6 @@
 # gpp-burgerportaal
 
-![Version: 2.0.0-rc.1](https://img.shields.io/badge/Version-2.0.0--rc.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 5.0.0-rc.1](https://img.shields.io/badge/AppVersion-5.0.0--rc.1-informational?style=flat-square)
+![Version: 2.0.0-rc.2](https://img.shields.io/badge/Version-2.0.0--rc.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 5.0.0-rc.1](https://img.shields.io/badge/AppVersion-5.0.0--rc.1-informational?style=flat-square)
 
 A helm chart for the ICATT GPP burgerportaal.
 
@@ -37,11 +37,11 @@ A helm chart for the ICATT GPP burgerportaal.
 | pdb.create | bool | `false` |  |
 | pdb.maxUnavailable | string | `""` |  |
 | pdb.minAvailable | int | `1` |  |
-| persistence.accessMode | string | `"ReadWriteOnce"` |  |
+| persistence.accessMode | string | `"ReadWriteMany"` |  |
 | persistence.enabled | bool | `true` | If persistence is enabled, a PVC is used. Otherwise, the app container will use an emptyDir volume. Note: data in emptyDir volumes is lost when the pod is removed. |
 | persistence.existingClaim | string | `nil` | If persistence.existingClaim is set, no PVC will be created, but the referenced PVC will be used to mount a volume in the app container. |
 | persistence.size | string | `"1Gi"` |  |
-| persistence.storageClassName | string | `"default"` |  |
+| persistence.storageClassName | string | `""` |  |
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext.fsGroup | int | `1000` |  |

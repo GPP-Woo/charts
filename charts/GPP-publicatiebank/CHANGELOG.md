@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.8-rc.1 (2026-03-04)
+## 2.0.8-rc.2 (2026-03-04)
 
 - Set appVersion to 2.1.0-rc.0
 

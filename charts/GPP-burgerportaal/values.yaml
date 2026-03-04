@@ -107,8 +107,8 @@ persistence:
   # -- If persistence.existingClaim is set, no PVC will be created, but the referenced PVC will be used to mount a volume in the app container.
   existingClaim: null
   size: 1Gi
-  storageClassName: default
-  accessMode: ReadWriteOnce
+  storageClassName: ""
+  accessMode: ReadWriteMany
 
 settings:
   # -- Whether to block robots from crawling the citizen portal. <details><summary>More information</summary> If set to `true`, a `robots.txt` file will be served with the content `User-agent: *\nDisallow: /`, which blocks all robots from crawling the citizen portal. Default value is `false`.</details>
