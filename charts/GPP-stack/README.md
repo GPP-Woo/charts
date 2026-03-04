@@ -1,6 +1,6 @@
 # gpp-stack
 
-![Version: 0.2.10](https://img.shields.io/badge/Version-0.2.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+![Version: 0.3.0-rc.0](https://img.shields.io/badge/Version-0.3.0--rc.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
 
 An umbrella chart for the GPP stack
 
@@ -8,11 +8,11 @@ An umbrella chart for the GPP stack
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://GPP-Woo.github.io/charts | gpp-app | 0.3.1 |
-| https://GPP-Woo.github.io/charts | gpp-burgerportaal | 1.2.0 |
-| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 2.0.7 |
-| https://GPP-Woo.github.io/charts | gpp-zoeken | 0.2.5 |
-| https://maykinmedia.github.io/charts/ | openzaak | 1.10.1 |
+| https://GPP-Woo.github.io/charts | gpp-app | 0.3.2-rc.1 |
+| https://GPP-Woo.github.io/charts | gpp-burgerportaal | 2.0.0-rc.2 |
+| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 2.0.8-rc.3 |
+| https://GPP-Woo.github.io/charts | gpp-zoeken | 0.2.6-rc.3 |
+| https://maykinmedia.github.io/charts/ | openzaak | 1.13.1 |
 
 ## Values
 
@@ -601,7 +601,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.eck-elasticsearch.secureSettings | list | `[]` |  |
 | gpp-zoeken.eck-elasticsearch.transport | object | `{}` |  |
 | gpp-zoeken.eck-elasticsearch.updateStrategy | object | `{}` |  |
-| gpp-zoeken.eck-elasticsearch.version | string | `"8.17.1"` |  |
+| gpp-zoeken.eck-elasticsearch.version | string | `"8.19.12"` |  |
 | gpp-zoeken.eck-elasticsearch.volumeClaimDeletePolicy | string | `""` |  |
 | gpp-zoeken.eck-operator.affinity | object | `{}` |  |
 | gpp-zoeken.eck-operator.automountServiceAccountToken | bool | `true` |  |
