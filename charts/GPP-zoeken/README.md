@@ -1,6 +1,6 @@
 # gpp-zoeken
 
-![Version: 0.2.6-rc.3](https://img.shields.io/badge/Version-0.2.6--rc.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.0-rc.0](https://img.shields.io/badge/AppVersion-2.2.0--rc.0-informational?style=flat-square)
+![Version: 0.2.6-rc.4](https://img.shields.io/badge/Version-0.2.6--rc.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.0-rc.0](https://img.shields.io/badge/AppVersion-2.2.0--rc.0-informational?style=flat-square)
 
 Een zoek-component die voorziet in een "Openbare documenten"-index.
 
@@ -207,6 +207,7 @@ Een zoek-component die voorziet in een "Openbare documenten"-index.
 | readinessProbe.timeoutSeconds | int | `5` |  |
 | redis.architecture | string | `"standalone"` |  |
 | redis.auth.enabled | bool | `false` |  |
+| redis.image | object | `{"registry":"docker.io","repository":"redis","tag":"8.0"}` | Redis image configuration - Migration from Bitnami to official Redis image         |
 | redis.master.persistence.enabled | bool | `true` |  |
 | redis.master.persistence.size | string | `"8Gi"` |  |
 | redis.master.persistence.storageClass | string | `""` |  |
