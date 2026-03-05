@@ -485,6 +485,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.readinessProbe.timeoutSeconds | int | `5` |  |
 | gpp-publicatiebank.redis.architecture | string | `"standalone"` |  |
 | gpp-publicatiebank.redis.auth.enabled | bool | `false` |  |
+| gpp-publicatiebank.redis.image | object | `{"registry":"docker.io","repository":"redis","tag":"8.0"}` | Redis image configuration - Migration from Bitnami to official Redis image         |
 | gpp-publicatiebank.redis.master.persistence.enabled | bool | `true` |  |
 | gpp-publicatiebank.redis.master.persistence.size | string | `"8Gi"` |  |
 | gpp-publicatiebank.redis.master.persistence.storageClass | string | `""` |  |
@@ -756,6 +757,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.readinessProbe.timeoutSeconds | int | `5` |  |
 | gpp-zoeken.redis.architecture | string | `"standalone"` |  |
 | gpp-zoeken.redis.auth.enabled | bool | `false` |  |
+| gpp-zoeken.redis.image | object | `{"registry":"docker.io","repository":"redis","tag":"8.0"}` | Redis image configuration - Migration from Bitnami to official Redis image         |
 | gpp-zoeken.redis.master.persistence.enabled | bool | `true` |  |
 | gpp-zoeken.redis.master.persistence.size | string | `"8Gi"` |  |
 | gpp-zoeken.redis.master.persistence.storageClass | string | `""` |  |
