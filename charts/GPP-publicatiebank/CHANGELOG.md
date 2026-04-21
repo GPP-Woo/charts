@@ -1,8 +1,8 @@
 # Changelog
 
-## 2.0.8-rc.4 (2026-03-04)
+## 2.0.8 (2026-04-22)
 
-- Set appVersion to 2.1.0-rc.0
+- Set appVersion to 2.1.0
 - update chart dependencies
 - move to offical redis image
 

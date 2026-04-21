@@ -1,12 +1,12 @@
 # Changelog
 
-## 2.0.0-rc.2 (2026-03-04)
+## 2.0.0 (2026-04-22)
 
-- Add new environment variables for docker image version 5.0.0-rc.1
-- Add volume (mount) to allow saving images for image version 5.0.0-rc.1
+- Add new environment variables for docker image version 5.0.0
+- Add volume (mount) to allow saving images for image version 5.0.0
 - use ReadWriteMany storage by default
 - Remove unused values
-- update appversion to 5.0.0-rc.1
+- update appversion to 5.0.0
 
 ## 1.2.0 (2025-08-28)
 
