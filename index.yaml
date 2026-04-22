@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   gpp-app:
   - apiVersion: v2
+    appVersion: 3.1.0
+    created: "2026-04-22T10:21:35.653101473Z"
+    description: A helm chart for the ICATT GPP app.
+    digest: 0b0160f705abe2054a754f9a3b4e8fa82829abc4c43c710ec2fd413f202ad4d8
+    name: gpp-app
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-app-0.3.2/gpp-app-0.3.2.tgz
+    version: 0.3.2
+  - apiVersion: v2
     appVersion: 3.1.0-rc.1
     created: "2026-03-04T14:22:44.474473066Z"
     description: A helm chart for the ICATT GPP app.
@@ -52,6 +62,16 @@ entries:
     - https://github.com/gpp-woo/charts/releases/download/gpp-app-0.1.0/gpp-app-0.1.0.tgz
     version: 0.1.0
   gpp-burgerportaal:
+  - apiVersion: v2
+    appVersion: 5.0.0
+    created: "2026-04-22T10:21:35.805569739Z"
+    description: A helm chart for the ICATT GPP burgerportaal.
+    digest: fe5e48eaa0c47fe99414fc3890f67e48fa6c5c2ade958c8047943283d06b6b7e
+    name: gpp-burgerportaal
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-burgerportaal-2.0.0/gpp-burgerportaal-2.0.0.tgz
+    version: 2.0.0
   - apiVersion: v2
     appVersion: 5.0.0-rc.1
     created: "2026-03-04T15:04:51.313497222Z"
@@ -133,6 +153,22 @@ entries:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-burgerportaal-0.1.0/gpp-burgerportaal-0.1.0.tgz
     version: 0.1.0
   gpp-publicatiebank:
+  - apiVersion: v2
+    appVersion: 2.1.0
+    created: "2026-04-22T10:21:35.97096804Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 22.0.1
+    description: Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
+    digest: 61b3892bef511890cc2392fe72584c3add5d8f1f3cd1f69d6838dfe70dd9307d
+    name: gpp-publicatiebank
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-publicatiebank-2.0.8/gpp-publicatiebank-2.0.8.tgz
+    version: 2.0.8
   - apiVersion: v2
     appVersion: 2.1.0-rc.0
     created: "2026-03-05T10:14:39.254068463Z"
@@ -759,6 +795,34 @@ entries:
     version: 0.1.0
   gpp-zoeken:
   - apiVersion: v2
+    appVersion: 2.2.0
+    created: "2026-04-22T10:21:36.128218735Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 22.0.1
+    - condition: eck-operator.enabled
+      name: eck-operator
+      repository: https://helm.elastic.co
+      tags:
+      - eck-operator
+      version: 3.3.1
+    - condition: eck-elasticsearch.enabled
+      name: eck-elasticsearch
+      repository: https://helm.elastic.co
+      tags:
+      - eck-elasticsearch
+      version: 0.18.1
+    description: Een zoek-component die voorziet in een "Openbare documenten"-index.
+    digest: c4e29457c68fd9f9a899377d294fae3d035108e1f5180b45b1085069e05d8626
+    name: gpp-zoeken
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.6/gpp-zoeken-0.2.6.tgz
+    version: 0.2.6
+  - apiVersion: v2
     appVersion: 2.2.0-rc.0
     created: "2026-03-05T10:14:39.788198026Z"
     dependencies:
@@ -1032,4 +1096,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2026-03-23T14:53:40.812620237Z"
+generated: "2026-04-22T10:21:36.128408799Z"
