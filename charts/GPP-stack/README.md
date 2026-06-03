@@ -449,6 +449,9 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.livenessProbe.timeoutSeconds | int | `5` |  |
 | gpp-publicatiebank.nameOverride | string | `""` |  |
 | gpp-publicatiebank.nginx.autoscaling.enabled | bool | `false` |  |
+| gpp-publicatiebank.nginx.config.clientMaxBodySize | string | `"4G"` | Default client_max_body_size for all endpoints (unless overridden). Examples: "10M", "100M", "1G", "4G", "10G". |
+| gpp-publicatiebank.nginx.config.proxyConnectTimeoutSeconds | int | `300` | Proxy connection timeout in seconds. How long nginx waits to establish a connection with the backend. |
+| gpp-publicatiebank.nginx.config.proxyReadTimeoutSeconds | int | `300` | Proxy read timeout in seconds. How long nginx waits for a backend response. |
 | gpp-publicatiebank.nginx.existingConfigmap | string | `nil` |  |
 | gpp-publicatiebank.nginx.image.pullPolicy | string | `"IfNotPresent"` |  |
 | gpp-publicatiebank.nginx.image.repository | string | `"nginxinc/nginx-unprivileged"` |  |
