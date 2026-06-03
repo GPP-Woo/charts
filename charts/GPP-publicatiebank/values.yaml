@@ -307,6 +307,13 @@ nginx:
     pullPolicy: IfNotPresent
     tag: stable
   existingConfigmap: null
+  config:
+    # -- Proxy connection timeout in seconds. How long nginx waits to establish a connection with the backend.
+    proxyConnectTimeoutSeconds: 300
+    # -- Proxy read timeout in seconds. How long nginx waits for a backend response.
+    proxyReadTimeoutSeconds: 300
+    # -- Default client_max_body_size for all endpoints (unless overridden). Examples: "10M", "100M", "1G", "4G", "10G".
+    clientMaxBodySize: "4G"
   service:
     type: ClusterIP
     port: 80
