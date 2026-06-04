@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1 (2026-06-04)
+- Bumped GPP-publicatiebank to 2.1.0.
+- Bumped GPP-stack appVersion to 1.0.1.
+
 ## 0.3.0 (2026-04-22)
 
 - Bumped GPP-app to 0.3.2.
