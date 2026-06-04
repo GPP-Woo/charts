@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.0 (2026-06-03)
+
+- Expose nginx settings `nginx.config.clientMaxBodySize`, `nginx.config.proxyConnectTimeoutSeconds` and `nginx.config.proxyReadTimeoutSeconds` for configuration via Helm values.
+
 ## 2.0.8 (2026-04-22)
 
 - Set appVersion to 2.1.0
