@@ -1,0 +1,119 @@
+{{- $redis := printf "%s:%d" .Values.redis.host (int .Values.redis.port) -}}
+# Shared env for web + celery (mirrors deploy/docker-compose.gpp.yml openzaak_env).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openzaak-env
+data:
+  DJANGO_SETTINGS_MODULE: openzaak.conf.patched_settings
+  SECRET_KEY: {{ .Values.secretKey | quote }}
+  ALLOWED_HOSTS: "openzaak,openzaak-web,localhost,127.0.0.1"
+  DB_NAME: {{ .Values.db.name | quote }}
+  DB_USER: {{ .Values.db.user | quote }}
+  DB_PASSWORD: {{ .Values.db.password | quote }}
+  DB_HOST: {{ .Values.db.host | quote }}
+  # MUST be set explicitly: the `db` Service makes Kubernetes inject DB_PORT=tcp://<ip>:5432
+  # into every pod, which would clobber openzaak's expected DB_PORT and break pg_isready/Django.
+  DB_PORT: "5432"
+  IS_HTTPS: "no"
+  SUBPATH: "/"
+  CACHE_DEFAULT: "{{ $redis }}/1"
+  CACHE_AXES: "{{ $redis }}/1"
+  CELERY_BROKER_URL: "redis://{{ $redis }}/2"
+  CELERY_RESULT_BACKEND: "redis://{{ $redis }}/2"
+  NOTIFICATIONS_DISABLED: "true"
+  DISABLE_2FA: "true"
+  JWT_EXPIRY: "99999999999"
+  OPENZAAK_SUPERUSER_USERNAME: {{ .Values.superuser.username | quote }}
+  DJANGO_SUPERUSER_PASSWORD: {{ .Values.superuser.password | quote }}
+  OPENZAAK_SUPERUSER_EMAIL: {{ .Values.superuser.email | quote }}
+---
+# patched_settings.py + auto-loaded fixture (configuration.json provisions the
+# woo-publications-dev API client so odrc can authenticate to the Documenten API).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openzaak-files
+data:
+  patched_settings.py: |-
+{{ .Files.Get "files/patched_settings.py" | indent 4 }}
+  configuration.json: |-
+{{ .Files.Get "files/configuration.json" | indent 4 }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openzaak-web
+  labels: { app: openzaak, component: web }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: openzaak, component: web }
+  template:
+    metadata:
+      labels: { app: openzaak, component: web }
+    spec:
+      containers:
+        - name: openzaak
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef: { name: openzaak-env }
+          ports:
+            - { name: http, containerPort: 8000 }
+          readinessProbe:
+            tcpSocket: { port: http }
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 30
+          livenessProbe:
+            tcpSocket: { port: http }
+            # openzaak's first-boot runs a long migrate before uWSGI binds; keep liveness
+            # slack so it doesn't kill/restart the pod mid-migration on a fresh cluster.
+            initialDelaySeconds: 300
+            periodSeconds: 15
+            failureThreshold: 6
+          volumeMounts:
+            - { name: files, mountPath: /app/src/openzaak/conf/patched_settings.py, subPath: patched_settings.py, readOnly: true }
+            - { name: files, mountPath: /app/fixtures/configuration.json, subPath: configuration.json, readOnly: true }
+      volumes:
+        - name: files
+          configMap: { name: openzaak-files }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openzaak-celery
+  labels: { app: openzaak, component: celery }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: openzaak, component: celery }
+  template:
+    metadata:
+      labels: { app: openzaak, component: celery }
+    spec:
+      containers:
+        - name: openzaak
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/celery_worker.sh"]
+          envFrom:
+            - configMapRef: { name: openzaak-env }
+          volumeMounts:
+            - { name: files, mountPath: /app/src/openzaak/conf/patched_settings.py, subPath: patched_settings.py, readOnly: true }
+      volumes:
+        - name: files
+          configMap: { name: openzaak-files }
+---
+# In-cluster: openzaak:8000 (odrc -> Documenten API). Host: localhost:8001 -> nodePort.
+apiVersion: v1
+kind: Service
+metadata:
+  name: openzaak
+  labels: { app: openzaak }
+spec:
+  type: NodePort
+  selector: { app: openzaak, component: web }
+  ports:
+    - { name: http, port: 8000, targetPort: http, nodePort: {{ .Values.nodePort }} }

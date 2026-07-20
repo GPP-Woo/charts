@@ -134,6 +134,8 @@ settings:
   oidc:
     # -- The role that will be used to determine if a user is an administrator in the citizen portal. <details> <summary>More information </summary>For example: `admin`</details>
     adminRole: ""
+    # -- Require HTTPS for the OIDC authority. Set false only for an internal non-HTTPS IdP (e.g. a local/e2e Keycloak). Defaults to true.
+    requireHttps: true
     # -- The OpenID Connect authority of the Identity Provider to establish a connection. <details> <summary>More information </summary>For example: `https://auth.mijn-gemeente.nl/realms/gpp` </details>
     authority: ""
     # -- The client ID for the OpenID Connect connection. <details> <summary>More information </summary>For example: `gpp-burgerportaal`</details>

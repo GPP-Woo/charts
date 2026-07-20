@@ -1,0 +1,6 @@
+apiVersion: v2
+name: gpp-e2e-seed
+description: TEST-ONLY seed Job — loads the ODRC API token, admin OIDC config and information categories. Install last.
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

@@ -1,0 +1,28 @@
+# Dev/e2e OpenZaak. Native local build (hack/up.sh builds ../open-zaak -> openzaak:local
+# and kind-loads it) — the published image is amd64-only and its compiled binaries
+# (pg_isready/uWSGI) misbehave under qemu on arm64, so we build natively like the GPP apps.
+image:
+  repository: openzaak
+  tag: local
+  pullPolicy: Never
+
+# Shared PostGIS from dev/infra (the openzaak DB is created by infra's init-db.sql).
+db:
+  host: db
+  name: openzaak
+  user: postgres
+  password: localdev
+
+# Reuse odrc's bundled redis (disposable e2e cluster) for cache + celery broker.
+redis:
+  host: odrc-redis-master
+  port: 6379
+
+secretKey: insecure-openzaak-e2e-secret-key
+superuser:
+  username: admin
+  password: admin
+  email: admin@localhost
+
+# Host :8001 -> this NodePort (see hack/kind-config.yaml).
+nodePort: 30801

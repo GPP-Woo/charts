@@ -153,6 +153,9 @@ settings:
 
   oidc:
     adminRole: ""
+    # -- Require HTTPS for the OIDC authority. Set false only for an internal
+    # non-HTTPS IdP (e.g. a local/e2e Keycloak). Defaults to true.
+    requireHttps: true
     authority: ""
     clientId: ""
     clientSecret: ""

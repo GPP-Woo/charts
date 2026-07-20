@@ -1,0 +1,8 @@
+# Same image as the odrc (gpp-publicatiebank) release, so manage.py + fixture paths line up.
+image: ghcr.io/gpp-woo/gpp-publicatiebank:2.1.0
+# The odrc release's configmap + secret to inherit DB / Django env from.
+odrcConfigMap: gpp-publicatiebank
+odrcSecret: gpp-publicatiebank
+# manage.py lives here in the woo-publications image.
+managePy: src/manage.py
+informationCategories: src/woo_publications/fixtures/information_categories.json

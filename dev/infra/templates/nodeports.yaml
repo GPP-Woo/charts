@@ -1,0 +1,20 @@
+{{- range .Values.nodeports }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: np-{{ .name }}
+spec:
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: {{ .selectorName }}
+    {{- /* Not every chart stamps an instance label (odrc's nginx and gpp-zoeken don't),
+           so only constrain on it when the entry actually sets one. */}}
+    {{- with .instance }}
+    app.kubernetes.io/instance: {{ . }}
+    {{- end }}
+  ports:
+    - port: 80
+      targetPort: http
+      nodePort: {{ .nodePort }}
+---
+{{- end }}

@@ -1,0 +1,35 @@
+# GPP-burgerportaal (odbp / citizen portal). Release name: odbp. Locally-built image via kind load.
+fullnameOverride: gpp-burgerportaal
+
+image:
+  repository: odbp
+  tag: local
+  pullPolicy: Never
+
+settings:
+  database:
+    host: db
+    port: 5432
+    username: postgres      # superuser: EF migrations create the ODBP database
+    password: localdev
+    name: ODBP
+    sslmode: disable
+  oidc:
+    authority: http://keycloak.woo-search.local:8080/realms/gpp-local
+    clientId: odbp
+    clientSecret: odbp-secret
+    adminRole: odbp-admin
+    roleClaimType: roles
+    requireHttps: false
+  gppPublicatiebank:
+    apiKey: insecure-ea1a8d297e3b2d3313b8a30b18959c3
+    baseUrl: http://gpp-publicatiebank-nginx/
+  search:
+    apiKey: insecure-ea1a8d297e3b2d3313b8a30b18959c3
+    baseUrl: http://gpp-zoeken:8000/
+
+ingress:
+  enabled: false
+
+persistence:
+  enabled: false

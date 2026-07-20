@@ -1,0 +1,9 @@
+apiVersion: v2
+name: gpp-e2e-infra
+description: >-
+  TEST-ONLY test fixtures for running the GPP charts locally / in CI: a single
+  PostGIS, a pre-seeded Keycloak (issuer host keycloak.woo-search.local:8080),
+  NodePort exposure, and a post-install seed Job. NEVER published, never prod.
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

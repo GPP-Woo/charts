@@ -1,0 +1,36 @@
+# GPP-publicatiebank (ODRC). Release name: odrc.  Public entrypoint: svc gpp-publicatiebank-nginx.
+fullnameOverride: gpp-publicatiebank
+
+image:
+  # Native local build (hack/up.sh builds from ../GPP-publicatiebank and kind-loads it).
+  # Avoids qemu-emulating the amd64 published image, which crashes uWSGI on arm64.
+  repository: gpp-publicatiebank
+  tag: local
+  pullPolicy: Never
+
+settings:
+  secretKey: insecure-e2e-secret-key
+  # django ALLOWED_HOSTS additions: browser hits localhost:8000; in-cluster callers use the nginx svc name.
+  allowedHosts: "localhost,127.0.0.1,gpp-publicatiebank,gpp-publicatiebank-nginx"
+  database:
+    host: db
+    port: 5432
+    username: postgres
+    password: localdev
+    name: woo_publications
+
+# bundled cache/broker — no persistence, no auth for a disposable e2e cluster.
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: false
+
+ingress:
+  enabled: false
+
+persistence:
+  enabled: false

@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: odrc-fixtures
+data:
+  odrc-api.json: |-
+{{ .Files.Get "files/odrc-api.json" | indent 4 }}
+  odrc-oidc.json: |-
+{{ .Files.Get "files/odrc-oidc.json" | indent 4 }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: odrc-seed
+spec:
+  backoffLimit: 10
+  template:
+    metadata:
+      labels: { app: odrc-seed }
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: seed
+          image: {{ .Values.image | quote }}
+          # Inherit DB + Django settings from the odrc release.
+          envFrom:
+            - configMapRef: { name: {{ .Values.odrcConfigMap | quote }} }
+            - secretRef: { name: {{ .Values.odrcSecret | quote }} }
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -e
+              echo "Waiting for database..."
+              until python {{ .Values.managePy }} showmigrations >/dev/null 2>&1; do sleep 3; done
+              echo "Running migrations (idempotent)..."
+              python {{ .Values.managePy }} migrate --noinput
+              echo "Loading information categories (idempotent)..."
+              python {{ .Values.managePy }} load_information_categories {{ .Values.informationCategories }}
+              echo "Loading ODRC API token + admin OIDC fixtures..."
+              python {{ .Values.managePy }} loaddata /fixtures/odrc-api.json /fixtures/odrc-oidc.json
+              echo "Seed complete."
+          volumeMounts:
+            - { name: fixtures, mountPath: /fixtures }
+      volumes:
+        - name: fixtures
+          configMap: { name: odrc-fixtures }

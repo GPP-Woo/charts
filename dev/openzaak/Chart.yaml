@@ -1,0 +1,6 @@
+apiVersion: v2
+name: gpp-openzaak-dev
+description: Dev/e2e-only OpenZaak (Documenten API) for the GPP-Woo stack. Not a production chart.
+type: application
+version: 0.1.0
+appVersion: "1.14.0"

@@ -1,0 +1,13 @@
+# kind cluster for GPP e2e. Maps host ports -> fixed NodePorts (see dev/templates/nodeports.yaml).
+# Same config used locally and in CI, so the target is identical everywhere.
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - { containerPort: 30080, hostPort: 8080, protocol: TCP }   # keycloak  (issuer host)
+      - { containerPort: 30800, hostPort: 8000, protocol: TCP }   # odrc / gpp-publicatiebank (nginx)
+      - { containerPort: 30811, hostPort: 8110, protocol: TCP }   # gpp-zoeken
+      - { containerPort: 30813, hostPort: 8130, protocol: TCP }   # odpc / gpp-app
+      - { containerPort: 30814, hostPort: 8140, protocol: TCP }   # odbp / gpp-burgerportaal
+      - { containerPort: 30801, hostPort: 8001, protocol: TCP }   # openzaak (Documenten API)

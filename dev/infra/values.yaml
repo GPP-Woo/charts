@@ -1,0 +1,27 @@
+# All test-only. Credentials are deliberately insecure placeholders (mirror GPP-deploy).
+postgres:
+  # multi-arch (amd64+arm64) PostGIS — postgis/postgis is amd64-only and won't run on an arm64 kind node.
+  image: imresamu/postgis:16-3.5
+  user: postgres
+  password: localdev
+  # emptyDir storage — disposable e2e cluster, no PVC needed.
+
+keycloak:
+  image: quay.io/keycloak/keycloak:23.0
+  admin: admin
+  adminPassword: admin
+  # Issuer host both the browser (via kind port 8080 + host-resolver-rules) and the
+  # backends (via CoreDNS rewrite → this service) must agree on. Matches realm + fixtures.
+  hostname: keycloak.woo-search.local
+  hostnamePort: 8080
+  realm: gpp-local
+  nodePort: 30080
+
+# NodePort exposure. nodePort values MUST match hack/kind-config.yaml extraPortMappings.
+# selector name/instance must match each app chart's release (see hack/up.sh).
+# instance is optional: odrc's nginx and gpp-zoeken pods carry only the name label.
+nodeports:
+  - { name: odrc,   selectorName: gpp-publicatiebank-nginx,                   nodePort: 30800 }
+  - { name: zoeken, selectorName: gpp-zoeken,                                 nodePort: 30811 }
+  - { name: odpc,   selectorName: gpp-app,                  instance: odpc,   nodePort: 30813 }
+  - { name: odbp,   selectorName: gpp-burgerportaal,        instance: odbp,   nodePort: 30814 }

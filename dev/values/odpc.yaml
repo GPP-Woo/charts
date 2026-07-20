@@ -1,0 +1,31 @@
+# GPP-app (odpc / beheer UI). Release name: odpc. Locally-built image via kind load.
+fullnameOverride: gpp-app
+
+image:
+  repository: odpc
+  tag: local
+  pullPolicy: Never
+
+settings:
+  database:
+    host: db
+    port: 5432
+    username: postgres      # superuser: EF migrations create the ODPC database
+    password: localdev
+    name: ODPC
+    sslmode: disable
+  oidc:
+    authority: http://keycloak.woo-search.local:8080/realms/gpp-local
+    clientId: odpc
+    clientSecret: odpc-secret
+    adminRole: odpc-admin
+    roleClaimType: roles
+    requireHttps: false       # plain-http local Keycloak (the chart patch this branch adds)
+  gppPublicatiebank:
+    apiKey: insecure-ea1a8d297e3b2d3313b8a30b18959c3
+    baseUrl: http://gpp-publicatiebank-nginx/
+  aspnetcore:
+    forwardedHeadersEnabled: true
+
+ingress:
+  enabled: false

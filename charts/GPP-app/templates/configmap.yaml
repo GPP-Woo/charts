@@ -11,6 +11,7 @@ data:
   POSTGRES_USER: {{ .Values.settings.database.username | toString | quote }}
   ODRC_BASE_URL: {{ .Values.settings.gppPublicatiebank.baseUrl | toString | quote }}
   OIDC_ADMIN_ROLE: {{ .Values.settings.oidc.adminRole | toString | quote }}
+  OIDC_REQUIRE_HTTPS: {{ dig "requireHttps" true .Values.settings.oidc | toString | quote }}
   {{- if .Values.settings.oidc.authority }}
   OIDC_AUTHORITY: {{ .Values.settings.oidc.authority | toString | quote }}
   {{- end }}
