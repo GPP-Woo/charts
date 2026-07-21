@@ -18,6 +18,15 @@ DEV="$CH/dev"
 
 step(){ printf '\n\033[1;34m==> %s\033[0m\n' "$1"; }
 
+# Preflight: the zoeken install below uses `helm upgrade --server-side
+# --force-conflicts`, which is a Helm 4 feature. Fail clearly instead of the
+# cryptic "unknown flag: --force-conflicts" if an older Helm is on PATH.
+HELM_MAJOR=$(helm version --template '{{.Version}}' | sed -E 's/^v?([0-9]+).*/\1/')
+if [ "${HELM_MAJOR:-0}" -lt 4 ]; then
+  echo "ERROR: Helm 4+ required (found $(helm version --short 2>/dev/null)); zoeken uses --server-side --force-conflicts." >&2
+  exit 1
+fi
+
 # 1. Cluster --------------------------------------------------------------
 if [ "${USE_EXISTING_CLUSTER:-}" != "1" ]; then
   step "kind cluster $CLUSTER"
