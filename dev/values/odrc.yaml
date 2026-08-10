@@ -10,8 +10,15 @@ image:
 
 settings:
   secretKey: insecure-e2e-secret-key
+  # The local stack is plain http, so Django must not mark its session/csrf
+  # cookies Secure: WebKit refuses to send those over http (Chromium/Firefox make
+  # an exception for localhost), which logs the whole webkit project out.
+  isHttps: false
   # django ALLOWED_HOSTS additions: browser hits localhost:8000; in-cluster callers use the nginx svc name.
-  allowedHosts: "localhost,127.0.0.1,gpp-publicatiebank,gpp-publicatiebank-nginx"
+  # The cluster-local FQDN is what OpenZaak must see as the informatieobjecttype
+  # URL host: Django's URLValidator rejects a dotless hostname, so the bare svc
+  # name makes the Documenten API registration fail with "bad-url".
+  allowedHosts: "localhost,127.0.0.1,gpp-publicatiebank,gpp-publicatiebank-nginx,gpp-publicatiebank-nginx.gpp-e2e.svc.cluster.local"
   database:
     host: db
     port: 5432

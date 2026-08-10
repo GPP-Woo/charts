@@ -81,6 +81,20 @@ an `OIDC_REQUIRE_HTTPS` knob (`settings.oidc.requireHttps`) added to GPP-app + G
   the *image* is the official `redis` (the chart already migrated off Bitnami's image).
 - **Elasticsearch (ECK):** needs `vm.max_map_count=262144`. Docker Desktop's VM has it;
   CI sets it via `sudo sysctl`.
+- **ODPC Documenten API Host.** `settings.gppPublicatiebank.baseUrl` must be the
+  in-cluster FQDN (`gpp-publicatiebank-nginx.<ns>.svc.cluster.local`). A bare
+  svc name makes ODRC mint informatieobjecttype URLs OpenZaak rejects (`bad-url`),
+  so ODPC `POST /api/v2/documenten` 500s.
+- **OpenZaak SENDFILE.** The default `django_sendfile.backends.nginx` assumes an
+  nginx `X-Accel-Redirect` consumer. Kind has none, so document downloads hang or
+  return empty bodies and zoeken never ingests file text. `dev/openzaak` sets
+  `SENDFILE_BACKEND=django_sendfile.backends.development`.
+- **ODRC `gpp_search_service` + zoeken download Services.** Without these, publish
+  indexes nothing into ES (celery logs `no_gpp_search_service_configured`) and
+  document *body* search stays empty (`gpp_publicatiebank_service_not_found`).
+  `dev/seed` wires both idempotently.
+- **Burgerportaal sitemap cache.** Prod default is 23h; e2e membership/propagation
+  needs `settings.sitemapCacheDurationHours: 0` in `dev/values/odbp.yaml`.
 - **NodePort selectors:** odrc's nginx and gpp-zoeken pods carry only
   `app.kubernetes.io/name` (no `instance` label), so `dev/infra`'s nodeport entries omit
   `instance` for those two — otherwise the Service selects nothing.

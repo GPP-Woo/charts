@@ -27,6 +27,10 @@ data:
   OPENZAAK_SUPERUSER_USERNAME: {{ .Values.superuser.username | quote }}
   DJANGO_SUPERUSER_PASSWORD: {{ .Values.superuser.password | quote }}
   OPENZAAK_SUPERUSER_EMAIL: {{ .Values.superuser.email | quote }}
+  # Kind has no nginx in front of openzaak. The chart default
+  # django_sendfile.backends.nginx returns empty/hanging downloads (X-Accel-Redirect
+  # with no consumer), which breaks ODRC document download → zoeken body ingest.
+  SENDFILE_BACKEND: django_sendfile.backends.development
 ---
 # patched_settings.py + auto-loaded fixture (configuration.json provisions the
 # woo-publications-dev API client so odrc can authenticate to the Documenten API).

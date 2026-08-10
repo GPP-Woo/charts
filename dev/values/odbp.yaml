@@ -27,6 +27,9 @@ settings:
   search:
     apiKey: insecure-ea1a8d297e3b2d3313b8a30b18959c3
     baseUrl: http://gpp-zoeken:8000/
+  # E2E sitemap membership/propagation asserts need a short cache (prod default 23h).
+  # Pair with SITEMAP_CACHE_WAIT_MS in e2e-tests/.env.
+  sitemapCacheDurationHours: 0
 
 ingress:
   enabled: false

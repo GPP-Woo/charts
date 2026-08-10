@@ -6,3 +6,27 @@ odrcSecret: gpp-publicatiebank
 # manage.py lives here in the woo-publications image.
 managePy: src/manage.py
 informationCategories: src/woo_publications/fixtures/information_categories.json
+
+# GPP-zoeken seeding: without these the burgerportaal search is dead on arrival —
+# no Application token means every POST /api/v1/search is a 401, and without the
+# mappings the search 500s on "no such index [publication]".
+zoeken:
+  # Locally built image (see hack/up.sh), so it must not be pulled.
+  image: gpp-zoeken:local
+  configMap: gpp-zoeken
+  secret: gpp-zoeken
+  managePy: src/manage.py
+  # Must match dev/values/zoeken.yaml settings.token and dev/values/odbp.yaml
+  # settings.search.apiKey.
+  token: insecure-ea1a8d297e3b2d3313b8a30b18959c3
+
+# ODRC → zoeken index client (GlobalConfiguration.gpp_search_service).
+gppSearch:
+  apiRoot: http://gpp-zoeken:8000/api/v1/
+
+# Zoeken → ODRC document download (attachment ingest for body text search).
+# FQDN matches the Host header e2e token seeds send (see document.ts); bare
+# svc name covers in-cluster absolute URLs.
+publicatiebankDownload:
+  apiRoot: http://gpp-publicatiebank-nginx/api/v2/
+  apiRootFqdn: http://gpp-publicatiebank-nginx.gpp-e2e.svc.cluster.local/api/v2/

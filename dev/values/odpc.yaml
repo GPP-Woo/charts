@@ -23,7 +23,10 @@ settings:
     requireHttps: false       # plain-http local Keycloak (the chart patch this branch adds)
   gppPublicatiebank:
     apiKey: insecure-ea1a8d297e3b2d3313b8a30b18959c3
-    baseUrl: http://gpp-publicatiebank-nginx/
+    # FQDN Host is required: ODRC builds Documenten-API informatieobjecttype URLs
+    # from the request Host, and OpenZaak's URLValidator rejects a dotless hostname
+    # ("bad-url") — which makes ODPC POST /documenten 500.
+    baseUrl: http://gpp-publicatiebank-nginx.gpp-e2e.svc.cluster.local/
   aspnetcore:
     forwardedHeadersEnabled: true
 
