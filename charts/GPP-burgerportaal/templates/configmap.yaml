@@ -28,10 +28,14 @@ data:
   OIDC_NAME_CLAIM_TYPE: {{ .Values.settings.oidc.nameClaimType | toString | quote }}
   {{- end }}
   SEARCH_BASE_URL: {{ .Values.settings.search.baseUrl | toString | quote }}
-  {{- if .Values.settings.sitemapCacheDurationHours }}
+  {{- /* Render on "is it set?", not on truthiness: 0 is falsy in Go templates, so a
+         plain `if` silently drops the one value a testomgeving most wants to set —
+         0 hours to disable the sitemap output cache. The app then falls back to its
+         own 23h default and serves a stale (often empty) sitemap all day. */}}
+  {{- if not (kindIs "invalid" .Values.settings.sitemapCacheDurationHours) }}
   SITEMAP_CACHE_DURATION_HOURS: {{ .Values.settings.sitemapCacheDurationHours | toString | quote }}
   {{- end }}
-  {{- if .Values.settings.downloadTimeoutMinutes }}
+  {{- if not (kindIs "invalid" .Values.settings.downloadTimeoutMinutes) }}
   DOWNLOAD_TIMEOUT_MINUTES: {{ .Values.settings.downloadTimeoutMinutes | toString | quote }}
   {{- end }}
   RESOURCES__PORTAAL_TITEL	: {{ .Values.settings.resources.portaalTitel | toString | quote }}
