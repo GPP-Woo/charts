@@ -34,25 +34,25 @@ data:
   {{- if .Values.settings.downloadTimeoutMinutes }}
   DOWNLOAD_TIMEOUT_MINUTES: {{ .Values.settings.downloadTimeoutMinutes | toString | quote }}
   {{- end }}
-  RESOURCES__PORTAAL_TITEL	: {{ .Values.settings.resources.portaalTitel | toString | quote }}
-  RESOURCES__GEMEENTE_NAAM	: {{ .Values.settings.resources.gemeenteNaam | toString | quote }}
-  RESOURCES__ORGANISATIE_NAAM	: {{ .Values.settings.resources.organisatieNaam | toString | quote }}
-  RESOURCES__ORGANISATIE_TYPE	: {{ .Values.settings.resources.organisatieType | toString | quote }}
-  RESOURCES__GEMEENTE_LOGO_URL	: {{ .Values.settings.resources.gemeenteLogoUrl | toString | quote }}
-  RESOURCES__GEMEENTE_FAVICON_URL	: {{ .Values.settings.resources.gemeenteFaviconUrl | toString | quote }}
-  RESOURCES__GEMEENTE_MAIN_IMAGE_URL	: {{ .Values.settings.resources.gemeenteMainImageUrl | toString | quote }}
-  RESOURCES__GEMEENTE_DESIGN_TOKENS_URL	: {{ .Values.settings.resources.gemeenteDesignTokensUrl | toString | quote }}
-  RESOURCES__DESIGN_TOKENS_URL	: {{ .Values.settings.resources.designTokensUrl | toString | quote }}
-  RESOURCES__GEMEENTE_WEB_FONT_SOURCES	: {{ join " " .Values.settings.resources.gemeenteWebFontSources | quote }}
-  RESOURCES__WEB_FONT_SOURCES	: {{ join " " .Values.settings.resources.webFontSources | quote }}
-  RESOURCES__GEMEENTE_THEME_NAAM	: {{ .Values.settings.resources.gemeenteThemeNaam | toString | quote }}
-  RESOURCES__THEME_NAAM	: {{ .Values.settings.resources.themeNaam | toString | quote }}
-  RESOURCES__GEMEENTE_WEBSITE_URL	: {{ .Values.settings.resources.gemeenteWebsiteUrl | toString | quote }}
-  RESOURCES__GEMEENTE_PRIVACY_URL	: {{ .Values.settings.resources.gemeentePrivacyUrl | toString | quote }}
-  RESOURCES__GEMEENTE_CONTACT_URL	: {{ .Values.settings.resources.gemeenteContactUrl | toString | quote }}
-  RESOURCES__GEMEENTE_WELKOM	: {{ .Values.settings.resources.gemeenteWelkom | toString | quote }}
-  RESOURCES__GEMEENTE_VIDEO_URL	: {{ .Values.settings.resources.gemeenteVideoUrl | toString | quote }}
-  RESOURCES__TOEGANKELIJKHEIDSVERKLARING_REGISTER_URL	: {{ .Values.settings.resources.toegankelijkheidsverklaringRegisterUrl | toString | quote }}
+  RESOURCES__PORTAAL_TITEL: {{ .Values.settings.resources.portaalTitel | toString | quote }}
+  RESOURCES__GEMEENTE_NAAM: {{ .Values.settings.resources.gemeenteNaam | toString | quote }}
+  RESOURCES__ORGANISATIE_NAAM: {{ .Values.settings.resources.organisatieNaam | toString | quote }}
+  RESOURCES__ORGANISATIE_TYPE: {{ .Values.settings.resources.organisatieType | toString | quote }}
+  RESOURCES__GEMEENTE_LOGO_URL: {{ .Values.settings.resources.gemeenteLogoUrl | toString | quote }}
+  RESOURCES__GEMEENTE_FAVICON_URL: {{ .Values.settings.resources.gemeenteFaviconUrl | toString | quote }}
+  RESOURCES__GEMEENTE_MAIN_IMAGE_URL: {{ .Values.settings.resources.gemeenteMainImageUrl | toString | quote }}
+  RESOURCES__GEMEENTE_DESIGN_TOKENS_URL: {{ .Values.settings.resources.gemeenteDesignTokensUrl | toString | quote }}
+  RESOURCES__DESIGN_TOKENS_URL: {{ .Values.settings.resources.designTokensUrl | toString | quote }}
+  RESOURCES__GEMEENTE_WEB_FONT_SOURCES: {{ join " " .Values.settings.resources.gemeenteWebFontSources | quote }}
+  RESOURCES__WEB_FONT_SOURCES: {{ join " " .Values.settings.resources.webFontSources | quote }}
+  RESOURCES__GEMEENTE_THEME_NAAM: {{ .Values.settings.resources.gemeenteThemeNaam | toString | quote }}
+  RESOURCES__THEME_NAAM: {{ .Values.settings.resources.themeNaam | toString | quote }}
+  RESOURCES__GEMEENTE_WEBSITE_URL: {{ .Values.settings.resources.gemeenteWebsiteUrl | toString | quote }}
+  RESOURCES__GEMEENTE_PRIVACY_URL: {{ .Values.settings.resources.gemeentePrivacyUrl | toString | quote }}
+  RESOURCES__GEMEENTE_CONTACT_URL: {{ .Values.settings.resources.gemeenteContactUrl | toString | quote }}
+  RESOURCES__GEMEENTE_WELKOM: {{ .Values.settings.resources.gemeenteWelkom | toString | quote }}
+  RESOURCES__GEMEENTE_VIDEO_URL: {{ .Values.settings.resources.gemeenteVideoUrl | toString | quote }}
+  RESOURCES__TOEGANKELIJKHEIDSVERKLARING_REGISTER_URL: {{ .Values.settings.resources.toegankelijkheidsverklaringRegisterUrl | toString | quote }}
   ASPNETCORE_FORWARDEDHEADERS_ENABLED: {{ .Values.settings.aspnetcore.forwardedHeadersEnabled | toString | quote }}
   {{- if .Values.settings.aspnetcore.environment }}
   ASPNETCORE_ENVIRONMENT: {{ .Values.settings.aspnetcore.environment | toString | quote }}
