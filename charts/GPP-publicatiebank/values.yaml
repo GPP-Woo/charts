@@ -38,6 +38,13 @@ securityContext:
   runAsNonRoot: true
   runAsUser: 1000
 
+# The web container's probes default to `httpGet: /` on the app port. Supplying a
+# handler key (exec / httpGet / tcpSocket / grpc) here replaces that default rather
+# than being merged alongside it. Useful when uwsgi workers can be tied up long
+# enough to starve an HTTP probe (large uploads), e.g.:
+#   livenessProbe:
+#     tcpSocket:
+#       port: http
 livenessProbe:
   initialDelaySeconds: 60
   periodSeconds: 10
