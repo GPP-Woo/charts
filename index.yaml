@@ -64,6 +64,16 @@ entries:
   gpp-burgerportaal:
   - apiVersion: v2
     appVersion: 5.0.0
+    created: "2026-08-27T08:03:55.936048412Z"
+    description: A helm chart for the ICATT GPP burgerportaal.
+    digest: 68921d4f93741c378324409886f7a2e91ee4b3764d6197395327b7c5841d8a44
+    name: gpp-burgerportaal
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-burgerportaal-2.0.1/gpp-burgerportaal-2.0.1.tgz
+    version: 2.0.1
+  - apiVersion: v2
+    appVersion: 5.0.0
     created: "2026-04-22T10:21:35.805569739Z"
     description: A helm chart for the ICATT GPP burgerportaal.
     digest: fe5e48eaa0c47fe99414fc3890f67e48fa6c5c2ade958c8047943283d06b6b7e
@@ -153,6 +163,22 @@ entries:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-burgerportaal-0.1.0/gpp-burgerportaal-0.1.0.tgz
     version: 0.1.0
   gpp-publicatiebank:
+  - apiVersion: v2
+    appVersion: 2.1.0
+    created: "2026-08-27T08:03:56.119588219Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 22.0.1
+    description: Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
+    digest: dafe4be1a7b6b62e597eb483021118d9bdfe45e6efe0e98b6933e532c3ec2fd8
+    name: gpp-publicatiebank
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-publicatiebank-2.2.0/gpp-publicatiebank-2.2.0.tgz
+    version: 2.2.0
   - apiVersion: v2
     appVersion: 2.1.0
     created: "2026-06-04T06:48:10.668869879Z"
@@ -1174,4 +1200,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2026-06-04T09:17:21.522402547Z"
+generated: "2026-08-27T08:03:56.119796578Z"
