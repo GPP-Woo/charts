@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.0 (2026-08-26)
+
+- Allow the web container's `livenessProbe`/`readinessProbe` handler to be overridden via Helm values. Supplying `exec`, `httpGet`, `tcpSocket` or `grpc` now replaces the hardcoded `httpGet: /` default instead of being rendered alongside it (which the API server rejected as more than one handler type). Probes that set only timing fields are unaffected.
+
 ## 2.1.0 (2026-06-03)
 
 - Expose nginx settings `nginx.config.clientMaxBodySize`, `nginx.config.proxyConnectTimeoutSeconds` and `nginx.config.proxyReadTimeoutSeconds` for configuration via Helm values.

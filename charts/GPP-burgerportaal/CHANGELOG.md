@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1 (2026-08-26)
+
+- Remove stray tab characters from 19 `RESOURCES__*` key names in the ConfigMap template. Kubernetes trimmed them, but they made rendered manifests unparseable by stricter YAML parsers (e.g. PyYAML).
+
 ## 2.0.0 (2026-04-22)
 
 - Add new environment variables for docker image version 5.0.0
