@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.2 (2026-08-28)
+- Bumped GPP-publicatiebank to 2.2.0 (overridable liveness/readiness probe handler).
+- Bumped GPP-zoeken to 0.2.7 (overridable liveness/readiness probe handler).
+- Bumped GPP-burgerportaal to 2.0.1 (tab-free `RESOURCES__*` ConfigMap keys).
+
 ## 0.3.1 (2026-06-04)
 - Bumped GPP-publicatiebank to 2.1.0.
 - Bumped GPP-stack appVersion to 1.0.1.

@@ -53,22 +53,32 @@ spec:
             - name: http
               containerPort: 8000
               protocol: TCP
+          {{- $livenessProbe := .Values.livenessProbe | default dict }}
           livenessProbe:
+            {{- if not (or $livenessProbe.exec $livenessProbe.httpGet $livenessProbe.tcpSocket $livenessProbe.grpc) }}
             httpGet:
               path: /
               port: http
               httpHeaders:
                 - name: Host
                   value: {{ include "gpp-publicatiebank.fullname" . | quote }}
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
+            {{- end }}
+            {{- if $livenessProbe }}
+            {{- toYaml $livenessProbe | nindent 12 }}
+            {{- end }}
+          {{- $readinessProbe := .Values.readinessProbe | default dict }}
           readinessProbe:
+            {{- if not (or $readinessProbe.exec $readinessProbe.httpGet $readinessProbe.tcpSocket $readinessProbe.grpc) }}
             httpGet:
               path: /
               port: http
               httpHeaders:
                 - name: Host
                   value: {{ include "gpp-publicatiebank.fullname" . | quote }}
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
+            {{- end }}
+            {{- if $readinessProbe }}
+            {{- toYaml $readinessProbe | nindent 12 }}
+            {{- end }}
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
