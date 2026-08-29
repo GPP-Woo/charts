@@ -29,7 +29,7 @@ data:
   {{- end }}
   SEARCH_BASE_URL: {{ .Values.settings.search.baseUrl | toString | quote }}
   {{- /* Render on "is it set?", not on truthiness: 0 is falsy in Go templates, so a
-         plain `if` silently drops the one value a testomgeving most wants to set —
+         plain `if` silently drops the one value a test environment is most likely to set —
          0 hours to disable the sitemap output cache. The app then falls back to its
          own 23h default and serves a stale (often empty) sitemap all day. */}}
   {{- if not (kindIs "invalid" .Values.settings.sitemapCacheDurationHours) }}
