@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.3 (2026-08-31)
+- Bumped GPP-burgerportaal to 2.0.2 (`SITEMAP_CACHE_DURATION_HOURS` and
+  `DOWNLOAD_TIMEOUT_MINUTES` now render when set to `0`).
+
 ## 0.3.2 (2026-08-28)
 - Bumped GPP-publicatiebank to 2.2.0 (overridable liveness/readiness probe handler).
 - Bumped GPP-zoeken to 0.2.7 (overridable liveness/readiness probe handler).
