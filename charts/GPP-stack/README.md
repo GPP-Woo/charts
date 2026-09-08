@@ -795,7 +795,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.settings.disable2fa | bool | `false` | Disable two factor authentication |
 | gpp-zoeken.settings.djangoSettingsModule | string | `"woo_search.conf.docker"` |  |
 | gpp-zoeken.settings.elastic.caCertsPath | string | `""` | Path to CA bundle (in PEM) format if self-signed certificates or a private CA are used to connect to the ES cluster |
-| gpp-zoeken.settings.elastic.iniIndices | bool | `true` |  |
+| gpp-zoeken.settings.elastic.iniIndices | bool | `true` | Initialize the Elasticsearch indices and mappings from the container entrypoint, before the http service starts. The entrypoint waits up to 60s for the cluster to become available first. Adds that wait to pod start-up. |
 | gpp-zoeken.settings.elastic.password | string | `""` |  |
 | gpp-zoeken.settings.elastic.roles | string | `"superuser"` |  |
 | gpp-zoeken.settings.elastic.user | string | `"gpp-elastic"` |  |
