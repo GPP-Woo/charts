@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.0 (2026-09-10)
+
+- Expose `worker.maxMemoryPerChildKiB`, rendered as `CELERY_WORKER_MAX_MEMORY_PER_CHILD` on the celery worker container only.
+
 ## 2.2.0 (2026-08-26)
 
 - Allow the web container's `livenessProbe`/`readinessProbe` handler to be overridden via Helm values. Supplying `exec`, `httpGet`, `tcpSocket` or `grpc` now replaces the hardcoded `httpGet: /` default instead of being rendered alongside it (which the API server rejected as more than one handler type). Probes that set only timing fields are unaffected.
