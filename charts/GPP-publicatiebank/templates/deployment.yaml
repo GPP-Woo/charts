@@ -247,6 +247,10 @@ spec:
             - configMapRef:
                 name: {{ include "gpp-publicatiebank.fullname" . }}
           env:
+            {{- if not (kindIs "invalid" .Values.worker.maxMemoryPerChildKiB) }}
+            - name: CELERY_WORKER_MAX_MEMORY_PER_CHILD
+              value: {{ .Values.worker.maxMemoryPerChildKiB | toString | quote }}
+            {{- end }}
             {{- if .Values.extraEnvVars }}
             {{- include "gpp-publicatiebank.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
             {{- end }}
