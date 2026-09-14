@@ -182,7 +182,7 @@ Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteite
 | worker.livenessProbe.periodSeconds | int | `30` |  |
 | worker.livenessProbe.successThreshold | int | `1` |  |
 | worker.livenessProbe.timeoutSeconds | int | `10` |  |
-| worker.maxMemoryPerChildKiB | string | `nil` | Recycle a celery pool child once its resident memory passes this many KiB (celery's `--max-memory-per-child`). <details><summary>More information</summary> Unset means no memory limit; the image bounds child growth by task count instead (`CELERY_WORKER_MAX_TASKS_PER_CHILD`, default `50`). Pick a value below `worker.resources.limits.memory` so a bloated child is retired between tasks instead of the pod being OOMKilled mid-task, e.g. `786432` (768Mi) under a 1Gi limit. Recycling happens between tasks, so no work is lost. Set to `0` to disable the limit explicitly.</details> |
+| worker.maxMemoryPerChildKiB | int | `nil` | Recycle a celery pool child once its resident memory passes this many KiB (celery's `--max-memory-per-child`). <details><summary>More information</summary> Unset means no memory limit; the image bounds child growth by task count instead (`CELERY_WORKER_MAX_TASKS_PER_CHILD`, default `50`). Pick a value below `worker.resources.limits.memory` so a bloated child is retired between tasks instead of the pod being OOMKilled mid-task, e.g. `786432` (768Mi) under a 1Gi limit. Recycling happens between tasks, so no work is lost. Set to `0` to disable the limit explicitly.</details> |
 | worker.name | string | `""` |  |
 | worker.podLabels | object | `{}` |  |
 | worker.queueName | string | `""` |  |

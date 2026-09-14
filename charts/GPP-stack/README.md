@@ -565,7 +565,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.worker.livenessProbe.periodSeconds | int | `30` |  |
 | gpp-publicatiebank.worker.livenessProbe.successThreshold | int | `1` |  |
 | gpp-publicatiebank.worker.livenessProbe.timeoutSeconds | int | `10` |  |
-| gpp-publicatiebank.worker.maxMemoryPerChildKiB | string | `nil` | Recycle a celery pool child once its resident memory passes this many KiB (celery's `--max-memory-per-child`). <details><summary>More information</summary> Unset means no memory limit; the image bounds child growth by task count instead (`CELERY_WORKER_MAX_TASKS_PER_CHILD`, default `50`). Pick a value below `worker.resources.limits.memory` so a bloated child is retired between tasks instead of the pod being OOMKilled mid-task, e.g. `786432` (768Mi) under a 1Gi limit. Recycling happens between tasks, so no work is lost. Set to `0` to disable the limit explicitly.</details> |
+| gpp-publicatiebank.worker.maxMemoryPerChildKiB | int | `nil` | Recycle a celery pool child once its resident memory passes this many KiB (celery's `--max-memory-per-child`). <details><summary>More information</summary> Unset means no memory limit; the image bounds child growth by task count instead (`CELERY_WORKER_MAX_TASKS_PER_CHILD`, default `50`). Pick a value below `worker.resources.limits.memory` so a bloated child is retired between tasks instead of the pod being OOMKilled mid-task, e.g. `786432` (768Mi) under a 1Gi limit. Recycling happens between tasks, so no work is lost. Set to `0` to disable the limit explicitly.</details> |
 | gpp-publicatiebank.worker.name | string | `""` |  |
 | gpp-publicatiebank.worker.podLabels | object | `{}` |  |
 | gpp-publicatiebank.worker.queueName | string | `""` |  |
