@@ -818,6 +818,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.settings.job.resources | object | `{}` |  |
 | gpp-zoeken.settings.job.restartPolicy | string | `"OnFailure"` |  |
 | gpp-zoeken.settings.job.ttlSecondsAfterFinished | int | `0` | 0 Will clean the job after it is finished |
+| gpp-zoeken.settings.job.waitForElasticTimeout | int | `300` | Seconds to wait for the Elasticsearch cluster to accept connections before initializing the indices. On a fresh install this Job is created in the same release as the cluster, so it starts before Elasticsearch is listening. Zero waits indefinitely. |
 | gpp-zoeken.settings.secretKey | string | `""` | Generate secret key at https://djecrety.ir/ |
 | gpp-zoeken.settings.sentry.dsn | string | `""` |  |
 | gpp-zoeken.settings.showLabelEnvironment | bool | `false` | Display environment information in the header in the admin. Defaults to True. Environment information is only displayed to logged in users. |
