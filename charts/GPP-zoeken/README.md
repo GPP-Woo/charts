@@ -1,6 +1,6 @@
 # gpp-zoeken
 
-![Version: 0.2.7](https://img.shields.io/badge/Version-0.2.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.0](https://img.shields.io/badge/AppVersion-2.2.0-informational?style=flat-square)
+![Version: 0.2.8](https://img.shields.io/badge/Version-0.2.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.0](https://img.shields.io/badge/AppVersion-2.2.0-informational?style=flat-square)
 
 Een zoek-component die voorziet in een "Openbare documenten"-index.
 
@@ -242,7 +242,7 @@ Een zoek-component die voorziet in een "Openbare documenten"-index.
 | settings.disable2fa | bool | `false` | Disable two factor authentication |
 | settings.djangoSettingsModule | string | `"woo_search.conf.docker"` |  |
 | settings.elastic.caCertsPath | string | `""` | Path to CA bundle (in PEM) format if self-signed certificates or a private CA are used to connect to the ES cluster |
-| settings.elastic.iniIndices | bool | `true` |  |
+| settings.elastic.iniIndices | bool | `true` | Initialize the Elasticsearch indices and mappings from the container entrypoint, before the http service starts. The entrypoint waits up to 60s for the cluster to become available first. Adds that wait to pod start-up. |
 | settings.elastic.password | string | `""` |  |
 | settings.elastic.roles | string | `"superuser"` |  |
 | settings.elastic.user | string | `"gpp-elastic"` |  |

@@ -264,6 +264,9 @@ settings:
     logLevel: debug
 
   elastic:
+    # -- Initialize the Elasticsearch indices and mappings from the container
+    # entrypoint, before the http service starts. The entrypoint waits up to 60s
+    # for the cluster to become available first. Adds that wait to pod start-up.
     iniIndices: true
     user: "gpp-elastic"
     password: ""

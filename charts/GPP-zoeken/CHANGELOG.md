@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.8 (2026-09-08)
+
+- Fixed `INIT_ES_INDICES` being rendered as `"True"` while the container entrypoint
+  (`bin/docker_start.sh`) tests for `"true"`. The `settings.elastic.iniIndices` switch has
+  therefore never had any effect, and index initialization on start-up never ran. It now
+  renders lowercase and the switch works as documented.
+
 ## 0.2.7 (2026-08-27)
 
 - Allow the web container's `livenessProbe`/`readinessProbe` handler to be overridden via Helm values. Supplying `exec`, `httpGet`, `tcpSocket` or `grpc` now replaces the hardcoded `httpGet: /` default instead of being rendered alongside it (which the API server rejected as more than one handler type). Probes that set only timing fields are unaffected. Mirrors the same change in GPP-publicatiebank 2.2.0.

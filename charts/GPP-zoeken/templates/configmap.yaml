@@ -28,7 +28,7 @@ data:
   DB_USER: {{ .Values.settings.database.username | toString | quote }}
   DB_PORT: {{ .Values.settings.database.port | toString | quote }}
   PGSSLMODE: {{ .Values.settings.database.sslmode | toString | quote }}
-  INIT_ES_INDICES: {{ if .Values.settings.elastic.iniIndices }}"True"{{ else }}"False"{{ end }}
+  INIT_ES_INDICES: {{ ternary "true" "false" .Values.settings.elastic.iniIndices | quote }}
   ELASTICSEARCH_HOST: {{ printf "https://%s-es-http:9200" (index .Values "eck-elasticsearch" "fullnameOverride") | quote }}
   ELASTICSEARCH_USER: {{ .Values.settings.elastic.user | toString |  quote }}
   ELASTICSEARCH_CA_CERTS: {{ .Values.settings.elastic.caCertsPath | toString |  quote }}
