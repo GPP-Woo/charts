@@ -52,16 +52,7 @@ spec:
             - "-c"
           args:
           - |
-            set -e
-            # `initialize_mappings` exits 0 when it cannot reach the cluster
-            # (GPP-Woo/GPP-zoeken#137), and this Job is created in the same release
-            # as the Elasticsearch cluster it talks to - so without waiting it
-            # reports success on a fresh install without creating anything. Same
-            # helper and same shape the container entrypoint (bin/docker_start.sh)
-            # already uses for this.
-            es_host="$(echo "$ELASTICSEARCH_HOST" | sed -E 's|https?://||' | sed 's|/$||')"
-            /wait_for_it.sh "$es_host" -t {{ .Values.settings.job.waitForElasticTimeout }}
-            /app/src/manage.py initialize_mappings --wait
+            /app/src/manage.py initialize_mappings --wait {{ .Values.settings.job.waitForElasticTimeout }}
       volumes:
         - name: elastic-ca
           secret:

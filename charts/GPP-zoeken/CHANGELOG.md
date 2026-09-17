@@ -2,11 +2,16 @@
 
 ## 0.2.8 (2026-09-08)
 
-- The `gpp-zoeken-index` Job now waits for Elasticsearch to accept connections before running
-  `initialize_mappings`, with a new `settings.job.waitForElasticTimeout` (default 300s). The Job
-  is created in the same release as the ECK cluster, so on a fresh install it previously ran
-  before Elasticsearch was listening; because `initialize_mappings` exits 0 when it cannot
-  connect, the Job reported success and the instance came up with no indices.
+- The `gpp-zoeken-index` Job now passes a wait budget to `initialize_mappings --wait`, via a new
+  `settings.job.waitForElasticTimeout` (default 300s). The Job is created in the same release as
+  the ECK cluster, so on a fresh install it ran before Elasticsearch was listening; because
+  `initialize_mappings` used to exit 0 when it could not connect, the Job reported success and
+  the instance came up with no indices.
+- **Requires a gpp-zoeken image containing [GPP-Woo/GPP-zoeken#138][zoeken-138]** (merged after
+  2.2.0), which taught `--wait` to take an optional timeout and to fail loudly. On 2.2.0 `--wait`
+  accepts no argument, so `appVersion` must move to a release that includes it.
+
+[zoeken-138]: https://github.com/GPP-Woo/GPP-zoeken/pull/138
 
 ## 0.2.7 (2026-08-27)
 
