@@ -1,6 +1,6 @@
 # gpp-zoeken
 
-![Version: 0.2.7](https://img.shields.io/badge/Version-0.2.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.0](https://img.shields.io/badge/AppVersion-2.2.0-informational?style=flat-square)
+![Version: 0.2.8](https://img.shields.io/badge/Version-0.2.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.0](https://img.shields.io/badge/AppVersion-2.2.0-informational?style=flat-square)
 
 Een zoek-component die voorziet in een "Openbare documenten"-index.
 
@@ -264,6 +264,7 @@ Een zoek-component die voorziet in een "Openbare documenten"-index.
 | settings.job.resources | object | `{}` |  |
 | settings.job.restartPolicy | string | `"OnFailure"` |  |
 | settings.job.ttlSecondsAfterFinished | int | `0` | 0 Will clean the job after it is finished |
+| settings.job.waitForElasticTimeout | int | `300` |  |
 | settings.secretKey | string | `""` | Generate secret key at https://djecrety.ir/ |
 | settings.sentry.dsn | string | `""` |  |
 | settings.showLabelEnvironment | bool | `false` | Display environment information in the header in the admin. Defaults to True. Environment information is only displayed to logged in users. |

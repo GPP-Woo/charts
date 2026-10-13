@@ -277,6 +277,12 @@ settings:
     # -- 0 Will clean the job after it is finished
     ttlSecondsAfterFinished: 0
     restartPolicy: OnFailure
+    # -- Budget in seconds for `initialize_mappings --wait`, covering both "not
+    # listening yet" and "not healthy yet". On a fresh install this Job is created in
+    # the same release as the cluster, so it starts before Elasticsearch is up. `0`
+    # checks once and fails. Needs an app image with GPP-Woo/GPP-zoeken#138; on 2.2.0
+    # `--wait` takes no argument.
+    waitForElasticTimeout: 300
     resources: {}
 
 worker:

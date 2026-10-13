@@ -52,7 +52,7 @@ spec:
             - "-c"
           args:
           - |
-            /app/src/manage.py initialize_mappings --wait
+            /app/src/manage.py initialize_mappings --wait {{ .Values.settings.job.waitForElasticTimeout }}
       volumes:
         - name: elastic-ca
           secret:
