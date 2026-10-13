@@ -175,6 +175,22 @@ entries:
   gpp-publicatiebank:
   - apiVersion: v2
     appVersion: 2.1.0
+    created: "2026-10-13T08:47:04.742188737Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 22.0.1
+    description: Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
+    digest: 536a925f6cd719203830a56aff0d5edd68abc6a62617eaa0e4fd2d03318486c5
+    name: gpp-publicatiebank
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-publicatiebank-2.4.0/gpp-publicatiebank-2.4.0.tgz
+    version: 2.4.0
+  - apiVersion: v2
+    appVersion: 2.1.0
     created: "2026-09-14T18:54:51.615347218Z"
     dependencies:
     - name: redis
@@ -1316,4 +1332,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2026-09-14T18:54:51.800660237Z"
+generated: "2026-10-13T08:47:04.989158142Z"
