@@ -1,6 +1,6 @@
 # gpp-publicatiebank
 
-![Version: 2.3.0](https://img.shields.io/badge/Version-2.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.1.0](https://img.shields.io/badge/AppVersion-2.1.0-informational?style=flat-square)
+![Version: 2.4.0](https://img.shields.io/badge/Version-2.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.1.0](https://img.shields.io/badge/AppVersion-2.1.0-informational?style=flat-square)
 
 Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
 
@@ -24,6 +24,9 @@ Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteite
 | azureVaultSecret.objectName | string | `""` |  |
 | azureVaultSecret.secretName | string | `"{{ .Values.existingSecret }}"` |  |
 | azureVaultSecret.vaultName | string | `nil` |  |
+| beat.enabled | bool | `false` | Run the Celery beat scheduler (`/celery_beat.sh`) as a single-replica Deployment. <details><summary>More information</summary> Required from app version 3.0.0 on: beat schedules the daily task that revokes publications whose inspection period ("inzagetermijn") has ended (GPP-Woo/GPP-publicatiebank#460). Without it that task silently never runs. Always exactly one replica, because a second beat would schedule every task twice. Off by default while appVersion is 2.x, whose beat schedule is empty.</details> |
+| beat.podLabels | object | `{}` |  |
+| beat.resources | object | `{}` |  |
 | existingSecret | string | `nil` |  |
 | extraEnvVars | list | `[]` | Array with extra environment variables to add |
 | extraIngress | list | `[]` | Specify extra ingresses, for example if you have multiple ingress classes |
@@ -140,6 +143,7 @@ Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteite
 | settings.disable2fa | bool | `false` | Disable two factor authentication |
 | settings.djangoSettingsModule | string | `"woo_publications.conf.docker"` |  |
 | settings.documentMaxBodySize | string | `"4G"` |  |
+| settings.documentsApiSlowOperationsTimeout | string | `""` | Read timeout (seconds) for the Documents API calls whose duration scales with document size: uploading a file part, and unlocking a document (which merges its parts). <details><summary>More information</summary> Rendered as `DOCUMENTS_API_SLOW_OPERATIONS_TIMEOUT`; needs app version 3.0.0 or later. Empty keeps the app default (`300`). A higher timeout configured on the Documents API service itself takes precedence. Keep `nginx.config.proxyReadTimeoutSeconds` at least this high.</details> |
 | settings.elasticapm.serviceName | string | `""` |  |
 | settings.elasticapm.token | string | `""` |  |
 | settings.elasticapm.url | string | `""` |  |
@@ -183,6 +187,7 @@ Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteite
 | worker.livenessProbe.successThreshold | int | `1` |  |
 | worker.livenessProbe.timeoutSeconds | int | `10` |  |
 | worker.maxMemoryPerChildKiB | string | `nil` | Recycle a celery pool child once its resident memory passes this many KiB (celery's `--max-memory-per-child`). <details><summary>More information</summary> Unset means no memory limit; the image bounds child growth by task count instead (`CELERY_WORKER_MAX_TASKS_PER_CHILD`, default `50`). Pick a value below `worker.resources.limits.memory` so a bloated child is retired between tasks instead of the pod being OOMKilled mid-task, e.g. `786432` (768Mi) under a 1Gi limit. Recycling happens between tasks, so no work is lost. Set to `0` to disable the limit explicitly.</details> |
+| worker.maxTasksPerChild | string | `nil` | Recycle a celery pool child after this many tasks (celery's `--max-tasks-per-child`). <details><summary>More information</summary> Rendered as `CELERY_WORKER_MAX_TASKS_PER_CHILD` on the celery worker container only. Unset keeps the image default: `50` from app version 3.0.0 on, no recycling before that.</details> |
 | worker.name | string | `""` |  |
 | worker.podLabels | object | `{}` |  |
 | worker.queueName | string | `""` |  |
