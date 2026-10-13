@@ -408,6 +408,9 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.azureVaultSecret.objectName | string | `""` |  |
 | gpp-publicatiebank.azureVaultSecret.secretName | string | `"{{ .Values.existingSecret }}"` |  |
 | gpp-publicatiebank.azureVaultSecret.vaultName | string | `nil` |  |
+| gpp-publicatiebank.beat.enabled | bool | `false` | Run the Celery beat scheduler (`/celery_beat.sh`) as a single-replica Deployment. <details><summary>More information</summary> Required from app version 3.0.0 on: beat schedules the daily task that revokes publications whose inspection period ("inzagetermijn") has ended (GPP-Woo/GPP-publicatiebank#460). Without it that task silently never runs. Always exactly one replica, because a second beat would schedule every task twice. Off by default while appVersion is 2.x, whose beat schedule is empty.</details> |
+| gpp-publicatiebank.beat.podLabels | object | `{}` |  |
+| gpp-publicatiebank.beat.resources | object | `{}` |  |
 | gpp-publicatiebank.existingSecret | string | `nil` |  |
 | gpp-publicatiebank.extraEnvVars | list | `[]` | Array with extra environment variables to add |
 | gpp-publicatiebank.extraIngress | list | `[]` | Specify extra ingresses, for example if you have multiple ingress classes |
@@ -523,6 +526,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.settings.disable2fa | bool | `false` | Disable two factor authentication |
 | gpp-publicatiebank.settings.djangoSettingsModule | string | `"woo_publications.conf.docker"` |  |
 | gpp-publicatiebank.settings.documentMaxBodySize | string | `"4G"` |  |
+| gpp-publicatiebank.settings.documentsApiSlowOperationsTimeout | string | `""` | Read timeout (seconds) for the Documents API calls whose duration scales with document size: uploading a file part, and unlocking a document (which merges its parts). <details><summary>More information</summary> Rendered as `DOCUMENTS_API_SLOW_OPERATIONS_TIMEOUT`; needs app version 3.0.0 or later. Empty keeps the app default (`300`). A higher timeout configured on the Documents API service itself takes precedence. Keep `nginx.config.proxyReadTimeoutSeconds` at least this high.</details> |
 | gpp-publicatiebank.settings.elasticapm.serviceName | string | `""` |  |
 | gpp-publicatiebank.settings.elasticapm.token | string | `""` |  |
 | gpp-publicatiebank.settings.elasticapm.url | string | `""` |  |
@@ -566,6 +570,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.worker.livenessProbe.successThreshold | int | `1` |  |
 | gpp-publicatiebank.worker.livenessProbe.timeoutSeconds | int | `10` |  |
 | gpp-publicatiebank.worker.maxMemoryPerChildKiB | string | `nil` | Recycle a celery pool child once its resident memory passes this many KiB (celery's `--max-memory-per-child`). <details><summary>More information</summary> Unset means no memory limit; the image bounds child growth by task count instead (`CELERY_WORKER_MAX_TASKS_PER_CHILD`, default `50`). Pick a value below `worker.resources.limits.memory` so a bloated child is retired between tasks instead of the pod being OOMKilled mid-task, e.g. `786432` (768Mi) under a 1Gi limit. Recycling happens between tasks, so no work is lost. Set to `0` to disable the limit explicitly.</details> |
+| gpp-publicatiebank.worker.maxTasksPerChild | string | `nil` | Recycle a celery pool child after this many tasks (celery's `--max-tasks-per-child`). <details><summary>More information</summary> Rendered as `CELERY_WORKER_MAX_TASKS_PER_CHILD` on the celery worker container only. Unset keeps the image default: `50` from app version 3.0.0 on, no recycling before that.</details> |
 | gpp-publicatiebank.worker.name | string | `""` |  |
 | gpp-publicatiebank.worker.podLabels | object | `{}` |  |
 | gpp-publicatiebank.worker.queueName | string | `""` |  |

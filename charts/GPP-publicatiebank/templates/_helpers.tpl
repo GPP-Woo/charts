@@ -88,6 +88,37 @@ app.kubernetes.io/name: {{ include "gpp-publicatiebank.workerName" . }}
 {{- end }}
 
 {{/*
+Create a name for Celery beat
+We truncate at 58 chars in order to provide space for the "-beat" suffix
+*/}}
+{{- define "gpp-publicatiebank.beatName" -}}
+{{ include "gpp-publicatiebank.name" . | trunc 58 | trimSuffix "-" }}-beat
+{{- end }}
+
+{{/*
+Create a default fully qualified name for Celery beat.
+We truncate at 58 chars in order to provide space for the "-beat" suffix
+*/}}
+{{- define "gpp-publicatiebank.beatFullname" -}}
+{{ include "gpp-publicatiebank.fullname" . | trunc 58 | trimSuffix "-" }}-beat
+{{- end }}
+
+{{/*
+Celery beat labels
+*/}}
+{{- define "gpp-publicatiebank.beatLabels" -}}
+{{ include "gpp-publicatiebank.commonLabels" . }}
+{{ include "gpp-publicatiebank.beatSelectorLabels" . }}
+{{- end }}
+
+{{/*
+Celery beat selector labels
+*/}}
+{{- define "gpp-publicatiebank.beatSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "gpp-publicatiebank.beatName" . }}
+{{- end }}
+
+{{/*
 Create a name for Flower
 We truncate at 56 chars in order to provide space for the "-flower" suffix
 */}}

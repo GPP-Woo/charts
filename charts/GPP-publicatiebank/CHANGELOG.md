@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.4.0 (2026-10-13)
+
+- Add an optional Celery beat Deployment (`beat.enabled`, default `false`), always one replica with the `Recreate` strategy. App version 3.0.0 needs it to automatically revoke publications whose inspection period has ended (GPP-Woo/GPP-publicatiebank#460).
+- Expose `settings.documentsApiSlowOperationsTimeout`, rendered as `DOCUMENTS_API_SLOW_OPERATIONS_TIMEOUT` (app version 3.0.0+, GPP-Woo/GPP-publicatiebank#470).
+- Expose `worker.maxTasksPerChild`, rendered as `CELERY_WORKER_MAX_TASKS_PER_CHILD` on the celery worker container only (GPP-Woo/GPP-publicatiebank#469).
+
 ## 2.3.0 (2026-09-10)
 
 - Expose `worker.maxMemoryPerChildKiB`, rendered as `CELERY_WORKER_MAX_MEMORY_PER_CHILD` on the celery worker container only.
