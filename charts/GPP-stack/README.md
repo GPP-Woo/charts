@@ -1,6 +1,6 @@
 # gpp-stack
 
-![Version: 0.3.3](https://img.shields.io/badge/Version-0.3.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.1](https://img.shields.io/badge/AppVersion-1.0.1-informational?style=flat-square)
+![Version: 0.4.0-rc.1](https://img.shields.io/badge/Version-0.4.0--rc.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.1](https://img.shields.io/badge/AppVersion-1.0.1-informational?style=flat-square)
 
 An umbrella chart for the GPP stack
 
@@ -10,9 +10,9 @@ An umbrella chart for the GPP stack
 |------------|------|---------|
 | https://GPP-Woo.github.io/charts | gpp-app | 0.3.2 |
 | https://GPP-Woo.github.io/charts | gpp-burgerportaal | 2.0.2 |
-| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 2.2.0 |
-| https://GPP-Woo.github.io/charts | gpp-zoeken | 0.2.7 |
-| https://maykinmedia.github.io/charts/ | openzaak | 1.13.1 |
+| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 2.5.0 |
+| https://GPP-Woo.github.io/charts | gpp-zoeken | 0.2.8 |
+| https://maykinmedia.github.io/charts/ | openzaak | 1.15.0 |
 
 ## Values
 
@@ -213,17 +213,7 @@ An umbrella chart for the GPP stack
 | openzaak.worker.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | openzaak.worker.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
 | openzaak.worker.concurrency | int | `4` |  |
-| openzaak.worker.livenessProbe.failureThreshold | int | `3` |  |
-| openzaak.worker.livenessProbe.initialDelaySeconds | int | `60` |  |
-| openzaak.worker.livenessProbe.periodSeconds | int | `10` |  |
-| openzaak.worker.livenessProbe.successThreshold | int | `1` |  |
-| openzaak.worker.livenessProbe.timeoutSeconds | int | `5` |  |
 | openzaak.worker.podLabels | object | `{}` |  |
-| openzaak.worker.readinessProbe.failureThreshold | int | `3` |  |
-| openzaak.worker.readinessProbe.initialDelaySeconds | int | `30` |  |
-| openzaak.worker.readinessProbe.periodSeconds | int | `10` |  |
-| openzaak.worker.readinessProbe.successThreshold | int | `1` |  |
-| openzaak.worker.readinessProbe.timeoutSeconds | int | `5` |  |
 | openzaak.worker.replicaCount | int | `1` |  |
 | openzaak.worker.resources | object | `{}` |  |
 | gpp-app.affinity | object | `{}` |  |
