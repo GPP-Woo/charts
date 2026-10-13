@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.4.0-rc.1 (2026-10-13)
+
+Release candidate bundling the subchart updates validated on a development instance
+running GPP-publicatiebank `3.0.0-rc.0` and Open Zaak `1.31.0-perftest` (both set as
+image tags in values; the subcharts' default `appVersion`s are listed below).
+
+- Bumped openzaak to 1.15.0 (`appVersion` 1.30.0; was 1.13.1 / 1.26.0).
+  **Requires an Open Zaak image >= 1.30.0.** The web probes now call `/_healthz/`,
+  `/_healthz/livez/` and `/_healthz/readyz/`, and the worker gets startup and liveness
+  probes (enabled by default) built on `maykin-common` and `/celery_worker_liveness_probe.sh`.
+  None of these exist in older images, so a deployment that pins `openzaak.image.tag`
+  (e.g. `1.26.0`) must raise it in the same upgrade. Also in 1.14.x and 1.15.0:
+  the configuration Job runs as a `post-install,post-upgrade` hook (`backoffLimit: 0`),
+  `LOG_REQUESTS` / `LOG_OUTGOING_REQUESTS_*` are rendered explicitly (body saving off),
+  `enableServiceLinks: false`, and Azure Blob / S3 Documenten API backends.
+- Bumped GPP-publicatiebank to 2.5.0 (`appVersion` unchanged, 2.1.0):
+  - optional single-replica Celery beat Deployment, `beat.enabled` (default `false`).
+    GPP-publicatiebank 3.0.0 requires exactly one beat;
+  - `settings.documentsApiSlowOperationsTimeout`;
+  - `worker.maxTasksPerChild` and `worker.maxMemoryPerChildKiB`;
+  - per-component Deployment update `strategy`.
+- Bumped GPP-zoeken to 0.2.8 (`appVersion` unchanged, 2.2.0): the index Job honours
+  `extraVolumes` / `extraVolumeMounts`.
+- Removed the umbrella's `openzaak.worker.livenessProbe` and `openzaak.worker.readinessProbe`
+  defaults. They were written for the old worker probe, which was disabled by default.
+  openzaak 1.15.0 enables a new one (it starts a Python process and pings the broker), and
+  the umbrella's `timeoutSeconds: 5` / `failureThreshold: 3` overrode the subchart's
+  `15` / `6`. The subchart has no worker readiness probe at all.
+
 ## 0.3.3 (2026-08-31)
 - Bumped GPP-burgerportaal to 2.0.2 (`SITEMAP_CACHE_DURATION_HOURS` and
   `DOWNLOAD_TIMEOUT_MINUTES` now render when set to `0`).
