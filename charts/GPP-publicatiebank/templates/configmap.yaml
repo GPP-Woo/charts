@@ -23,6 +23,9 @@ data:
   CELERY_RESULT_BACKEND: {{ .Values.settings.celery.resultBackendl | toString | quote }}
   {{- end }}
   CELERY_LOGLEVEL:  {{ .Values.settings.celery.logLevel | upper | toString | quote }}
+  {{- if .Values.settings.documentsApiSlowOperationsTimeout }}
+  DOCUMENTS_API_SLOW_OPERATIONS_TIMEOUT: {{ .Values.settings.documentsApiSlowOperationsTimeout | toString | quote }}
+  {{- end }}
   DB_NAME: {{ .Values.settings.database.name | toString | quote }}
   DB_HOST: {{ .Values.global.settings.databaseHost | default .Values.settings.database.host | toString | quote }}
   DB_USER: {{ .Values.settings.database.username | toString | quote }}
