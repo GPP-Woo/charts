@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5.0 (2026-10-13)
+
+- Expose the Deployment update strategy per component: `strategy` (web), `worker.strategy`, `nginx.strategy` and `flower.strategy`, rendered verbatim as `.spec.strategy` when set. Empty (the default) keeps the Kubernetes default, so existing releases render unchanged. Typical use: `{type: RollingUpdate, rollingUpdate: {maxSurge: 0, maxUnavailable: 1}}` on the worker, so a rollout no longer briefly runs two worker pods, which counts double against a namespace ResourceQuota.
+
 ## 2.4.0 (2026-10-13)
 
 - Add an optional Celery beat Deployment (`beat.enabled`, default `false`), always one replica with the `Recreate` strategy. App version 3.0.0 needs it to automatically revoke publications whose inspection period has ended (GPP-Woo/GPP-publicatiebank#460).

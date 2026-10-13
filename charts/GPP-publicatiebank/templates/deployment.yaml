@@ -10,6 +10,10 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
+  {{- with .Values.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
   {{- include "gpp-publicatiebank.selectorLabels" . | nindent 6 }}
@@ -128,6 +132,10 @@ spec:
   {{- if not .Values.nginx.autoscaling.enabled }}
   replicas: {{ .Values.nginx.replicaCount }}
   {{- end }}
+  {{- with .Values.nginx.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "gpp-publicatiebank.nginxSelectorLabels" . | nindent 6 }}
@@ -210,6 +218,10 @@ metadata:
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.worker.replicaCount }}
+  {{- end }}
+  {{- with .Values.worker.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
   {{- end }}
   selector:
     matchLabels:
@@ -312,6 +324,10 @@ metadata:
     {{- include "gpp-publicatiebank.flowerLabels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.flower.replicaCount }}
+  {{- with .Values.flower.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "gpp-publicatiebank.flowerSelectorLabels" . | nindent 6 }}

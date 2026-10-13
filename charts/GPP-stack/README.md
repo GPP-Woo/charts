@@ -434,6 +434,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.flower.service.annotations | object | `{}` |  |
 | gpp-publicatiebank.flower.service.port | int | `5555` |  |
 | gpp-publicatiebank.flower.service.type | string | `"ClusterIP"` |  |
+| gpp-publicatiebank.flower.strategy | object | `{}` | Update strategy of the Flower Deployment (`.spec.strategy`), see `strategy`. |
 | gpp-publicatiebank.flower.urlPrefix | string | `"/flower/"` |  |
 | gpp-publicatiebank.fullnameOverride | string | `""` |  |
 | gpp-publicatiebank.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -471,6 +472,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.nginx.service.annotations | object | `{}` |  |
 | gpp-publicatiebank.nginx.service.port | int | `80` |  |
 | gpp-publicatiebank.nginx.service.type | string | `"ClusterIP"` |  |
+| gpp-publicatiebank.nginx.strategy | object | `{}` | Update strategy of the nginx Deployment (`.spec.strategy`), see `strategy`. |
 | gpp-publicatiebank.nodeSelector | object | `{}` |  |
 | gpp-publicatiebank.pdb.create | bool | `false` |  |
 | gpp-publicatiebank.pdb.maxUnavailable | string | `""` |  |
@@ -550,6 +552,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.settings.uwsgi.maxRequests | string | `""` |  |
 | gpp-publicatiebank.settings.uwsgi.processes | string | `""` |  |
 | gpp-publicatiebank.settings.uwsgi.threads | string | `""` |  |
+| gpp-publicatiebank.strategy | object | `{}` | Update strategy of the web Deployment (`.spec.strategy`), rendered verbatim when set. <details><summary>More information</summary> Empty keeps the Kubernetes default (`RollingUpdate` with maxSurge and maxUnavailable 25%), which at one replica starts the new pod before stopping the old one, so every rollout briefly needs the resources of both. `{type: RollingUpdate, rollingUpdate: {maxSurge: 0, maxUnavailable: 1}}` stops the old pod first: no extra resources during the rollout, but a gap while the new pod starts. `{type: Recreate}` does that for all replicas at once. The same setting exists as `worker.strategy`, `nginx.strategy` and `flower.strategy`; Celery beat always uses `Recreate`.</details> |
 | gpp-publicatiebank.tags.redis | bool | `true` |  |
 | gpp-publicatiebank.tolerations | list | `[]` |  |
 | gpp-publicatiebank.worker.autoscaling.behavior | object | `{}` |  |
@@ -576,6 +579,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.worker.queueName | string | `""` |  |
 | gpp-publicatiebank.worker.replicaCount | int | `1` |  |
 | gpp-publicatiebank.worker.resources | object | `{}` |  |
+| gpp-publicatiebank.worker.strategy | object | `{}` | Update strategy of the Celery worker Deployment (`.spec.strategy`), see `strategy`. <details><summary>More information</summary> The cheapest place to skip the rollout overlap, e.g. `{type: RollingUpdate, rollingUpdate: {maxSurge: 0, maxUnavailable: 1}}`: while no worker runs, new tasks wait in the broker, and a task interrupted by the shutdown is redelivered because the app acknowledges tasks only after they ran (`CELERY_TASK_ACKS_LATE`). The default overlap stops the old worker in the same way, just after the new one is up.</details> |
 | gpp-zoeken.affinity | object | `{}` |  |
 | gpp-zoeken.autoscaling.enabled | bool | `false` |  |
 | gpp-zoeken.autoscaling.maxReplicas | int | `100` |  |
