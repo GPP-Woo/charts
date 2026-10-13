@@ -322,18 +322,10 @@ openzaak:
     concurrency: 4
     podLabels: {}
     resources: {}
-    livenessProbe:
-      initialDelaySeconds: 60
-      periodSeconds: 10
-      timeoutSeconds: 5
-      failureThreshold: 3
-      successThreshold: 1
-    readinessProbe:
-      initialDelaySeconds: 30
-      periodSeconds: 10
-      timeoutSeconds: 5
-      failureThreshold: 3
-      successThreshold: 1
+    # No livenessProbe/readinessProbe here: openzaak >= 1.15.0 enables its own worker
+    # startup + liveness probes (maykin-common), and the subchart's timings (liveness:
+    # period 60s, timeout 15s, failureThreshold 6) suit a check that starts a Python
+    # process and pings the broker. The subchart has no worker readiness probe.
     autoscaling:
       enabled: false
       minReplicas: 1
