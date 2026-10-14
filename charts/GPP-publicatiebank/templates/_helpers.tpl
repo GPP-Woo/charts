@@ -213,3 +213,23 @@ NGINX selector labels
 {{- define "gpp-publicatiebank.nginxSelectorLabels" -}}
 app.kubernetes.io/name: {{ include "gpp-publicatiebank.nginxName" . }}
 {{- end }}
+
+{{/*
+Whether to mount the built-in writable log emptyDir (`logVolume`): enabled, and no
+`extraVolumeMounts` entry already mounts something at `logVolume.mountPath` (the
+values-only workaround used before this chart had it), which would duplicate the path.
+*/}}
+{{- define "gpp-publicatiebank.logVolume.enabled" -}}
+{{- if .Values.logVolume.enabled -}}
+{{- $path := .Values.logVolume.mountPath | toString | trimSuffix "/" -}}
+{{- $taken := false -}}
+{{- if kindIs "slice" .Values.extraVolumeMounts -}}
+{{- range .Values.extraVolumeMounts -}}
+{{- if and (kindIs "map" .) (eq (.mountPath | toString | trimSuffix "/") $path) -}}
+{{- $taken = true -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{- if not $taken -}}true{{- end -}}
+{{- end -}}
+{{- end }}
