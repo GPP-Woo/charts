@@ -7,12 +7,12 @@ dependencies:
   version: 0.3.2
 - name: gpp-publicatiebank
   repository: https://GPP-Woo.github.io/charts
-  version: 2.5.0
+  version: 2.6.0
 - name: gpp-burgerportaal
   repository: https://GPP-Woo.github.io/charts
   version: 2.0.2
 - name: gpp-zoeken
   repository: https://GPP-Woo.github.io/charts
-  version: 0.2.8
-digest: sha256:33f5c6146e13306f294621a868b63b9bab2f5dbd10253e236ec47d491a43de9d
-generated: "2026-10-13T13:59:07.26187543+02:00"
+  version: 0.3.0
+digest: sha256:7ca909a5cafd1449cf826776ec29d7840e1daab9983dfaff70054b85afe2907f
+generated: "2026-10-14T14:43:45.856712408+02:00"
