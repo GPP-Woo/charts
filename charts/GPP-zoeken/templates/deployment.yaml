@@ -10,6 +10,10 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
+  {{- with .Values.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
   {{- include "gpp-zoeken.selectorLabels" . | nindent 6 }}
@@ -135,6 +139,10 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.worker.replicaCount }}
   {{- end }}
+  {{- with .Values.worker.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "gpp-zoeken.workerSelectorLabels" . | nindent 6 }}
@@ -239,6 +247,10 @@ metadata:
     {{- include "gpp-zoeken.flowerLabels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.flower.replicaCount }}
+  {{- with .Values.flower.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "gpp-zoeken.flowerSelectorLabels" . | nindent 6 }}

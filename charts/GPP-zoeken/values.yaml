@@ -8,6 +8,9 @@ tags:
 
 replicaCount: 1
 
+# -- Update strategy of the web Deployment (`.spec.strategy`), rendered verbatim when set. <details><summary>More information</summary> Empty keeps the Kubernetes default (`RollingUpdate` with maxSurge and maxUnavailable 25%), which at one replica starts the new pod before stopping the old one, so every rollout briefly needs the resources of both. `{type: RollingUpdate, rollingUpdate: {maxSurge: 0, maxUnavailable: 1}}` stops the old pod first: no extra resources during the rollout, but a gap while the new pod starts. `{type: Recreate}` does that for all replicas at once. The same setting exists as `worker.strategy` and `flower.strategy`.</details>
+strategy: {}
+
 image:
   repository: "ghcr.io/gpp-woo/gpp-zoeken"
   pullPolicy: IfNotPresent
@@ -284,6 +287,8 @@ worker:
   name: ""
   queueName: ""
   replicaCount: 1
+  # -- Update strategy of the Celery worker Deployment (`.spec.strategy`), see `strategy`. <details><summary>More information</summary> The cheapest place to skip the rollout overlap, e.g. `{type: RollingUpdate, rollingUpdate: {maxSurge: 0, maxUnavailable: 1}}`: while no worker runs, new tasks wait in the broker, and a task interrupted by the shutdown is redelivered because the app acknowledges tasks only after they ran (`CELERY_TASK_ACKS_LATE`). The default overlap stops the old worker in the same way, just after the new one is up.</details>
+  strategy: {}
   concurrency: 4
   podLabels: {}
   resources: {}
@@ -313,6 +318,8 @@ flower:
   basicAuth: ""
   urlPrefix: ""
   replicaCount: 1
+  # -- Update strategy of the Flower Deployment (`.spec.strategy`), see `strategy`.
+  strategy: {}
   podLabels: {}
   service:
     type: ClusterIP
