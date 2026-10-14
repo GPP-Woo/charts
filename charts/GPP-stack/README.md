@@ -441,6 +441,9 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.livenessProbe.periodSeconds | int | `10` |  |
 | gpp-publicatiebank.livenessProbe.successThreshold | int | `1` |  |
 | gpp-publicatiebank.livenessProbe.timeoutSeconds | int | `5` |  |
+| gpp-publicatiebank.logVolume.enabled | bool | `true` | Mount a writable `emptyDir` at `logVolume.mountPath` in every container that runs the app: web, Celery worker, beat and Flower (not nginx). <details><summary>More information</summary> open-api-framework's logging configuration always creates its rotating log files there (`application.jsonl`, `performance.log`, `requests.log`, each up to 10 x 10 MB), also when the app logs to stdout (`LOG_STDOUT`, the default). Wherever the image's `/app/log` is not writable the app fails to start: under a `readOnlyRootFilesystem`, or with an arbitrary UID such as OpenShift's restricted-v2 SCC assigns. Skipped when `extraVolumeMounts` already mount something at `mountPath` (the values-only workaround before this chart had it), so existing values keep working. Harmless elsewhere: it also keeps those files out of the container's writable layer.</details> |
+| gpp-publicatiebank.logVolume.mountPath | string | `"/app/log"` | Where the app writes its log files (open-api-framework: `BASE_DIR / "log"`). |
+| gpp-publicatiebank.logVolume.sizeLimit | string | `""` | Optional `sizeLimit` of the emptyDir, e.g. `1Gi`; exceeding it evicts the pod. Empty sets none. |
 | gpp-publicatiebank.nameOverride | string | `""` |  |
 | gpp-publicatiebank.nginx.autoscaling.enabled | bool | `false` |  |
 | gpp-publicatiebank.nginx.config.clientMaxBodySize | string | `"4G"` | Default client_max_body_size for all endpoints (unless overridden). Examples: "10M", "100M", "1G", "4G", "10G". |
