@@ -187,13 +187,15 @@ app.kubernetes.io/name: {{ include "gpp-zoeken.flowerName" . }}
 Whether to mount the built-in writable log emptyDir (`logVolume`): enabled, and no
 `extraVolumeMounts` entry already mounts something at `logVolume.mountPath` (the
 values-only workaround used before this chart had it), which would duplicate the path.
+`extraVolumeMounts` is rendered first, as the Deployments render it (a YAML string or
+templated entries), so the comparison sees the final mount paths.
 */}}
 {{- define "gpp-zoeken.logVolume.enabled" -}}
 {{- if .Values.logVolume.enabled -}}
 {{- $path := .Values.logVolume.mountPath | toString | trimSuffix "/" -}}
 {{- $taken := false -}}
-{{- if kindIs "slice" .Values.extraVolumeMounts -}}
-{{- range .Values.extraVolumeMounts -}}
+{{- if .Values.extraVolumeMounts -}}
+{{- range (include "gpp-zoeken.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" $) | fromYamlArray) -}}
 {{- if and (kindIs "map" .) (eq (.mountPath | toString | trimSuffix "/") $path) -}}
 {{- $taken = true -}}
 {{- end -}}
