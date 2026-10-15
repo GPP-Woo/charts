@@ -8,7 +8,7 @@ An umbrella chart for the GPP stack
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://GPP-Woo.github.io/charts | gpp-app | 0.3.2 |
+| https://GPP-Woo.github.io/charts | gpp-app | 0.4.0 |
 | https://GPP-Woo.github.io/charts | gpp-burgerportaal | 2.0.2 |
 | https://GPP-Woo.github.io/charts | gpp-publicatiebank | 2.6.0 |
 | https://GPP-Woo.github.io/charts | gpp-zoeken | 0.3.0 |
