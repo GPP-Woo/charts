@@ -12,6 +12,11 @@ Open Zaak 1.31.
   2.x image beat runs with an empty schedule. Set it to `false` to opt out.
 - Bumped GPP-publicatiebank to 2.6.0 (`appVersion` unchanged, 2.1.0): a writable `emptyDir`
   at `/app/log` in the web, worker, beat and Flower containers by default (`logVolume`).
+- Bumped GPP-app to 0.4.0 (`appVersion` unchanged, 3.1.0): `gpp-app.settings.uploadTimeoutMinutes`
+  and `gpp-app.settings.downloadTimeoutMinutes` (`UPLOAD_TIMEOUT_MINUTES` /
+  `DOWNLOAD_TIMEOUT_MINUTES`; empty keeps the app default of 10 minutes). The app aborts a
+  file-part upload that takes longer, so slow clients need a longer timeout or smaller
+  parts (Open Zaak's `DOCUMENTEN_UPLOAD_CHUNK_SIZE`, default 4 GiB = one part per file).
 - Bumped GPP-zoeken to 0.3.0 (`appVersion` unchanged, 2.2.0): the same `/app/log` emptyDir
   in the web, worker and Flower containers and the index Job (`logVolume`), and a
   per-component Deployment update `strategy` (e.g. `worker.strategy` with `maxSurge: 0`).
