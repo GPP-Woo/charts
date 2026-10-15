@@ -1,6 +1,6 @@
 # gpp-stack
 
-![Version: 0.4.0-rc.1](https://img.shields.io/badge/Version-0.4.0--rc.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.1](https://img.shields.io/badge/AppVersion-1.0.1-informational?style=flat-square)
+![Version: 0.4.0-rc.2](https://img.shields.io/badge/Version-0.4.0--rc.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.1](https://img.shields.io/badge/AppVersion-1.0.1-informational?style=flat-square)
 
 An umbrella chart for the GPP stack
 
@@ -8,10 +8,10 @@ An umbrella chart for the GPP stack
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://GPP-Woo.github.io/charts | gpp-app | 0.3.2 |
+| https://GPP-Woo.github.io/charts | gpp-app | 0.4.0 |
 | https://GPP-Woo.github.io/charts | gpp-burgerportaal | 2.0.2 |
-| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 2.5.0 |
-| https://GPP-Woo.github.io/charts | gpp-zoeken | 0.2.8 |
+| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 2.6.0 |
+| https://GPP-Woo.github.io/charts | gpp-zoeken | 0.3.0 |
 | https://maykinmedia.github.io/charts/ | openzaak | 1.15.0 |
 
 ## Values
@@ -21,6 +21,7 @@ An umbrella chart for the GPP stack
 | global.settings.databaseHost | string | `""` | Global databasehost, overrides setting.database.host |
 | gpp-app.enabled | bool | `true` |  |
 | gpp-burgerportaal.enabled | bool | `true` |  |
+| gpp-publicatiebank.beat.enabled | bool | `true` | Run GPP-publicatiebank's Celery beat Deployment (the subchart's own default is `false`). <details><summary>More information</summary> The 0.4.x line targets GPP-publicatiebank 3.0.0, which needs exactly one beat: it schedules the daily revocation of publications whose inspection period has ended (GPP-Woo/GPP-publicatiebank#460); without it that task silently never runs. The subchart keeps `false` while its own appVersion is 2.x, so this umbrella default goes away once it ships appVersion 3.0.0 with beat enabled. On a 2.x image beat runs with an empty schedule: harmless, about 120Mi of memory.</details> |
 | gpp-publicatiebank.enabled | bool | `true` |  |
 | gpp-publicatiebank.redis.nameOverride | string | `"gpp-publicatiebank-redis"` |  |
 | gpp-zoeken.eck-elasticsearch.enabled | bool | `true` |  |

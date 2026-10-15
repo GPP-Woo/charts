@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.4.0-rc.2 (2026-10-14)
+
+Second release candidate of the 0.4.x line, which targets GPP-publicatiebank 3.0.0 and
+Open Zaak 1.31.
+
+- Enabled GPP-publicatiebank's Celery beat by default (`gpp-publicatiebank.beat.enabled: true`).
+  GPP-publicatiebank 3.0.0 needs exactly one beat for the daily revocation of publications
+  whose inspection period has ended (GPP-Woo/GPP-publicatiebank#460); without it that task
+  silently never runs. The subchart itself keeps `false` while its `appVersion` is 2.x. On a
+  2.x image beat runs with an empty schedule. Set it to `false` to opt out.
+- Bumped GPP-publicatiebank to 2.6.0 (`appVersion` unchanged, 2.1.0): a writable `emptyDir`
+  at `/app/log` in the web, worker, beat and Flower containers by default (`logVolume`).
+- Bumped GPP-app to 0.4.0 (`appVersion` unchanged, 3.1.0): `gpp-app.settings.uploadTimeoutMinutes`
+  and `gpp-app.settings.downloadTimeoutMinutes` (`UPLOAD_TIMEOUT_MINUTES` /
+  `DOWNLOAD_TIMEOUT_MINUTES`; empty keeps the app default of 10 minutes). The app aborts a
+  file-part upload that takes longer, so slow clients need a longer timeout or smaller
+  parts (Open Zaak's `DOCUMENTEN_UPLOAD_CHUNK_SIZE`, default 4 GiB = one part per file).
+- Bumped GPP-zoeken to 0.3.0 (`appVersion` unchanged, 2.2.0): the same `/app/log` emptyDir
+  in the web, worker and Flower containers and the index Job (`logVolume`), and a
+  per-component Deployment update `strategy` (e.g. `worker.strategy` with `maxSurge: 0`).
+- Upgrade notes:
+  - Releases that already mount something at `/app/log` through `extraVolumeMounts` keep
+    their own mount; the subcharts then add none. Those values can be dropped for
+    GPP-publicatiebank and GPP-zoeken, but not yet for Open Zaak (below).
+  - GPP-publicatiebank's and GPP-zoeken's pods roll (new volume), and a beat pod appears
+    where it was not enabled yet: allow for it in namespace ResourceQuotas.
+- Open Zaak stays on chart 1.15.0, which has neither a built-in `/app/log` volume nor a
+  configurable update strategy yet: keep setting `openzaak.extraVolumes` /
+  `openzaak.extraVolumeMounts` where `/app/log` is not writable.
+
 ## 0.4.0-rc.1 (2026-10-13)
 
 Release candidate bundling the subchart updates validated on a development instance
