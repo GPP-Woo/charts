@@ -3,6 +3,16 @@ entries:
   gpp-app:
   - apiVersion: v2
     appVersion: 3.1.0
+    created: "2026-10-15T09:34:23.277388324Z"
+    description: A helm chart for the ICATT GPP app.
+    digest: 85f26159628860dbc8115a3663ecd26a8fc08a6c716972e0b6fabe299c23121b
+    name: gpp-app
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-app-0.4.0/gpp-app-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v2
+    appVersion: 3.1.0
     created: "2026-04-22T10:21:35.653101473Z"
     description: A helm chart for the ICATT GPP app.
     digest: 0b0160f705abe2054a754f9a3b4e8fa82829abc4c43c710ec2fd413f202ad4d8
@@ -512,7 +522,7 @@ entries:
   gpp-stack:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2026-10-15T09:30:21.566054099Z"
+    created: "2026-10-15T09:34:23.524530665Z"
     dependencies:
     - condition: openzaak.enabled
       name: openzaak
@@ -535,7 +545,7 @@ entries:
       repository: https://GPP-Woo.github.io/charts
       version: 0.2.8
     description: An umbrella chart for the GPP stack
-    digest: 98b3c7ec316b1cf589597ab1e63b32fd5a5a7528c2957316cc7b20ef655beb47
+    digest: b7f65d4566979ec29055961715d21724f4b75a4d5a5464efab550ec6e6d06b2d
     name: gpp-stack
     type: application
     urls:
@@ -567,6 +577,37 @@ entries:
       version: 0.2.8
     description: An umbrella chart for the GPP stack
     digest: 60c30cb81ee27a16505d07a3a01cee8333e35ea68b6057133a7d84c15eb5ae06
+    name: gpp-stack
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-stack-0.4.0-rc.1/gpp-stack-0.4.0-rc.1.tgz
+    version: 0.4.0-rc.1
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2026-10-15T09:30:21.566054099Z"
+    dependencies:
+    - condition: openzaak.enabled
+      name: openzaak
+      repository: https://maykinmedia.github.io/charts/
+      version: 1.15.0
+    - condition: gpp-app.enabled
+      name: gpp-app
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.3.2
+    - condition: gpp-publicatiebank.enabled
+      name: gpp-publicatiebank
+      repository: https://GPP-Woo.github.io/charts
+      version: 2.5.0
+    - condition: gpp-burgerportaal.enabled
+      name: gpp-burgerportaal
+      repository: https://GPP-Woo.github.io/charts
+      version: 2.0.2
+    - condition: gpp-zoeken.enabled
+      name: gpp-zoeken
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.2.8
+    description: An umbrella chart for the GPP stack
+    digest: 98b3c7ec316b1cf589597ab1e63b32fd5a5a7528c2957316cc7b20ef655beb47
     name: gpp-stack
     type: application
     urls:
@@ -1454,4 +1495,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2026-10-15T09:30:21.5662515Z"
+generated: "2026-10-15T09:34:23.524708511Z"
