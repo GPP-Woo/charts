@@ -522,7 +522,7 @@ entries:
   gpp-stack:
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2026-10-15T09:34:23.524530665Z"
+    created: "2026-10-15T09:36:50.178379192Z"
     dependencies:
     - condition: openzaak.enabled
       name: openzaak
@@ -545,7 +545,7 @@ entries:
       repository: https://GPP-Woo.github.io/charts
       version: 0.2.8
     description: An umbrella chart for the GPP stack
-    digest: b7f65d4566979ec29055961715d21724f4b75a4d5a5464efab550ec6e6d06b2d
+    digest: 2700ca46747a49291f2c21c0b111f6042b3c3ad6b5610485bb94ef914406010d
     name: gpp-stack
     type: application
     urls:
@@ -608,6 +608,37 @@ entries:
       version: 0.2.8
     description: An umbrella chart for the GPP stack
     digest: 98b3c7ec316b1cf589597ab1e63b32fd5a5a7528c2957316cc7b20ef655beb47
+    name: gpp-stack
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-stack-0.4.0-rc.1/gpp-stack-0.4.0-rc.1.tgz
+    version: 0.4.0-rc.1
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2026-10-15T09:34:23.524530665Z"
+    dependencies:
+    - condition: openzaak.enabled
+      name: openzaak
+      repository: https://maykinmedia.github.io/charts/
+      version: 1.15.0
+    - condition: gpp-app.enabled
+      name: gpp-app
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.3.2
+    - condition: gpp-publicatiebank.enabled
+      name: gpp-publicatiebank
+      repository: https://GPP-Woo.github.io/charts
+      version: 2.5.0
+    - condition: gpp-burgerportaal.enabled
+      name: gpp-burgerportaal
+      repository: https://GPP-Woo.github.io/charts
+      version: 2.0.2
+    - condition: gpp-zoeken.enabled
+      name: gpp-zoeken
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.2.8
+    description: An umbrella chart for the GPP stack
+    digest: b7f65d4566979ec29055961715d21724f4b75a4d5a5464efab550ec6e6d06b2d
     name: gpp-stack
     type: application
     urls:
@@ -1139,6 +1170,34 @@ entries:
   gpp-zoeken:
   - apiVersion: v2
     appVersion: 2.2.0
+    created: "2026-10-15T09:36:50.493474181Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 22.0.1
+    - condition: eck-operator.enabled
+      name: eck-operator
+      repository: https://helm.elastic.co
+      tags:
+      - eck-operator
+      version: 3.3.1
+    - condition: eck-elasticsearch.enabled
+      name: eck-elasticsearch
+      repository: https://helm.elastic.co
+      tags:
+      - eck-elasticsearch
+      version: 0.18.1
+    description: Een zoek-component die voorziet in een "Openbare documenten"-index.
+    digest: 3e55e76d1787ecf30ef28d988c9e1929bda5147b9dc140d8b2d888612c0b8876
+    name: gpp-zoeken
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.3.0/gpp-zoeken-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 2.2.0
     created: "2026-10-13T09:42:45.729553888Z"
     dependencies:
     - name: redis
@@ -1495,4 +1554,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2026-10-15T09:34:23.524708511Z"
+generated: "2026-10-15T09:36:50.493785631Z"
