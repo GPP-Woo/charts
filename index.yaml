@@ -175,6 +175,22 @@ entries:
   gpp-publicatiebank:
   - apiVersion: v2
     appVersion: 2.1.0
+    created: "2026-10-15T09:30:21.315209757Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 22.0.1
+    description: Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
+    digest: af5c9444ba37c1a7578ee53038f5f0a5794c9d64f81d53d62a73ad5a069db1fd
+    name: gpp-publicatiebank
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-publicatiebank-2.6.0/gpp-publicatiebank-2.6.0.tgz
+    version: 2.6.0
+  - apiVersion: v2
+    appVersion: 2.1.0
     created: "2026-10-13T09:58:01.369612864Z"
     dependencies:
     - name: redis
@@ -494,6 +510,37 @@ entries:
     - https://github.com/gpp-woo/charts/releases/download/gpp-publicatiebank-1.0.0/gpp-publicatiebank-1.0.0.tgz
     version: 1.0.0
   gpp-stack:
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2026-10-15T09:30:21.566054099Z"
+    dependencies:
+    - condition: openzaak.enabled
+      name: openzaak
+      repository: https://maykinmedia.github.io/charts/
+      version: 1.15.0
+    - condition: gpp-app.enabled
+      name: gpp-app
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.3.2
+    - condition: gpp-publicatiebank.enabled
+      name: gpp-publicatiebank
+      repository: https://GPP-Woo.github.io/charts
+      version: 2.5.0
+    - condition: gpp-burgerportaal.enabled
+      name: gpp-burgerportaal
+      repository: https://GPP-Woo.github.io/charts
+      version: 2.0.2
+    - condition: gpp-zoeken.enabled
+      name: gpp-zoeken
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.2.8
+    description: An umbrella chart for the GPP stack
+    digest: 98b3c7ec316b1cf589597ab1e63b32fd5a5a7528c2957316cc7b20ef655beb47
+    name: gpp-stack
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-stack-0.4.0-rc.1/gpp-stack-0.4.0-rc.1.tgz
+    version: 0.4.0-rc.1
   - apiVersion: v2
     appVersion: 1.0.1
     created: "2026-10-13T12:27:42.077068205Z"
@@ -1407,4 +1454,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2026-10-13T12:27:42.077323692Z"
+generated: "2026-10-15T09:30:21.5662515Z"
