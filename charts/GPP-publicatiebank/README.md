@@ -1,6 +1,6 @@
 # gpp-publicatiebank
 
-![Version: 2.5.0](https://img.shields.io/badge/Version-2.5.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.1.0](https://img.shields.io/badge/AppVersion-2.1.0-informational?style=flat-square)
+![Version: 2.6.0](https://img.shields.io/badge/Version-2.6.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.1.0](https://img.shields.io/badge/AppVersion-2.1.0-informational?style=flat-square)
 
 Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
 
@@ -68,6 +68,9 @@ Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteite
 | livenessProbe.periodSeconds | int | `10` |  |
 | livenessProbe.successThreshold | int | `1` |  |
 | livenessProbe.timeoutSeconds | int | `5` |  |
+| logVolume.enabled | bool | `true` | Mount a writable `emptyDir` at `logVolume.mountPath` in every container that runs the app: web, Celery worker, beat and Flower (not nginx). <details><summary>More information</summary> open-api-framework's logging configuration always creates its rotating log files there (`application.jsonl`, `performance.log`, `requests.log`, each up to 10 x 10 MB), also when the app logs to stdout (`LOG_STDOUT`, the default). Wherever the image's `/app/log` is not writable the app fails to start: under a `readOnlyRootFilesystem`, or with an arbitrary UID such as OpenShift's restricted-v2 SCC assigns. Skipped when `extraVolumeMounts` already mount something at `mountPath` (the values-only workaround before this chart had it), so existing values keep working. Harmless elsewhere: it also keeps those files out of the container's writable layer.</details> |
+| logVolume.mountPath | string | `"/app/log"` | Where the app writes its log files (open-api-framework: `BASE_DIR / "log"`). |
+| logVolume.sizeLimit | string | `""` | Optional `sizeLimit` of the emptyDir, e.g. `1Gi`; exceeding it evicts the pod. Empty sets none. |
 | nameOverride | string | `""` |  |
 | nginx.autoscaling.enabled | bool | `false` |  |
 | nginx.config.clientMaxBodySize | string | `"4G"` | Default client_max_body_size for all endpoints (unless overridden). Examples: "10M", "100M", "1G", "4G", "10G". |

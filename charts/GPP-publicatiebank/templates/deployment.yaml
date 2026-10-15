@@ -92,6 +92,10 @@ spec:
             - name: media
               mountPath: /app/media
               subPath: {{ .Values.persistence.mediaMountSubpath  | default "gpp-publicatiebank/media" }}
+            {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+            - name: gpp-publicatiebank-log
+              mountPath: {{ .Values.logVolume.mountPath }}
+            {{- end }}
             {{- if .Values.extraVolumeMounts }}
             {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
             {{- end }}
@@ -103,6 +107,15 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
+        {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+        - name: gpp-publicatiebank-log
+          {{- if .Values.logVolume.sizeLimit }}
+          emptyDir:
+            sizeLimit: {{ .Values.logVolume.sizeLimit | quote }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- end }}
         {{- if .Values.extraVolumes }}
         {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
         {{- end }}
@@ -288,6 +301,10 @@ spec:
             - name: media
               mountPath: /app/media
               subPath: {{ .Values.persistence.mediaMountSubpath  | default "gpp-publicatiebank/media" }}
+            {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+            - name: gpp-publicatiebank-log
+              mountPath: {{ .Values.logVolume.mountPath }}
+            {{- end }}
             {{- if .Values.extraVolumeMounts }}
             {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
             {{- end }}            
@@ -299,6 +316,15 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
+        {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+        - name: gpp-publicatiebank-log
+          {{- if .Values.logVolume.sizeLimit }}
+          emptyDir:
+            sizeLimit: {{ .Values.logVolume.sizeLimit | quote }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- end }}
         {{- if .Values.extraVolumes }}
         {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
         {{- end }}
@@ -383,10 +409,23 @@ spec:
               port: 5555
             {{- toYaml .Values.flower.readinessProbe | nindent 12 }}
           volumeMounts:
+            {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+            - name: gpp-publicatiebank-log
+              mountPath: {{ .Values.logVolume.mountPath }}
+            {{- end }}
             {{- if .Values.extraVolumeMounts }}
             {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
             {{- end }}
       volumes:
+        {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+        - name: gpp-publicatiebank-log
+          {{- if .Values.logVolume.sizeLimit }}
+          emptyDir:
+            sizeLimit: {{ .Values.logVolume.sizeLimit | quote }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- end }}
           {{- if .Values.extraVolumes }}
           {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
           {{- end }}
@@ -467,12 +506,25 @@ spec:
             # persistence; an emptyDir keeps it writable under readOnlyRootFilesystem.
             - name: celerybeat
               mountPath: /app/celerybeat
+            {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+            - name: gpp-publicatiebank-log
+              mountPath: {{ .Values.logVolume.mountPath }}
+            {{- end }}
             {{- if .Values.extraVolumeMounts }}
             {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
             {{- end }}
       volumes:
         - name: celerybeat
           emptyDir: {}
+        {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+        - name: gpp-publicatiebank-log
+          {{- if .Values.logVolume.sizeLimit }}
+          emptyDir:
+            sizeLimit: {{ .Values.logVolume.sizeLimit | quote }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- end }}
         {{- if .Values.extraVolumes }}
         {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
         {{- end }}
