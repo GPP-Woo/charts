@@ -41,6 +41,10 @@ spec:
           volumeMounts:
             - name: elastic-ca
               mountPath: /app/certs
+            {{- if include "gpp-zoeken.logVolume.enabled" . }}
+            - name: gpp-zoeken-log
+              mountPath: {{ .Values.logVolume.mountPath }}
+            {{- end }}
             {{- if .Values.extraVolumeMounts }}
             {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
             {{- end }}
@@ -60,6 +64,15 @@ spec:
         - name: elastic-ca
           secret:
             secretName: {{ printf "%s-es-http-certs-public" (index .Values "eck-elasticsearch" "fullnameOverride")  }}
+        {{- if include "gpp-zoeken.logVolume.enabled" . }}
+        - name: gpp-zoeken-log
+          {{- if .Values.logVolume.sizeLimit }}
+          emptyDir:
+            sizeLimit: {{ .Values.logVolume.sizeLimit | quote }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- end }}
         {{- if .Values.extraVolumes }}
         {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
         {{- end }}
