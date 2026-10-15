@@ -1,6 +1,6 @@
 # gpp-app
 
-![Version: 0.3.2](https://img.shields.io/badge/Version-0.3.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.1.0](https://img.shields.io/badge/AppVersion-3.1.0-informational?style=flat-square)
+![Version: 0.4.0](https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.1.0](https://img.shields.io/badge/AppVersion-3.1.0-informational?style=flat-square)
 
 A helm chart for the ICATT GPP app.
 
@@ -76,6 +76,7 @@ A helm chart for the ICATT GPP app.
 | settings.database.port | int | `5432` |  |
 | settings.database.sslmode | string | `"prefer"` |  |
 | settings.database.username | string | `""` |  |
+| settings.downloadTimeoutMinutes | string | `""` | Timeout in minutes for relaying one document download from GPP-publicatiebank (`DOWNLOAD_TIMEOUT_MINUTES`). Empty keeps the app default of 10. |
 | settings.gppPublicatiebank.apiKey | string | `""` |  |
 | settings.gppPublicatiebank.baseUrl | string | `""` |  |
 | settings.oidc.adminRole | string | `""` |  |
@@ -85,6 +86,7 @@ A helm chart for the ICATT GPP app.
 | settings.oidc.idClaimType | string | `""` |  |
 | settings.oidc.nameClaimType | string | `""` |  |
 | settings.oidc.roleClaimType | string | `""` |  |
+| settings.uploadTimeoutMinutes | string | `""` | Timeout in minutes for relaying one file part (bestandsdeel) of an upload to GPP-publicatiebank (`UPLOAD_TIMEOUT_MINUTES`). Empty keeps the app default of 10. <details><summary>More information</summary> The app streams each part from the browser to GPP-publicatiebank, so the whole part has to arrive within this time: a slow client either needs a longer timeout or smaller parts (the Documents API's part size, e.g. Open Zaak's `DOCUMENTEN_UPLOAD_CHUNK_SIZE`).</details> |
 | tolerations | list | `[]` |  |
 
 ----------------------------------------------
