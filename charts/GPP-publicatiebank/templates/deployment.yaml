@@ -93,7 +93,7 @@ spec:
               mountPath: /app/media
               subPath: {{ .Values.persistence.mediaMountSubpath  | default "gpp-publicatiebank/media" }}
             {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
-            - name: app-log
+            - name: gpp-publicatiebank-log
               mountPath: {{ .Values.logVolume.mountPath }}
             {{- end }}
             {{- if .Values.extraVolumeMounts }}
@@ -108,7 +108,7 @@ spec:
           emptyDir: { }
           {{- end }}
         {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
-        - name: app-log
+        - name: gpp-publicatiebank-log
           {{- if .Values.logVolume.sizeLimit }}
           emptyDir:
             sizeLimit: {{ .Values.logVolume.sizeLimit | quote }}
@@ -302,7 +302,7 @@ spec:
               mountPath: /app/media
               subPath: {{ .Values.persistence.mediaMountSubpath  | default "gpp-publicatiebank/media" }}
             {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
-            - name: app-log
+            - name: gpp-publicatiebank-log
               mountPath: {{ .Values.logVolume.mountPath }}
             {{- end }}
             {{- if .Values.extraVolumeMounts }}
@@ -317,7 +317,7 @@ spec:
           emptyDir: { }
           {{- end }}
         {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
-        - name: app-log
+        - name: gpp-publicatiebank-log
           {{- if .Values.logVolume.sizeLimit }}
           emptyDir:
             sizeLimit: {{ .Values.logVolume.sizeLimit | quote }}
@@ -410,7 +410,7 @@ spec:
             {{- toYaml .Values.flower.readinessProbe | nindent 12 }}
           volumeMounts:
             {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
-            - name: app-log
+            - name: gpp-publicatiebank-log
               mountPath: {{ .Values.logVolume.mountPath }}
             {{- end }}
             {{- if .Values.extraVolumeMounts }}
@@ -418,7 +418,7 @@ spec:
             {{- end }}
       volumes:
         {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
-        - name: app-log
+        - name: gpp-publicatiebank-log
           {{- if .Values.logVolume.sizeLimit }}
           emptyDir:
             sizeLimit: {{ .Values.logVolume.sizeLimit | quote }}
@@ -507,7 +507,7 @@ spec:
             - name: celerybeat
               mountPath: /app/celerybeat
             {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
-            - name: app-log
+            - name: gpp-publicatiebank-log
               mountPath: {{ .Values.logVolume.mountPath }}
             {{- end }}
             {{- if .Values.extraVolumeMounts }}
@@ -517,7 +517,7 @@ spec:
         - name: celerybeat
           emptyDir: {}
         {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
-        - name: app-log
+        - name: gpp-publicatiebank-log
           {{- if .Values.logVolume.sizeLimit }}
           emptyDir:
             sizeLimit: {{ .Values.logVolume.sizeLimit | quote }}
