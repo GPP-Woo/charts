@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1 (2026-10-16)
+
+- Make the index Job optional (`settings.job.enabled`, default `true`) and allow extra Job annotations (`settings.job.annotations`). The Job is a plain, unconditional resource, so under GitOps (Argo CD / Flux) any chart bump that changes its pod template - e.g. the 0.3.0 `/app/log` volume or an image-tag bump - fails the sync with `Job.batch "...-index" spec.template: field is immutable`. Set `settings.job.enabled: false` when an external job runs `initialize_mappings` (e.g. a PostSync hook), or add `settings.job.annotations: {argocd.argoproj.io/sync-options: "Replace=true,Force=true"}` to let Argo CD recreate instead of patch. Existing releases render unchanged.
+
 ## 0.3.0 (2026-10-14)
 
 - Expose the Deployment update strategy per component: `strategy` (web), `worker.strategy` and `flower.strategy`, rendered verbatim as `.spec.strategy` when set. Empty (the default) keeps the Kubernetes default, so existing releases render unchanged. Typical use: `{type: RollingUpdate, rollingUpdate: {maxSurge: 0, maxUnavailable: 1}}` on the worker, so a rollout no longer briefly runs two worker pods, which counts double against a namespace ResourceQuota. Same setting as GPP-publicatiebank 2.5.0.

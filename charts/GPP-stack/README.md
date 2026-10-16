@@ -823,7 +823,9 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.settings.environmentLabelForegroundColor | string | `""` | CSS color value for the environment information text color. Defaults to black. Follows the same rules as ENVIRONMENT_BACKGROUND_COLOR. |
 | gpp-zoeken.settings.environmentLabelName | string | `""` | Environment information to display, defaults to the value of ENVIRONMENT. Only displayed when SHOW_ENVIRONMENT is set to True. You can set this to strings like OpenGem PROD or simply PROD, depending on your needs. |
 | gpp-zoeken.settings.isHttps | bool | `true` |  |
+| gpp-zoeken.settings.job.annotations | object | `{}` | Extra annotations for the index Job's metadata, e.g. `argocd.argoproj.io/sync-options: Replace=true,Force=true` so Argo CD recreates instead of patching the immutable Job. |
 | gpp-zoeken.settings.job.backoffLimit | int | `6` |  |
+| gpp-zoeken.settings.job.enabled | bool | `true` | Render the built-in index Job. Disable it when an external job runs `initialize_mappings` instead (e.g. an Argo CD / Flux PostSync hook), to avoid a redundant Job that also fails GitOps syncs with "spec.template is immutable" when a chart or image bump changes its pod template. |
 | gpp-zoeken.settings.job.resources | object | `{}` |  |
 | gpp-zoeken.settings.job.restartPolicy | string | `"OnFailure"` |  |
 | gpp-zoeken.settings.job.ttlSecondsAfterFinished | int | `0` | 0 Will clean the job after it is finished |
