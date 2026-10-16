@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0-rc.3 (2026-10-16)
+
+- Bumped GPP-zoeken to 0.3.1 (`appVersion` unchanged, 2.2.0): the index Job can be turned
+  off (`gpp-zoeken.settings.job.enabled: false`, e.g. when an Argo CD / Flux PostSync hook
+  runs `initialize_mappings` instead) or carry extra annotations
+  (`gpp-zoeken.settings.job.annotations`, e.g. `argocd.argoproj.io/sync-options:
+  Replace=true,Force=true`). Under Argo CD a chart or image bump otherwise fails the sync,
+  because the Job's pod template is immutable.
+- Upgrade note: the Job's pod template carries the chart version label, so this bump
+  changes it too. Under Argo CD, set either value in the same sync that moves to this
+  version. Helm-managed releases with the default `ttlSecondsAfterFinished: 0` are
+  unaffected: their finished Job is already gone.
+
 ## 0.4.0-rc.2 (2026-10-14)
 
 Second release candidate of the 0.4.x line, which targets GPP-publicatiebank 3.0.0 and
