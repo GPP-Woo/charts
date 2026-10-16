@@ -1,6 +1,6 @@
 # gpp-zoeken
 
-![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.0](https://img.shields.io/badge/AppVersion-2.2.0-informational?style=flat-square)
+![Version: 0.3.1](https://img.shields.io/badge/Version-0.3.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.0](https://img.shields.io/badge/AppVersion-2.2.0-informational?style=flat-square)
 
 Een zoek-component die voorziet in een "Openbare documenten"-index.
 
@@ -264,7 +264,9 @@ Een zoek-component die voorziet in een "Openbare documenten"-index.
 | settings.environmentLabelForegroundColor | string | `""` | CSS color value for the environment information text color. Defaults to black. Follows the same rules as ENVIRONMENT_BACKGROUND_COLOR. |
 | settings.environmentLabelName | string | `""` | Environment information to display, defaults to the value of ENVIRONMENT. Only displayed when SHOW_ENVIRONMENT is set to True. You can set this to strings like OpenGem PROD or simply PROD, depending on your needs. |
 | settings.isHttps | bool | `true` |  |
+| settings.job.annotations | object | `{}` | Extra annotations for the index Job's metadata, e.g. `argocd.argoproj.io/sync-options: Replace=true,Force=true` so Argo CD recreates instead of patching the immutable Job. |
 | settings.job.backoffLimit | int | `6` |  |
+| settings.job.enabled | bool | `true` | Render the built-in index Job. Disable it when an external job runs `initialize_mappings` instead (e.g. an Argo CD / Flux PostSync hook), to avoid a redundant Job that also fails GitOps syncs with "spec.template is immutable" when a chart or image bump changes its pod template. |
 | settings.job.resources | object | `{}` |  |
 | settings.job.restartPolicy | string | `"OnFailure"` |  |
 | settings.job.ttlSecondsAfterFinished | int | `0` | 0 Will clean the job after it is finished |
