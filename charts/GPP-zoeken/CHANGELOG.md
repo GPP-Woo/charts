@@ -2,7 +2,7 @@
 
 ## 0.3.1 (2026-10-16)
 
-- Make the index Job optional (`settings.job.enabled`, default `true`) and allow extra Job annotations (`settings.job.annotations`). The Job is a plain, unconditional resource, so under GitOps (Argo CD / Flux) any chart bump that changes its pod template - e.g. the 0.3.0 `/app/log` volume or an image-tag bump - fails the sync with `Job.batch "...-index" spec.template: field is immutable`. Set `settings.job.enabled: false` when an external job runs `initialize_mappings` (e.g. a PostSync hook), or add `settings.job.annotations: {argocd.argoproj.io/sync-options: Replace=true,Force=true}` to let Argo CD recreate instead of patch. Existing releases render unchanged.
+- Make the index Job optional (`settings.job.enabled`, default `true`) and allow extra Job annotations (`settings.job.annotations`). The Job is a plain, unconditional resource, so under GitOps (Argo CD / Flux) any chart bump that changes its pod template - e.g. the 0.3.0 `/app/log` volume or an image-tag bump - fails the sync with `Job.batch "...-index" spec.template: field is immutable`. Set `settings.job.enabled: false` when an external job runs `initialize_mappings` (e.g. a PostSync hook), or add `settings.job.annotations: {argocd.argoproj.io/sync-options: "Replace=true,Force=true"}` to let Argo CD recreate instead of patch. Existing releases render unchanged.
 
 ## 0.3.0 (2026-10-14)
 
