@@ -284,6 +284,10 @@ settings:
     
 
   job:
+    # -- Render the built-in index Job. Disable it when an external job runs `initialize_mappings` instead (e.g. an Argo CD / Flux PostSync hook), to avoid a redundant Job that also fails GitOps syncs with "spec.template is immutable" when a chart or image bump changes its pod template.
+    enabled: true
+    # -- Extra annotations for the index Job's metadata, e.g. `argocd.argoproj.io/sync-options: Replace=true,Force=true` so Argo CD recreates instead of patching the immutable Job.
+    annotations: {}
     backoffLimit: 6
     # -- 0 Will clean the job after it is finished
     ttlSecondsAfterFinished: 0

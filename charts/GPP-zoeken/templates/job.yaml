@@ -1,9 +1,14 @@
+{{- if .Values.settings.job.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ include "gpp-zoeken.fullname" . }}-index
   labels:
     {{- include "gpp-zoeken.labels" . | nindent 4 }}
+  {{- with .Values.settings.job.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   backoffLimit: {{ .Values.settings.job.backoffLimit }}
   ttlSecondsAfterFinished: {{ .Values.settings.job.ttlSecondsAfterFinished }}
@@ -88,3 +93,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+{{- end }}
