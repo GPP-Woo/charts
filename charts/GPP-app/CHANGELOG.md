@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0-rc.0 (2026-10-23)
+
+- Set appVersion to 4.0.0-rc.0. The app reads no new or changed environment variables, so templates and values are unchanged.
+- GPP-app 4.0 requires GPP-publicatiebank >= 3.0.0: it fetches the inzageprocedure of every publicatie, and an older publicatiebank answers that with an error.
+- On startup the app migrates its database (adds a column to `Gebruikersgroepen`).
+
 ## 0.4.0 (2026-10-15)
 
 - Add `settings.uploadTimeoutMinutes` and `settings.downloadTimeoutMinutes`, rendered as `UPLOAD_TIMEOUT_MINUTES` and `DOWNLOAD_TIMEOUT_MINUTES` when set. Empty (the default) keeps the app's own default of 10 minutes, so existing releases render unchanged. The app aborts a file-part upload that takes longer, which limits slow clients to about 100 MiB per part at 1.4 Mbit/s.
