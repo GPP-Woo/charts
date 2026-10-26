@@ -1,5 +1,48 @@
 # Changelog
 
+## 0.4.0-rc.4 (2026-10-26)
+
+Fourth release candidate of the 0.4.x line, now with GPP-publicatiebank 3.0.0 and Open
+Zaak 1.31. Every GPP component runs its subchart's default image (`appVersion`); only Open
+Zaak's image tag comes from the umbrella.
+
+- Bumped GPP-publicatiebank to 3.0.0-rc.0 (`appVersion` 3.0.0, was 2.1.0). The subchart
+  now enables Celery beat itself, so the umbrella's `gpp-publicatiebank.beat.enabled: true`
+  is gone; the effective default stays `true`.
+- Bumped GPP-app to 0.5.0-rc.0 (`appVersion` 4.0.0-rc.0, was 3.1.0). GPP-app 4.0 requires
+  GPP-publicatiebank >= 3.0.0, and migrates its database on startup.
+- Bumped GPP-burgerportaal to 2.1.0-rc.0 (`appVersion` 5.1.0-rc.0, was 5.0.0).
+- Bumped GPP-zoeken to 0.4.0-rc.0 (`appVersion` 2.2.1, was 2.2.0): the index Job waits up
+  to `gpp-zoeken.settings.job.waitForElasticTimeout` (300 s) for Elasticsearch and fails
+  instead of reporting success without indices; `gpp-zoeken.settings.elastic.iniIndices`
+  now defaults to `false`, which keeps index initialisation in the Job (up to 2.2.0 the web
+  containers ignored the old `"True"`); `gpp-zoeken.settings.uwsgi.harakiri` and
+  `UWSGI_*` variables in `extraEnvVars` take effect.
+- Bumped openzaak to 1.16.0-rc.1 (`appVersion` unchanged, 1.30.0): a per-component
+  Deployment update `strategy`, and `beat.enabled`.
+- Open Zaak image `1.31.1-perftest` (`openzaak.image.tag`; was empty, i.e. 1.30.0), the
+  upstream pre-release cut of 1.31.1. It contains open-zaak#2592 (1.31.0: concurrent
+  unlocks of same-named uploads could overwrite each other's content) and open-zaak#2607
+  (1.31.1), which GPP-publicatiebank 3.0.0 needs to re-link existing documents to its own
+  informatieobjecttypen. The override goes once the openzaak chart ships a matching
+  `appVersion`.
+- Disabled Open Zaak's Celery beat (`openzaak.beat.enabled: false`). Its only own periodic
+  task removes finished bulk imports, a feature GPP doesn't use. `false` renders no beat
+  Deployment; set `true` to keep it.
+- Upgrade notes:
+  - A values file that pins a component's `image.tag` keeps that pin and overrides the
+    versions above. Remove the pin to run the version this umbrella ships, and move
+    GPP-app to 4.0 only together with GPP-publicatiebank 3.0.0.
+  - GPP-publicatiebank 3.0.0 is a major release with manual steps in GPP-publicatiebank
+    and Open Zaak: document uploads fail until the Catalogi API is configured. See its
+    [3.0.0 upgrade procedure](https://github.com/GPP-Woo/GPP-publicatiebank/blob/3.0.0/CHANGELOG.rst);
+    the app's `setup_catalogi_api` management command can do the setup.
+  - After the move to Open Zaak 1.31, run the read-only
+    `python src/manage.py detect_overwritten_documents` in an openzaak pod (Open Zaak's
+    1.31.0 changelog).
+  - Releases that stopped Open Zaak's beat with `openzaak.beat.replicaCount: 0` can drop
+    that value: the beat Deployment is now removed altogether.
+
 ## 0.4.0-rc.3 (2026-10-16)
 
 - Bumped GPP-zoeken to 0.3.1 (`appVersion` unchanged, 2.2.0): the index Job can be turned

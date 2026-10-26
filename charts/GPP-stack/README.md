@@ -1,6 +1,6 @@
 # gpp-stack
 
-![Version: 0.4.0-rc.3](https://img.shields.io/badge/Version-0.4.0--rc.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.1](https://img.shields.io/badge/AppVersion-1.0.1-informational?style=flat-square)
+![Version: 0.4.0-rc.4](https://img.shields.io/badge/Version-0.4.0--rc.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.1](https://img.shields.io/badge/AppVersion-1.0.1-informational?style=flat-square)
 
 An umbrella chart for the GPP stack
 
@@ -8,11 +8,11 @@ An umbrella chart for the GPP stack
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://GPP-Woo.github.io/charts | gpp-app | 0.4.0 |
-| https://GPP-Woo.github.io/charts | gpp-burgerportaal | 2.0.2 |
-| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 2.6.0 |
-| https://GPP-Woo.github.io/charts | gpp-zoeken | 0.3.1 |
-| https://maykinmedia.github.io/charts/ | openzaak | 1.15.0 |
+| https://GPP-Woo.github.io/charts | gpp-app | 0.5.0-rc.0 |
+| https://GPP-Woo.github.io/charts | gpp-burgerportaal | 2.1.0-rc.0 |
+| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 3.0.0-rc.0 |
+| https://GPP-Woo.github.io/charts | gpp-zoeken | 0.4.0-rc.0 |
+| https://maykinmedia.github.io/charts/ | openzaak | 1.16.0-rc.1 |
 
 ## Values
 
@@ -21,7 +21,6 @@ An umbrella chart for the GPP stack
 | global.settings.databaseHost | string | `""` | Global databasehost, overrides setting.database.host |
 | gpp-app.enabled | bool | `true` |  |
 | gpp-burgerportaal.enabled | bool | `true` |  |
-| gpp-publicatiebank.beat.enabled | bool | `true` | Run GPP-publicatiebank's Celery beat Deployment (the subchart's own default is `false`). <details><summary>More information</summary> The 0.4.x line targets GPP-publicatiebank 3.0.0, which needs exactly one beat: it schedules the daily revocation of publications whose inspection period has ended (GPP-Woo/GPP-publicatiebank#460); without it that task silently never runs. The subchart keeps `false` while its own appVersion is 2.x, so this umbrella default goes away once it ships appVersion 3.0.0 with beat enabled. On a 2.x image beat runs with an empty schedule: harmless, about 120Mi of memory.</details> |
 | gpp-publicatiebank.enabled | bool | `true` |  |
 | gpp-publicatiebank.redis.nameOverride | string | `"gpp-publicatiebank-redis"` |  |
 | gpp-zoeken.eck-elasticsearch.enabled | bool | `true` |  |
@@ -42,6 +41,7 @@ An umbrella chart for the GPP stack
 | openzaak.azureVaultSecret.objectName | string | `""` |  |
 | openzaak.azureVaultSecret.secretName | string | `"{{ .Values.existingSecret }}"` |  |
 | openzaak.azureVaultSecret.vaultName | string | `nil` |  |
+| openzaak.beat.enabled | bool | `false` | Run Open Zaak's Celery beat Deployment (the subchart's own default is `true`). <details><summary>More information</summary> Open Zaak schedules one periodic task of its own: the daily removal of finished bulk imports (`remove_imports`) of its document import feature, which GPP does not use. Periodic tasks added in Open Zaak's admin (django-celery-beat) would need beat too. `false` renders no beat Deployment at all; up to openzaak chart 1.15.0 the only way to stop it was `beat.replicaCount: 0`, which still rendered the Deployment.</details> |
 | openzaak.configuration.cronjob.historyLimit | int | `1` |  |
 | openzaak.configuration.cronjob.resources | object | `{}` |  |
 | openzaak.configuration.cronjob.schedule | string | `"0 0 * * *"` | Schedule to run the clean logged notifications cronjob |
@@ -90,7 +90,7 @@ An umbrella chart for the GPP stack
 | openzaak.fullnameOverride | string | `""` |  |
 | openzaak.image.pullPolicy | string | `"IfNotPresent"` |  |
 | openzaak.image.repository | string | `"openzaak/open-zaak"` |  |
-| openzaak.image.tag | string | `""` |  |
+| openzaak.image.tag | string | `"1.31.1-perftest"` | Open Zaak image tag. Empty uses the openzaak subchart's `appVersion`, which is still 1.30.0 in chart 1.16.0-rc.1. <details><summary>More information</summary> `1.31.1-perftest` is upstream's pre-release cut of Open Zaak 1.31.1, the version this umbrella line is tested with. Open Zaak 1.31 fixes concurrent unlocks of same-named uploads silently overwriting each other's content (open-zaak#2592; after upgrading, run the read-only `detect_overwritten_documents` management command, see Open Zaak's 1.31.0 changelog). GPP-publicatiebank 3.0.0 needs open-zaak#2607 (from 1.31.1) to re-link existing documents to its own informatieobjecttypen. This override goes once the openzaak chart ships a matching `appVersion`.</details> |
 | openzaak.imagePullSecrets | list | `[]` |  |
 | openzaak.ingress.annotations | object | `{}` |  |
 | openzaak.ingress.className | string | `""` |  |
