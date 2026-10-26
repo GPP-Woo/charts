@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.6.0 (2026-10-14)
+
+- Mount a writable `emptyDir` at `/app/log` in the web, worker, beat and Flower containers by default (`logVolume.enabled`, `logVolume.mountPath`, `logVolume.sizeLimit`). open-api-framework always creates its rotating log files there, also when logging to stdout, so the app failed to start wherever the image's `/app/log` is not writable: under a `readOnlyRootFilesystem`, or with an arbitrary UID such as OpenShift's restricted-v2 SCC assigns. A release that already mounts something at that path through `extraVolumeMounts` keeps its own mount and gets no second one.
+
+## 2.5.0 (2026-10-13)
+
+- Expose the Deployment update strategy per component: `strategy` (web), `worker.strategy`, `nginx.strategy` and `flower.strategy`, rendered verbatim as `.spec.strategy` when set. Empty (the default) keeps the Kubernetes default, so existing releases render unchanged. Typical use: `{type: RollingUpdate, rollingUpdate: {maxSurge: 0, maxUnavailable: 1}}` on the worker, so a rollout no longer briefly runs two worker pods, which counts double against a namespace ResourceQuota.
+
+## 2.4.0 (2026-10-13)
+
+- Add an optional Celery beat Deployment (`beat.enabled`, default `false`), always one replica with the `Recreate` strategy. App version 3.0.0 needs it to automatically revoke publications whose inspection period has ended (GPP-Woo/GPP-publicatiebank#460).
+- Expose `settings.documentsApiSlowOperationsTimeout`, rendered as `DOCUMENTS_API_SLOW_OPERATIONS_TIMEOUT` (app version 3.0.0+, GPP-Woo/GPP-publicatiebank#470).
+- Expose `worker.maxTasksPerChild`, rendered as `CELERY_WORKER_MAX_TASKS_PER_CHILD` on the celery worker container only (GPP-Woo/GPP-publicatiebank#469).
+
+## 2.3.0 (2026-09-10)
+
+- Expose `worker.maxMemoryPerChildKiB`, rendered as `CELERY_WORKER_MAX_MEMORY_PER_CHILD` on the celery worker container only.
+
 ## 2.2.0 (2026-08-26)
 
 - Allow the web container's `livenessProbe`/`readinessProbe` handler to be overridden via Helm values. Supplying `exec`, `httpGet`, `tcpSocket` or `grpc` now replaces the hardcoded `httpGet: /` default instead of being rendered alongside it (which the API server rejected as more than one handler type). Probes that set only timing fields are unaffected.

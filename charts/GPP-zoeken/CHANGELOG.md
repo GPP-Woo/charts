@@ -1,17 +1,17 @@
 # Changelog
 
-## 0.2.8 (2026-09-08)
+## 0.3.1 (2026-10-16)
 
-- The `gpp-zoeken-index` Job now passes a wait budget to `initialize_mappings --wait`, via a new
-  `settings.job.waitForElasticTimeout` (default 300s). The Job is created in the same release as
-  the ECK cluster, so on a fresh install it ran before Elasticsearch was listening; because
-  `initialize_mappings` used to exit 0 when it could not connect, the Job reported success and
-  the instance came up with no indices.
-- **Requires a gpp-zoeken image containing [GPP-Woo/GPP-zoeken#138][zoeken-138]** (merged after
-  2.2.0), which taught `--wait` to take an optional timeout and to fail loudly. On 2.2.0 `--wait`
-  accepts no argument, so `appVersion` must move to a release that includes it.
+- Make the index Job optional (`settings.job.enabled`, default `true`) and allow extra Job annotations (`settings.job.annotations`). The Job is a plain, unconditional resource, so under GitOps (Argo CD / Flux) any chart bump that changes its pod template - e.g. the 0.3.0 `/app/log` volume or an image-tag bump - fails the sync with `Job.batch "...-index" spec.template: field is immutable`. Set `settings.job.enabled: false` when an external job runs `initialize_mappings` (e.g. a PostSync hook), or add `settings.job.annotations: {argocd.argoproj.io/sync-options: "Replace=true,Force=true"}` to let Argo CD recreate instead of patch. Existing releases render unchanged.
 
-[zoeken-138]: https://github.com/GPP-Woo/GPP-zoeken/pull/138
+## 0.3.0 (2026-10-14)
+
+- Expose the Deployment update strategy per component: `strategy` (web), `worker.strategy` and `flower.strategy`, rendered verbatim as `.spec.strategy` when set. Empty (the default) keeps the Kubernetes default, so existing releases render unchanged. Typical use: `{type: RollingUpdate, rollingUpdate: {maxSurge: 0, maxUnavailable: 1}}` on the worker, so a rollout no longer briefly runs two worker pods, which counts double against a namespace ResourceQuota. Same setting as GPP-publicatiebank 2.5.0.
+- Mount a writable `emptyDir` at `/app/log` in the web, worker and Flower containers and the index Job by default (`logVolume.enabled`, `logVolume.mountPath`, `logVolume.sizeLimit`). open-api-framework always creates its rotating log files there, also when logging to stdout, so the app failed to start wherever the image's `/app/log` is not writable: under a `readOnlyRootFilesystem`, or with an arbitrary UID such as OpenShift's restricted-v2 SCC assigns. A release that already mounts something at that path through `extraVolumeMounts` keeps its own mount and gets no second one. Same setting as GPP-publicatiebank 2.6.0.
+
+## 0.2.8 (2026-10-13)
+
+- Mount `extraVolumes`/`extraVolumeMounts` in the index Job as well, as the Deployments already do (e.g. a writable `/app/log` emptyDir on OpenShift).
 
 ## 0.2.7 (2026-08-27)
 

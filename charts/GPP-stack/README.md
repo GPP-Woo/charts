@@ -1,6 +1,6 @@
 # gpp-stack
 
-![Version: 0.3.3](https://img.shields.io/badge/Version-0.3.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.1](https://img.shields.io/badge/AppVersion-1.0.1-informational?style=flat-square)
+![Version: 0.4.0-rc.3](https://img.shields.io/badge/Version-0.4.0--rc.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.1](https://img.shields.io/badge/AppVersion-1.0.1-informational?style=flat-square)
 
 An umbrella chart for the GPP stack
 
@@ -8,11 +8,11 @@ An umbrella chart for the GPP stack
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://GPP-Woo.github.io/charts | gpp-app | 0.3.2 |
+| https://GPP-Woo.github.io/charts | gpp-app | 0.4.0 |
 | https://GPP-Woo.github.io/charts | gpp-burgerportaal | 2.0.2 |
-| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 2.2.0 |
-| https://GPP-Woo.github.io/charts | gpp-zoeken | 0.2.7 |
-| https://maykinmedia.github.io/charts/ | openzaak | 1.13.1 |
+| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 2.6.0 |
+| https://GPP-Woo.github.io/charts | gpp-zoeken | 0.3.1 |
+| https://maykinmedia.github.io/charts/ | openzaak | 1.15.0 |
 
 ## Values
 
@@ -21,6 +21,7 @@ An umbrella chart for the GPP stack
 | global.settings.databaseHost | string | `""` | Global databasehost, overrides setting.database.host |
 | gpp-app.enabled | bool | `true` |  |
 | gpp-burgerportaal.enabled | bool | `true` |  |
+| gpp-publicatiebank.beat.enabled | bool | `true` | Run GPP-publicatiebank's Celery beat Deployment (the subchart's own default is `false`). <details><summary>More information</summary> The 0.4.x line targets GPP-publicatiebank 3.0.0, which needs exactly one beat: it schedules the daily revocation of publications whose inspection period has ended (GPP-Woo/GPP-publicatiebank#460); without it that task silently never runs. The subchart keeps `false` while its own appVersion is 2.x, so this umbrella default goes away once it ships appVersion 3.0.0 with beat enabled. On a 2.x image beat runs with an empty schedule: harmless, about 120Mi of memory.</details> |
 | gpp-publicatiebank.enabled | bool | `true` |  |
 | gpp-publicatiebank.redis.nameOverride | string | `"gpp-publicatiebank-redis"` |  |
 | gpp-zoeken.eck-elasticsearch.enabled | bool | `true` |  |
@@ -213,17 +214,7 @@ An umbrella chart for the GPP stack
 | openzaak.worker.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | openzaak.worker.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
 | openzaak.worker.concurrency | int | `4` |  |
-| openzaak.worker.livenessProbe.failureThreshold | int | `3` |  |
-| openzaak.worker.livenessProbe.initialDelaySeconds | int | `60` |  |
-| openzaak.worker.livenessProbe.periodSeconds | int | `10` |  |
-| openzaak.worker.livenessProbe.successThreshold | int | `1` |  |
-| openzaak.worker.livenessProbe.timeoutSeconds | int | `5` |  |
 | openzaak.worker.podLabels | object | `{}` |  |
-| openzaak.worker.readinessProbe.failureThreshold | int | `3` |  |
-| openzaak.worker.readinessProbe.initialDelaySeconds | int | `30` |  |
-| openzaak.worker.readinessProbe.periodSeconds | int | `10` |  |
-| openzaak.worker.readinessProbe.successThreshold | int | `1` |  |
-| openzaak.worker.readinessProbe.timeoutSeconds | int | `5` |  |
 | openzaak.worker.replicaCount | int | `1` |  |
 | openzaak.worker.resources | object | `{}` |  |
 | gpp-app.affinity | object | `{}` |  |
@@ -293,6 +284,7 @@ An umbrella chart for the GPP stack
 | gpp-app.settings.database.port | int | `5432` |  |
 | gpp-app.settings.database.sslmode | string | `"prefer"` |  |
 | gpp-app.settings.database.username | string | `""` |  |
+| gpp-app.settings.downloadTimeoutMinutes | string | `""` | Timeout in minutes for relaying one document download from GPP-publicatiebank (`DOWNLOAD_TIMEOUT_MINUTES`). Empty keeps the app default of 10. |
 | gpp-app.settings.gppPublicatiebank.apiKey | string | `""` |  |
 | gpp-app.settings.gppPublicatiebank.baseUrl | string | `""` |  |
 | gpp-app.settings.oidc.adminRole | string | `""` |  |
@@ -302,6 +294,7 @@ An umbrella chart for the GPP stack
 | gpp-app.settings.oidc.idClaimType | string | `""` |  |
 | gpp-app.settings.oidc.nameClaimType | string | `""` |  |
 | gpp-app.settings.oidc.roleClaimType | string | `""` |  |
+| gpp-app.settings.uploadTimeoutMinutes | string | `""` | Timeout in minutes for relaying one file part (bestandsdeel) of an upload to GPP-publicatiebank (`UPLOAD_TIMEOUT_MINUTES`). Empty keeps the app default of 10. <details><summary>More information</summary> The app streams each part from the browser to GPP-publicatiebank, so the whole part has to arrive within this time: a slow client either needs a longer timeout or smaller parts (the Documents API's part size, e.g. Open Zaak's `DOCUMENTEN_UPLOAD_CHUNK_SIZE`).</details> |
 | gpp-app.tolerations | list | `[]` |  |
 | gpp-burgerportaal.affinity | object | `{}` |  |
 | gpp-burgerportaal.autoscaling.enabled | bool | `false` |  |
@@ -408,6 +401,9 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.azureVaultSecret.objectName | string | `""` |  |
 | gpp-publicatiebank.azureVaultSecret.secretName | string | `"{{ .Values.existingSecret }}"` |  |
 | gpp-publicatiebank.azureVaultSecret.vaultName | string | `nil` |  |
+| gpp-publicatiebank.beat.enabled | bool | `false` | Run the Celery beat scheduler (`/celery_beat.sh`) as a single-replica Deployment. <details><summary>More information</summary> Required from app version 3.0.0 on: beat schedules the daily task that revokes publications whose inspection period ("inzagetermijn") has ended (GPP-Woo/GPP-publicatiebank#460). Without it that task silently never runs. Always exactly one replica, because a second beat would schedule every task twice. Off by default while appVersion is 2.x, whose beat schedule is empty.</details> |
+| gpp-publicatiebank.beat.podLabels | object | `{}` |  |
+| gpp-publicatiebank.beat.resources | object | `{}` |  |
 | gpp-publicatiebank.existingSecret | string | `nil` |  |
 | gpp-publicatiebank.extraEnvVars | list | `[]` | Array with extra environment variables to add |
 | gpp-publicatiebank.extraIngress | list | `[]` | Specify extra ingresses, for example if you have multiple ingress classes |
@@ -431,6 +427,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.flower.service.annotations | object | `{}` |  |
 | gpp-publicatiebank.flower.service.port | int | `5555` |  |
 | gpp-publicatiebank.flower.service.type | string | `"ClusterIP"` |  |
+| gpp-publicatiebank.flower.strategy | object | `{}` | Update strategy of the Flower Deployment (`.spec.strategy`), see `strategy`. |
 | gpp-publicatiebank.flower.urlPrefix | string | `"/flower/"` |  |
 | gpp-publicatiebank.fullnameOverride | string | `""` |  |
 | gpp-publicatiebank.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -447,6 +444,9 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.livenessProbe.periodSeconds | int | `10` |  |
 | gpp-publicatiebank.livenessProbe.successThreshold | int | `1` |  |
 | gpp-publicatiebank.livenessProbe.timeoutSeconds | int | `5` |  |
+| gpp-publicatiebank.logVolume.enabled | bool | `true` | Mount a writable `emptyDir` at `logVolume.mountPath` in every container that runs the app: web, Celery worker, beat and Flower (not nginx). <details><summary>More information</summary> open-api-framework's logging configuration always creates its rotating log files there (`application.jsonl`, `performance.log`, `requests.log`, each up to 10 x 10 MB), also when the app logs to stdout (`LOG_STDOUT`, the default). Wherever the image's `/app/log` is not writable the app fails to start: under a `readOnlyRootFilesystem`, or with an arbitrary UID such as OpenShift's restricted-v2 SCC assigns. Skipped when `extraVolumeMounts` already mount something at `mountPath` (the values-only workaround before this chart had it), so existing values keep working. Harmless elsewhere: it also keeps those files out of the container's writable layer.</details> |
+| gpp-publicatiebank.logVolume.mountPath | string | `"/app/log"` | Where the app writes its log files (open-api-framework: `BASE_DIR / "log"`). |
+| gpp-publicatiebank.logVolume.sizeLimit | string | `""` | Optional `sizeLimit` of the emptyDir, e.g. `1Gi`; exceeding it evicts the pod. Empty sets none. |
 | gpp-publicatiebank.nameOverride | string | `""` |  |
 | gpp-publicatiebank.nginx.autoscaling.enabled | bool | `false` |  |
 | gpp-publicatiebank.nginx.config.clientMaxBodySize | string | `"4G"` | Default client_max_body_size for all endpoints (unless overridden). Examples: "10M", "100M", "1G", "4G", "10G". |
@@ -468,6 +468,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.nginx.service.annotations | object | `{}` |  |
 | gpp-publicatiebank.nginx.service.port | int | `80` |  |
 | gpp-publicatiebank.nginx.service.type | string | `"ClusterIP"` |  |
+| gpp-publicatiebank.nginx.strategy | object | `{}` | Update strategy of the nginx Deployment (`.spec.strategy`), see `strategy`. |
 | gpp-publicatiebank.nodeSelector | object | `{}` |  |
 | gpp-publicatiebank.pdb.create | bool | `false` |  |
 | gpp-publicatiebank.pdb.maxUnavailable | string | `""` |  |
@@ -523,6 +524,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.settings.disable2fa | bool | `false` | Disable two factor authentication |
 | gpp-publicatiebank.settings.djangoSettingsModule | string | `"woo_publications.conf.docker"` |  |
 | gpp-publicatiebank.settings.documentMaxBodySize | string | `"4G"` |  |
+| gpp-publicatiebank.settings.documentsApiSlowOperationsTimeout | string | `""` | Read timeout (seconds) for the Documents API calls whose duration scales with document size: uploading a file part, and unlocking a document (which merges its parts). <details><summary>More information</summary> Rendered as `DOCUMENTS_API_SLOW_OPERATIONS_TIMEOUT`; needs app version 3.0.0 or later. Empty keeps the app default (`300`). A higher timeout configured on the Documents API service itself takes precedence. Keep `nginx.config.proxyReadTimeoutSeconds` at least this high.</details> |
 | gpp-publicatiebank.settings.elasticapm.serviceName | string | `""` |  |
 | gpp-publicatiebank.settings.elasticapm.token | string | `""` |  |
 | gpp-publicatiebank.settings.elasticapm.url | string | `""` |  |
@@ -546,6 +548,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.settings.uwsgi.maxRequests | string | `""` |  |
 | gpp-publicatiebank.settings.uwsgi.processes | string | `""` |  |
 | gpp-publicatiebank.settings.uwsgi.threads | string | `""` |  |
+| gpp-publicatiebank.strategy | object | `{}` | Update strategy of the web Deployment (`.spec.strategy`), rendered verbatim when set. <details><summary>More information</summary> Empty keeps the Kubernetes default (`RollingUpdate` with maxSurge and maxUnavailable 25%), which at one replica starts the new pod before stopping the old one, so every rollout briefly needs the resources of both. `{type: RollingUpdate, rollingUpdate: {maxSurge: 0, maxUnavailable: 1}}` stops the old pod first: no extra resources during the rollout, but a gap while the new pod starts. `{type: Recreate}` does that for all replicas at once. The same setting exists as `worker.strategy`, `nginx.strategy` and `flower.strategy`; Celery beat always uses `Recreate`.</details> |
 | gpp-publicatiebank.tags.redis | bool | `true` |  |
 | gpp-publicatiebank.tolerations | list | `[]` |  |
 | gpp-publicatiebank.worker.autoscaling.behavior | object | `{}` |  |
@@ -565,11 +568,14 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.worker.livenessProbe.periodSeconds | int | `30` |  |
 | gpp-publicatiebank.worker.livenessProbe.successThreshold | int | `1` |  |
 | gpp-publicatiebank.worker.livenessProbe.timeoutSeconds | int | `10` |  |
+| gpp-publicatiebank.worker.maxMemoryPerChildKiB | string | `nil` | Recycle a celery pool child once its resident memory passes this many KiB (celery's `--max-memory-per-child`). <details><summary>More information</summary> Unset means no memory limit; the image bounds child growth by task count instead (`CELERY_WORKER_MAX_TASKS_PER_CHILD`, default `50`). Pick a value below `worker.resources.limits.memory` so a bloated child is retired between tasks instead of the pod being OOMKilled mid-task, e.g. `786432` (768Mi) under a 1Gi limit. Recycling happens between tasks, so no work is lost. Set to `0` to disable the limit explicitly.</details> |
+| gpp-publicatiebank.worker.maxTasksPerChild | string | `nil` | Recycle a celery pool child after this many tasks (celery's `--max-tasks-per-child`). <details><summary>More information</summary> Rendered as `CELERY_WORKER_MAX_TASKS_PER_CHILD` on the celery worker container only. Unset keeps the image default: `50` from app version 3.0.0 on, no recycling before that.</details> |
 | gpp-publicatiebank.worker.name | string | `""` |  |
 | gpp-publicatiebank.worker.podLabels | object | `{}` |  |
 | gpp-publicatiebank.worker.queueName | string | `""` |  |
 | gpp-publicatiebank.worker.replicaCount | int | `1` |  |
 | gpp-publicatiebank.worker.resources | object | `{}` |  |
+| gpp-publicatiebank.worker.strategy | object | `{}` | Update strategy of the Celery worker Deployment (`.spec.strategy`), see `strategy`. <details><summary>More information</summary> The cheapest place to skip the rollout overlap, e.g. `{type: RollingUpdate, rollingUpdate: {maxSurge: 0, maxUnavailable: 1}}`: while no worker runs, new tasks wait in the broker, and a task interrupted by the shutdown is redelivered because the app acknowledges tasks only after they ran (`CELERY_TASK_ACKS_LATE`). The default overlap stops the old worker in the same way, just after the new one is up.</details> |
 | gpp-zoeken.affinity | object | `{}` |  |
 | gpp-zoeken.autoscaling.enabled | bool | `false` |  |
 | gpp-zoeken.autoscaling.maxReplicas | int | `100` |  |
@@ -723,6 +729,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.flower.service.annotations | object | `{}` |  |
 | gpp-zoeken.flower.service.port | int | `5555` |  |
 | gpp-zoeken.flower.service.type | string | `"ClusterIP"` |  |
+| gpp-zoeken.flower.strategy | object | `{}` | Update strategy of the Flower Deployment (`.spec.strategy`), see `strategy`. |
 | gpp-zoeken.flower.urlPrefix | string | `""` |  |
 | gpp-zoeken.fullnameOverride | string | `""` |  |
 | gpp-zoeken.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -739,6 +746,9 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.livenessProbe.periodSeconds | int | `10` |  |
 | gpp-zoeken.livenessProbe.successThreshold | int | `1` |  |
 | gpp-zoeken.livenessProbe.timeoutSeconds | int | `5` |  |
+| gpp-zoeken.logVolume.enabled | bool | `true` | Mount a writable `emptyDir` at `logVolume.mountPath` in every container that runs the app: web, Celery worker, Flower and the index Job. <details><summary>More information</summary> open-api-framework's logging configuration always creates its rotating log files there (`application.jsonl`, `performance.log`, `requests.log`, each up to 10 x 10 MB), also when the app logs to stdout (`LOG_STDOUT`, the default). Wherever the image's `/app/log` is not writable the app fails to start: under a `readOnlyRootFilesystem`, or with an arbitrary UID such as OpenShift's restricted-v2 SCC assigns. Skipped when `extraVolumeMounts` already mount something at `mountPath` (the values-only workaround before this chart had it), so existing values keep working. Harmless elsewhere: it also keeps those files out of the container's writable layer.</details> |
+| gpp-zoeken.logVolume.mountPath | string | `"/app/log"` | Where the app writes its log files (open-api-framework: `BASE_DIR / "log"`). |
+| gpp-zoeken.logVolume.sizeLimit | string | `""` | Optional `sizeLimit` of the emptyDir, e.g. `1Gi`; exceeding it evicts the pod. Empty sets none. |
 | gpp-zoeken.nameOverride | string | `""` |  |
 | gpp-zoeken.nodeSelector | object | `{}` |  |
 | gpp-zoeken.pdb.create | bool | `false` |  |
@@ -813,7 +823,9 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.settings.environmentLabelForegroundColor | string | `""` | CSS color value for the environment information text color. Defaults to black. Follows the same rules as ENVIRONMENT_BACKGROUND_COLOR. |
 | gpp-zoeken.settings.environmentLabelName | string | `""` | Environment information to display, defaults to the value of ENVIRONMENT. Only displayed when SHOW_ENVIRONMENT is set to True. You can set this to strings like OpenGem PROD or simply PROD, depending on your needs. |
 | gpp-zoeken.settings.isHttps | bool | `true` |  |
+| gpp-zoeken.settings.job.annotations | object | `{}` | Extra annotations for the index Job's metadata, e.g. `argocd.argoproj.io/sync-options: Replace=true,Force=true` so Argo CD recreates instead of patching the immutable Job. |
 | gpp-zoeken.settings.job.backoffLimit | int | `6` |  |
+| gpp-zoeken.settings.job.enabled | bool | `true` | Render the built-in index Job. Disable it when an external job runs `initialize_mappings` instead (e.g. an Argo CD / Flux PostSync hook), to avoid a redundant Job that also fails GitOps syncs with "spec.template is immutable" when a chart or image bump changes its pod template. |
 | gpp-zoeken.settings.job.resources | object | `{}` |  |
 | gpp-zoeken.settings.job.restartPolicy | string | `"OnFailure"` |  |
 | gpp-zoeken.settings.job.ttlSecondsAfterFinished | int | `0` | 0 Will clean the job after it is finished |
@@ -827,6 +839,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.settings.uwsgi.maxRequests | string | `""` |  |
 | gpp-zoeken.settings.uwsgi.processes | string | `""` |  |
 | gpp-zoeken.settings.uwsgi.threads | string | `""` |  |
+| gpp-zoeken.strategy | object | `{}` | Update strategy of the web Deployment (`.spec.strategy`), rendered verbatim when set. <details><summary>More information</summary> Empty keeps the Kubernetes default (`RollingUpdate` with maxSurge and maxUnavailable 25%), which at one replica starts the new pod before stopping the old one, so every rollout briefly needs the resources of both. `{type: RollingUpdate, rollingUpdate: {maxSurge: 0, maxUnavailable: 1}}` stops the old pod first: no extra resources during the rollout, but a gap while the new pod starts. `{type: Recreate}` does that for all replicas at once. The same setting exists as `worker.strategy` and `flower.strategy`.</details> |
 | gpp-zoeken.tags.redis | bool | `true` |  |
 | gpp-zoeken.tolerations | list | `[]` |  |
 | gpp-zoeken.worker.autoscaling.behavior | object | `{}` |  |
@@ -851,6 +864,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.worker.queueName | string | `""` |  |
 | gpp-zoeken.worker.replicaCount | int | `1` |  |
 | gpp-zoeken.worker.resources | object | `{}` |  |
+| gpp-zoeken.worker.strategy | object | `{}` | Update strategy of the Celery worker Deployment (`.spec.strategy`), see `strategy`. <details><summary>More information</summary> The cheapest place to skip the rollout overlap, e.g. `{type: RollingUpdate, rollingUpdate: {maxSurge: 0, maxUnavailable: 1}}`: while no worker runs, new tasks wait in the broker, and a task interrupted by the shutdown is redelivered because the app acknowledges tasks only after they ran (`CELERY_TASK_ACKS_LATE`). The default overlap stops the old worker in the same way, just after the new one is up.</details> |
 
 ----------------------------------------------
 Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)

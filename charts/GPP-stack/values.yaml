@@ -7,6 +7,9 @@ gpp-publicatiebank:
   enabled: true
   redis:
     nameOverride: "gpp-publicatiebank-redis"
+  beat:
+    # -- Run GPP-publicatiebank's Celery beat Deployment (the subchart's own default is `false`). <details><summary>More information</summary> The 0.4.x line targets GPP-publicatiebank 3.0.0, which needs exactly one beat: it schedules the daily revocation of publications whose inspection period has ended (GPP-Woo/GPP-publicatiebank#460); without it that task silently never runs. The subchart keeps `false` while its own appVersion is 2.x, so this umbrella default goes away once it ships appVersion 3.0.0 with beat enabled. On a 2.x image beat runs with an empty schedule: harmless, about 120Mi of memory.</details>
+    enabled: true
 
 gpp-app:
   enabled: true
@@ -322,18 +325,10 @@ openzaak:
     concurrency: 4
     podLabels: {}
     resources: {}
-    livenessProbe:
-      initialDelaySeconds: 60
-      periodSeconds: 10
-      timeoutSeconds: 5
-      failureThreshold: 3
-      successThreshold: 1
-    readinessProbe:
-      initialDelaySeconds: 30
-      periodSeconds: 10
-      timeoutSeconds: 5
-      failureThreshold: 3
-      successThreshold: 1
+    # No livenessProbe/readinessProbe here: openzaak >= 1.15.0 enables its own worker
+    # startup + liveness probes (maykin-common), and the subchart's timings (liveness:
+    # period 60s, timeout 15s, failureThreshold 6) suit a check that starts a Python
+    # process and pings the broker. The subchart has no worker readiness probe.
     autoscaling:
       enabled: false
       minReplicas: 1

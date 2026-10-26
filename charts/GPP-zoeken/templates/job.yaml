@@ -1,9 +1,14 @@
+{{- if .Values.settings.job.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ include "gpp-zoeken.fullname" . }}-index
   labels:
     {{- include "gpp-zoeken.labels" . | nindent 4 }}
+  {{- with .Values.settings.job.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   backoffLimit: {{ .Values.settings.job.backoffLimit }}
   ttlSecondsAfterFinished: {{ .Values.settings.job.ttlSecondsAfterFinished }}
@@ -41,6 +46,13 @@ spec:
           volumeMounts:
             - name: elastic-ca
               mountPath: /app/certs
+            {{- if include "gpp-zoeken.logVolume.enabled" . }}
+            - name: gpp-zoeken-log
+              mountPath: {{ .Values.logVolume.mountPath }}
+            {{- end }}
+            {{- if .Values.extraVolumeMounts }}
+            {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
+            {{- end }}
           env:
             {{- if .Values.extraEnvVars }}
             {{- include "gpp-zoeken.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
@@ -57,6 +69,18 @@ spec:
         - name: elastic-ca
           secret:
             secretName: {{ printf "%s-es-http-certs-public" (index .Values "eck-elasticsearch" "fullnameOverride")  }}
+        {{- if include "gpp-zoeken.logVolume.enabled" . }}
+        - name: gpp-zoeken-log
+          {{- if .Values.logVolume.sizeLimit }}
+          emptyDir:
+            sizeLimit: {{ .Values.logVolume.sizeLimit | quote }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- end }}
+        {{- if .Values.extraVolumes }}
+        {{- include "gpp-zoeken.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
@@ -69,3 +93,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+{{- end }}

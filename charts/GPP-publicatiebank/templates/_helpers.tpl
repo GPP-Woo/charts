@@ -88,6 +88,37 @@ app.kubernetes.io/name: {{ include "gpp-publicatiebank.workerName" . }}
 {{- end }}
 
 {{/*
+Create a name for Celery beat
+We truncate at 58 chars in order to provide space for the "-beat" suffix
+*/}}
+{{- define "gpp-publicatiebank.beatName" -}}
+{{ include "gpp-publicatiebank.name" . | trunc 58 | trimSuffix "-" }}-beat
+{{- end }}
+
+{{/*
+Create a default fully qualified name for Celery beat.
+We truncate at 58 chars in order to provide space for the "-beat" suffix
+*/}}
+{{- define "gpp-publicatiebank.beatFullname" -}}
+{{ include "gpp-publicatiebank.fullname" . | trunc 58 | trimSuffix "-" }}-beat
+{{- end }}
+
+{{/*
+Celery beat labels
+*/}}
+{{- define "gpp-publicatiebank.beatLabels" -}}
+{{ include "gpp-publicatiebank.commonLabels" . }}
+{{ include "gpp-publicatiebank.beatSelectorLabels" . }}
+{{- end }}
+
+{{/*
+Celery beat selector labels
+*/}}
+{{- define "gpp-publicatiebank.beatSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "gpp-publicatiebank.beatName" . }}
+{{- end }}
+
+{{/*
 Create a name for Flower
 We truncate at 56 chars in order to provide space for the "-flower" suffix
 */}}
@@ -181,4 +212,26 @@ NGINX selector labels
 */}}
 {{- define "gpp-publicatiebank.nginxSelectorLabels" -}}
 app.kubernetes.io/name: {{ include "gpp-publicatiebank.nginxName" . }}
+{{- end }}
+
+{{/*
+Whether to mount the built-in writable log emptyDir (`logVolume`): enabled, and no
+`extraVolumeMounts` entry already mounts something at `logVolume.mountPath` (the
+values-only workaround used before this chart had it), which would duplicate the path.
+`extraVolumeMounts` is rendered first, as the Deployments render it (a YAML string or
+templated entries), so the comparison sees the final mount paths.
+*/}}
+{{- define "gpp-publicatiebank.logVolume.enabled" -}}
+{{- if .Values.logVolume.enabled -}}
+{{- $path := .Values.logVolume.mountPath | toString | trimSuffix "/" -}}
+{{- $taken := false -}}
+{{- if .Values.extraVolumeMounts -}}
+{{- range (include "gpp-publicatiebank.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" $) | fromYamlArray) -}}
+{{- if and (kindIs "map" .) (eq (.mountPath | toString | trimSuffix "/") $path) -}}
+{{- $taken = true -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{- if not $taken -}}true{{- end -}}
+{{- end -}}
 {{- end }}

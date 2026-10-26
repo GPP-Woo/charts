@@ -10,6 +10,10 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
+  {{- with .Values.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
   {{- include "gpp-publicatiebank.selectorLabels" . | nindent 6 }}
@@ -88,6 +92,10 @@ spec:
             - name: media
               mountPath: /app/media
               subPath: {{ .Values.persistence.mediaMountSubpath  | default "gpp-publicatiebank/media" }}
+            {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+            - name: gpp-publicatiebank-log
+              mountPath: {{ .Values.logVolume.mountPath }}
+            {{- end }}
             {{- if .Values.extraVolumeMounts }}
             {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
             {{- end }}
@@ -99,6 +107,15 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
+        {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+        - name: gpp-publicatiebank-log
+          {{- if .Values.logVolume.sizeLimit }}
+          emptyDir:
+            sizeLimit: {{ .Values.logVolume.sizeLimit | quote }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- end }}
         {{- if .Values.extraVolumes }}
         {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
         {{- end }}
@@ -127,6 +144,10 @@ metadata:
 spec:
   {{- if not .Values.nginx.autoscaling.enabled }}
   replicas: {{ .Values.nginx.replicaCount }}
+  {{- end }}
+  {{- with .Values.nginx.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
   {{- end }}
   selector:
     matchLabels:
@@ -211,6 +232,10 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.worker.replicaCount }}
   {{- end }}
+  {{- with .Values.worker.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "gpp-publicatiebank.workerSelectorLabels" . | nindent 6 }}
@@ -247,6 +272,14 @@ spec:
             - configMapRef:
                 name: {{ include "gpp-publicatiebank.fullname" . }}
           env:
+            {{- if not (kindIs "invalid" .Values.worker.maxTasksPerChild) }}
+            - name: CELERY_WORKER_MAX_TASKS_PER_CHILD
+              value: {{ .Values.worker.maxTasksPerChild | toString | quote }}
+            {{- end }}
+            {{- if not (kindIs "invalid" .Values.worker.maxMemoryPerChildKiB) }}
+            - name: CELERY_WORKER_MAX_MEMORY_PER_CHILD
+              value: {{ .Values.worker.maxMemoryPerChildKiB | toString | quote }}
+            {{- end }}
             {{- if .Values.extraEnvVars }}
             {{- include "gpp-publicatiebank.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
             {{- end }}
@@ -268,6 +301,10 @@ spec:
             - name: media
               mountPath: /app/media
               subPath: {{ .Values.persistence.mediaMountSubpath  | default "gpp-publicatiebank/media" }}
+            {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+            - name: gpp-publicatiebank-log
+              mountPath: {{ .Values.logVolume.mountPath }}
+            {{- end }}
             {{- if .Values.extraVolumeMounts }}
             {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
             {{- end }}            
@@ -279,6 +316,15 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
+        {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+        - name: gpp-publicatiebank-log
+          {{- if .Values.logVolume.sizeLimit }}
+          emptyDir:
+            sizeLimit: {{ .Values.logVolume.sizeLimit | quote }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- end }}
         {{- if .Values.extraVolumes }}
         {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
         {{- end }}
@@ -304,6 +350,10 @@ metadata:
     {{- include "gpp-publicatiebank.flowerLabels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.flower.replicaCount }}
+  {{- with .Values.flower.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "gpp-publicatiebank.flowerSelectorLabels" . | nindent 6 }}
@@ -359,13 +409,125 @@ spec:
               port: 5555
             {{- toYaml .Values.flower.readinessProbe | nindent 12 }}
           volumeMounts:
+            {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+            - name: gpp-publicatiebank-log
+              mountPath: {{ .Values.logVolume.mountPath }}
+            {{- end }}
             {{- if .Values.extraVolumeMounts }}
             {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
             {{- end }}
       volumes:
+        {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+        - name: gpp-publicatiebank-log
+          {{- if .Values.logVolume.sizeLimit }}
+          emptyDir:
+            sizeLimit: {{ .Values.logVolume.sizeLimit | quote }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- end }}
           {{- if .Values.extraVolumes }}
           {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
           {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
+
+---
+{{ if .Values.beat.enabled -}}
+# Deployment of the Celery beat scheduler. Always exactly ONE replica, never
+# autoscaled: a second beat would schedule every periodic task twice. The Recreate
+# strategy keeps a rollout from briefly running the old and the new pod side by side.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gpp-publicatiebank.beatFullname" . }}
+  labels:
+    {{- include "gpp-publicatiebank.beatLabels" . | nindent 4 }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "gpp-publicatiebank.beatSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "gpp-publicatiebank.beatSelectorLabels" . | nindent 8 }}
+        {{- with .Values.beat.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "gpp-publicatiebank.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ include "gpp-publicatiebank.beatFullname" . }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - /celery_beat.sh
+          envFrom:
+            - secretRef:
+                name: {{ .Values.existingSecret | default (include "gpp-publicatiebank.fullname" .) }}
+            - configMapRef:
+                name: {{ include "gpp-publicatiebank.fullname" . }}
+          env:
+            {{- if .Values.extraEnvVars }}
+            {{- include "gpp-publicatiebank.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.beat.resources | nindent 12 }}
+          volumeMounts:
+            # Schedule state (celery_beat.sh: `-s ../celerybeat/beat`). It needs no
+            # persistence; an emptyDir keeps it writable under readOnlyRootFilesystem.
+            - name: celerybeat
+              mountPath: /app/celerybeat
+            {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+            - name: gpp-publicatiebank-log
+              mountPath: {{ .Values.logVolume.mountPath }}
+            {{- end }}
+            {{- if .Values.extraVolumeMounts }}
+            {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $ ) | nindent 12 }}
+            {{- end }}
+      volumes:
+        - name: celerybeat
+          emptyDir: {}
+        {{- if include "gpp-publicatiebank.logVolume.enabled" . }}
+        - name: gpp-publicatiebank-log
+          {{- if .Values.logVolume.sizeLimit }}
+          emptyDir:
+            sizeLimit: {{ .Values.logVolume.sizeLimit | quote }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- end }}
+        {{- if .Values.extraVolumes }}
+        {{- include "gpp-publicatiebank.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $ ) | nindent 8 }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
