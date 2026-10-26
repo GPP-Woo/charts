@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.0-rc.0 (2026-10-26)
+
+- Set appVersion to 3.0.0. The app reads one new environment variable, `DOCUMENTS_API_SLOW_OPERATIONS_TIMEOUT`, which `settings.documentsApiSlowOperationsTimeout` (2.4.0) already sets.
+- `beat.enabled` now defaults to `true`: GPP-publicatiebank 3.0 needs exactly one Celery beat, which revokes publications whose inspection period has ended. Releases that already set `beat.enabled: true` render unchanged.
+- Upgrading the app from 2.x needs manual steps in GPP-publicatiebank and Open Zaak (Catalogi API, scopes `catalogi.lezen` and `catalogi.schrijven`); document uploads fail until the Catalogi API is configured. See the [3.0.0 upgrade procedure](https://github.com/GPP-Woo/GPP-publicatiebank/blob/3.0.0/CHANGELOG.rst). The app's `setup_catalogi_api` management command can do the setup.
+
 ## 2.6.0 (2026-10-14)
 
 - Mount a writable `emptyDir` at `/app/log` in the web, worker, beat and Flower containers by default (`logVolume.enabled`, `logVolume.mountPath`, `logVolume.sizeLimit`). open-api-framework always creates its rotating log files there, also when logging to stdout, so the app failed to start wherever the image's `/app/log` is not writable: under a `readOnlyRootFilesystem`, or with an arbitrary UID such as OpenShift's restricted-v2 SCC assigns. A release that already mounts something at that path through `extraVolumeMounts` keeps its own mount and gets no second one.

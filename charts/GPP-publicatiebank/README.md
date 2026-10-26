@@ -1,6 +1,6 @@
 # gpp-publicatiebank
 
-![Version: 2.6.0](https://img.shields.io/badge/Version-2.6.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.1.0](https://img.shields.io/badge/AppVersion-2.1.0-informational?style=flat-square)
+![Version: 3.0.0-rc.0](https://img.shields.io/badge/Version-3.0.0--rc.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.0.0](https://img.shields.io/badge/AppVersion-3.0.0-informational?style=flat-square)
 
 Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
 
@@ -24,7 +24,7 @@ Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteite
 | azureVaultSecret.objectName | string | `""` |  |
 | azureVaultSecret.secretName | string | `"{{ .Values.existingSecret }}"` |  |
 | azureVaultSecret.vaultName | string | `nil` |  |
-| beat.enabled | bool | `false` | Run the Celery beat scheduler (`/celery_beat.sh`) as a single-replica Deployment. <details><summary>More information</summary> Required from app version 3.0.0 on: beat schedules the daily task that revokes publications whose inspection period ("inzagetermijn") has ended (GPP-Woo/GPP-publicatiebank#460). Without it that task silently never runs. Always exactly one replica, because a second beat would schedule every task twice. Off by default while appVersion is 2.x, whose beat schedule is empty.</details> |
+| beat.enabled | bool | `true` | Run the Celery beat scheduler (`/celery_beat.sh`) as a single-replica Deployment. <details><summary>More information</summary> Required from app version 3.0.0 on: beat schedules the daily task that revokes publications whose inspection period ("inzagetermijn") has ended (GPP-Woo/GPP-publicatiebank#460). Without it that task silently never runs. Always exactly one replica, because a second beat would schedule every task twice. Only switch it off for an app version before 3.0.0, whose beat schedule is empty.</details> |
 | beat.podLabels | object | `{}` |  |
 | beat.resources | object | `{}` |  |
 | existingSecret | string | `nil` |  |

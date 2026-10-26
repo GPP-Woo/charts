@@ -401,7 +401,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.azureVaultSecret.objectName | string | `""` |  |
 | gpp-publicatiebank.azureVaultSecret.secretName | string | `"{{ .Values.existingSecret }}"` |  |
 | gpp-publicatiebank.azureVaultSecret.vaultName | string | `nil` |  |
-| gpp-publicatiebank.beat.enabled | bool | `false` | Run the Celery beat scheduler (`/celery_beat.sh`) as a single-replica Deployment. <details><summary>More information</summary> Required from app version 3.0.0 on: beat schedules the daily task that revokes publications whose inspection period ("inzagetermijn") has ended (GPP-Woo/GPP-publicatiebank#460). Without it that task silently never runs. Always exactly one replica, because a second beat would schedule every task twice. Off by default while appVersion is 2.x, whose beat schedule is empty.</details> |
+| gpp-publicatiebank.beat.enabled | bool | `true` | Run the Celery beat scheduler (`/celery_beat.sh`) as a single-replica Deployment. <details><summary>More information</summary> Required from app version 3.0.0 on: beat schedules the daily task that revokes publications whose inspection period ("inzagetermijn") has ended (GPP-Woo/GPP-publicatiebank#460). Without it that task silently never runs. Always exactly one replica, because a second beat would schedule every task twice. Only switch it off for an app version before 3.0.0, whose beat schedule is empty.</details> |
 | gpp-publicatiebank.beat.podLabels | object | `{}` |  |
 | gpp-publicatiebank.beat.resources | object | `{}` |  |
 | gpp-publicatiebank.existingSecret | string | `nil` |  |
