@@ -805,7 +805,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.settings.disable2fa | bool | `false` | Disable two factor authentication |
 | gpp-zoeken.settings.djangoSettingsModule | string | `"woo_search.conf.docker"` |  |
 | gpp-zoeken.settings.elastic.caCertsPath | string | `""` | Path to CA bundle (in PEM) format if self-signed certificates or a private CA are used to connect to the ES cluster |
-| gpp-zoeken.settings.elastic.iniIndices | bool | `true` |  |
+| gpp-zoeken.settings.elastic.iniIndices | bool | `false` | Initialise the Elasticsearch indices in every web container at start-up (`INIT_ES_INDICES`). <details><summary>More information</summary> Off by default: the index Job (`settings.job`) does this once per release. Up to app version 2.2.0 the image ignored this setting (it compared the rendered `"True"` case-sensitively with `true`). From 2.2.1 on it runs `initialize_mappings` before uWSGI starts, and the web container exits when Elasticsearch isn't healthy within `ES_WAIT_TIMEOUT` seconds (default 60, settable through `extraEnvVars`), so web pods crash-loop while Elasticsearch is down. Only turn it on when neither the index Job nor an external job initialises the indices.</details> |
 | gpp-zoeken.settings.elastic.password | string | `""` |  |
 | gpp-zoeken.settings.elastic.roles | string | `"superuser"` |  |
 | gpp-zoeken.settings.elastic.user | string | `"gpp-elastic"` |  |
@@ -829,12 +829,12 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.settings.job.resources | object | `{}` |  |
 | gpp-zoeken.settings.job.restartPolicy | string | `"OnFailure"` |  |
 | gpp-zoeken.settings.job.ttlSecondsAfterFinished | int | `0` | 0 Will clean the job after it is finished |
-| gpp-zoeken.settings.job.waitForElasticTimeout | int | `300` |  |
+| gpp-zoeken.settings.job.waitForElasticTimeout | int | `300` | Seconds the index Job waits for Elasticsearch to answer and report itself healthy (the `--wait` option of `initialize_mappings`), then it fails and the Job retries. <details><summary>More information</summary> On a fresh install the Job starts together with the Elasticsearch cluster, which took 65 s to answer in a test, so this allows more than the app's own default of 60. `0` checks once. Needs app version 2.2.1 or later (GPP-Woo/GPP-zoeken#138); on 2.2.0 `--wait` takes no argument.</details> |
 | gpp-zoeken.settings.secretKey | string | `""` | Generate secret key at https://djecrety.ir/ |
 | gpp-zoeken.settings.sentry.dsn | string | `""` |  |
 | gpp-zoeken.settings.showLabelEnvironment | bool | `false` | Display environment information in the header in the admin. Defaults to True. Environment information is only displayed to logged in users. |
 | gpp-zoeken.settings.useXForwardedHost | bool | `false` |  |
-| gpp-zoeken.settings.uwsgi.harakiri | string | `""` |  |
+| gpp-zoeken.settings.uwsgi.harakiri | string | `""` | Rendered as `UWSGI_HARAKIRI` (seconds). Takes effect from app version 2.2.1 on; up to 2.2.0 the image's own `--harakiri=1800` flag overrode it. |
 | gpp-zoeken.settings.uwsgi.master | string | `""` |  |
 | gpp-zoeken.settings.uwsgi.maxRequests | string | `""` |  |
 | gpp-zoeken.settings.uwsgi.processes | string | `""` |  |

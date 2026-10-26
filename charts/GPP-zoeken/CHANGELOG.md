@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.0-rc.0 (2026-10-26)
+
+- Set appVersion to 2.2.1.
+- The index Job passes a time budget to `initialize_mappings --wait` (`settings.job.waitForElasticTimeout`, default 300 s). On a fresh install the Job starts together with the Elasticsearch cluster. Up to 2.2.0 the command reported success without creating any index when Elasticsearch wasn't up yet; from 2.2.1 on it waits until the cluster is healthy, or fails so the Job retries. Needs app version 2.2.1 or later: on 2.2.0 `--wait` takes no argument (#79).
+- `settings.elastic.iniIndices` now defaults to `false`, which keeps the existing behaviour: the index Job initialises the indices. Up to 2.2.0 the image ignored the chart's `INIT_ES_INDICES: "True"` (it compared it case-sensitively with `true`), so web containers never initialised them. 2.2.1 honours the setting, and with `true` every web start would wait for Elasticsearch and exit when it isn't healthy within 60 s.
+- `settings.uwsgi.harakiri` takes effect from 2.2.1 on; up to 2.2.0 the image's own `--harakiri=1800` flag overrode it. The same goes for `UWSGI_HARAKIRI`, `UWSGI_POST_BUFFERING` and `UWSGI_BUFFER_SIZE` set through `extraEnvVars`.
+
 ## 0.3.1 (2026-10-16)
 
 - Make the index Job optional (`settings.job.enabled`, default `true`) and allow extra Job annotations (`settings.job.annotations`). The Job is a plain, unconditional resource, so under GitOps (Argo CD / Flux) any chart bump that changes its pod template - e.g. the 0.3.0 `/app/log` volume or an image-tag bump - fails the sync with `Job.batch "...-index" spec.template: field is immutable`. Set `settings.job.enabled: false` when an external job runs `initialize_mappings` (e.g. a PostSync hook), or add `settings.job.annotations: {argocd.argoproj.io/sync-options: "Replace=true,Force=true"}` to let Argo CD recreate instead of patch. Existing releases render unchanged.

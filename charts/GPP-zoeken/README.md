@@ -1,6 +1,6 @@
 # gpp-zoeken
 
-![Version: 0.3.1](https://img.shields.io/badge/Version-0.3.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.0](https://img.shields.io/badge/AppVersion-2.2.0-informational?style=flat-square)
+![Version: 0.4.0-rc.0](https://img.shields.io/badge/Version-0.4.0--rc.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.1](https://img.shields.io/badge/AppVersion-2.2.1-informational?style=flat-square)
 
 Een zoek-component die voorziet in een "Openbare documenten"-index.
 
@@ -246,7 +246,7 @@ Een zoek-component die voorziet in een "Openbare documenten"-index.
 | settings.disable2fa | bool | `false` | Disable two factor authentication |
 | settings.djangoSettingsModule | string | `"woo_search.conf.docker"` |  |
 | settings.elastic.caCertsPath | string | `""` | Path to CA bundle (in PEM) format if self-signed certificates or a private CA are used to connect to the ES cluster |
-| settings.elastic.iniIndices | bool | `true` |  |
+| settings.elastic.iniIndices | bool | `false` | Initialise the Elasticsearch indices in every web container at start-up (`INIT_ES_INDICES`). <details><summary>More information</summary> Off by default: the index Job (`settings.job`) does this once per release. Up to app version 2.2.0 the image ignored this setting (it compared the rendered `"True"` case-sensitively with `true`). From 2.2.1 on it runs `initialize_mappings` before uWSGI starts, and the web container exits when Elasticsearch isn't healthy within `ES_WAIT_TIMEOUT` seconds (default 60, settable through `extraEnvVars`), so web pods crash-loop while Elasticsearch is down. Only turn it on when neither the index Job nor an external job initialises the indices.</details> |
 | settings.elastic.password | string | `""` |  |
 | settings.elastic.roles | string | `"superuser"` |  |
 | settings.elastic.user | string | `"gpp-elastic"` |  |
@@ -270,11 +270,12 @@ Een zoek-component die voorziet in een "Openbare documenten"-index.
 | settings.job.resources | object | `{}` |  |
 | settings.job.restartPolicy | string | `"OnFailure"` |  |
 | settings.job.ttlSecondsAfterFinished | int | `0` | 0 Will clean the job after it is finished |
+| settings.job.waitForElasticTimeout | int | `300` | Seconds the index Job waits for Elasticsearch to answer and report itself healthy (the `--wait` option of `initialize_mappings`), then it fails and the Job retries. <details><summary>More information</summary> On a fresh install the Job starts together with the Elasticsearch cluster, which took 65 s to answer in a test, so this allows more than the app's own default of 60. `0` checks once. Needs app version 2.2.1 or later (GPP-Woo/GPP-zoeken#138); on 2.2.0 `--wait` takes no argument.</details> |
 | settings.secretKey | string | `""` | Generate secret key at https://djecrety.ir/ |
 | settings.sentry.dsn | string | `""` |  |
 | settings.showLabelEnvironment | bool | `false` | Display environment information in the header in the admin. Defaults to True. Environment information is only displayed to logged in users. |
 | settings.useXForwardedHost | bool | `false` |  |
-| settings.uwsgi.harakiri | string | `""` |  |
+| settings.uwsgi.harakiri | string | `""` | Rendered as `UWSGI_HARAKIRI` (seconds). Takes effect from app version 2.2.1 on; up to 2.2.0 the image's own `--harakiri=1800` flag overrode it. |
 | settings.uwsgi.master | string | `""` |  |
 | settings.uwsgi.maxRequests | string | `""` |  |
 | settings.uwsgi.processes | string | `""` |  |
