@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.1.0-rc.0 (2026-10-23)
+
+- Set appVersion to 5.1.0-rc.0. The app reads no new or changed environment variables, so templates and values are unchanged.
+- The new inzageprocedure banner needs GPP-publicatiebank >= 3.0.0. With an older publicatiebank the portal keeps working without the banner.
+
+## 2.0.2 (2026-08-31)
+
+- `settings.sitemapCacheDurationHours` and `settings.downloadTimeoutMinutes` are now rendered when set to `0`, instead of being dropped from the ConfigMap.
+
 ## 2.0.1 (2026-08-26)
 
 - Remove stray tab characters from 19 `RESOURCES__*` key names in the ConfigMap template. Kubernetes trimmed them, but they made rendered manifests unparseable by stricter YAML parsers (e.g. PyYAML).
