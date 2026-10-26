@@ -3,8 +3,8 @@ name: gpp-publicatiebank
 description: Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
 
 type: application
-version: 2.6.0
-appVersion: 2.1.0
+version: 3.0.0-rc.0
+appVersion: 3.0.0
 
 dependencies:
   - name: redis
