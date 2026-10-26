@@ -255,6 +255,7 @@ settings:
     threads: ''
     processes: ''
     maxRequests: ''
+    # -- Rendered as `UWSGI_HARAKIRI` (seconds). Takes effect from app version 2.2.1 on; up to 2.2.0 the image's own `--harakiri=1800` flag overrode it.
     harakiri: ''
 
   # -- Disable two factor authentication
@@ -275,7 +276,8 @@ settings:
     logLevel: debug
 
   elastic:
-    iniIndices: true
+    # -- Initialise the Elasticsearch indices in every web container at start-up (`INIT_ES_INDICES`). <details><summary>More information</summary> Off by default: the index Job (`settings.job`) does this once per release. Up to app version 2.2.0 the image ignored this setting (it compared the rendered `"True"` case-sensitively with `true`). From 2.2.1 on it runs `initialize_mappings` before uWSGI starts, and the web container exits when Elasticsearch isn't healthy within `ES_WAIT_TIMEOUT` seconds (default 60, settable through `extraEnvVars`), so web pods crash-loop while Elasticsearch is down. Only turn it on when neither the index Job nor an external job initialises the indices.</details>
+    iniIndices: false
     user: "gpp-elastic"
     password: ""
     roles: "superuser"
@@ -292,6 +294,8 @@ settings:
     # -- 0 Will clean the job after it is finished
     ttlSecondsAfterFinished: 0
     restartPolicy: OnFailure
+    # -- Seconds the index Job waits for Elasticsearch to answer and report itself healthy (the `--wait` option of `initialize_mappings`), then it fails and the Job retries. <details><summary>More information</summary> On a fresh install the Job starts together with the Elasticsearch cluster, which took 65 s to answer in a test, so this allows more than the app's own default of 60. `0` checks once. Needs app version 2.2.1 or later (GPP-Woo/GPP-zoeken#138); on 2.2.0 `--wait` takes no argument.</details>
+    waitForElasticTimeout: 300
     resources: {}
 
 worker:
