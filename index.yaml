@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   gpp-app:
   - apiVersion: v2
+    appVersion: 4.0.0-rc.0
+    created: "2026-10-26T10:03:11.226969765Z"
+    description: A helm chart for the ICATT GPP app.
+    digest: eaf3ac3f6700f220e54fd01f2ea925cfdc4aba0cbd7b21cffbec2530d3abe0e5
+    name: gpp-app
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-app-0.5.0-rc.0/gpp-app-0.5.0-rc.0.tgz
+    version: 0.5.0-rc.0
+  - apiVersion: v2
     appVersion: 3.1.0
     created: "2026-10-15T09:34:23.277388324Z"
     description: A helm chart for the ICATT GPP app.
@@ -1675,4 +1685,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2026-10-16T14:20:46.121567482Z"
+generated: "2026-10-26T10:03:11.227109175Z"
