@@ -2,10 +2,12 @@
 
 ## 0.4.0-rc.5 (2026-10-28)
 
-- Bumped GPP-zoeken to 0.4.0-rc.1 (`appVersion` 2.2.2, was 2.2.1), a security release: brotli
+- Bumped GPP-zoeken to 0.4.0-rc.1 ([#104]) (`appVersion` 2.2.2, was 2.2.1), a security release: brotli
   1.2.1 (CVE-2026-111497), Django 5.2.18, urllib3 2.8.0 and tornado 6.6. No new or changed
   settings. As with any image bump, the index Job's pod template changes (Argo CD: see
   0.4.0-rc.3).
+
+[#104]: https://github.com/GPP-Woo/charts/pull/104
 
 ## 0.4.0-rc.4 (2026-10-26)
 
@@ -19,7 +21,7 @@ Zaak's image tag comes from the umbrella.
 - Bumped GPP-app to 0.5.0-rc.0 (`appVersion` 4.0.0-rc.0, was 3.1.0). GPP-app 4.0 requires
   GPP-publicatiebank >= 3.0.0, and migrates its database on startup.
 - Bumped GPP-burgerportaal to 2.1.0-rc.0 (`appVersion` 5.1.0-rc.0, was 5.0.0).
-- Bumped GPP-zoeken to 0.4.0-rc.0 (`appVersion` 2.2.1, was 2.2.0): the index Job waits up
+- Bumped GPP-zoeken to 0.4.0-rc.0 ([#82]) (`appVersion` 2.2.1, was 2.2.0): the index Job waits up
   to `gpp-zoeken.settings.job.waitForElasticTimeout` (300 s) for Elasticsearch and fails
   instead of reporting success without indices; `gpp-zoeken.settings.elastic.iniIndices`
   now defaults to `false`, which keeps index initialisation in the Job (up to 2.2.0 the web
@@ -50,9 +52,11 @@ Zaak's image tag comes from the umbrella.
   - Releases that stopped Open Zaak's beat with `openzaak.beat.replicaCount: 0` can drop
     that value: the beat Deployment is now removed altogether.
 
+[#82]: https://github.com/GPP-Woo/charts/pull/82
+
 ## 0.4.0-rc.3 (2026-10-16)
 
-- Bumped GPP-zoeken to 0.3.1 (`appVersion` unchanged, 2.2.0): the index Job can be turned
+- Bumped GPP-zoeken to 0.3.1 ([#94]) (`appVersion` unchanged, 2.2.0): the index Job can be turned
   off (`gpp-zoeken.settings.job.enabled: false`, e.g. when an Argo CD / Flux PostSync hook
   runs `initialize_mappings` instead) or carry extra annotations
   (`gpp-zoeken.settings.job.annotations`, e.g. `argocd.argoproj.io/sync-options:
@@ -62,6 +66,8 @@ Zaak's image tag comes from the umbrella.
   changes it too. Under Argo CD, set either value in the same sync that moves to this
   version. Helm-managed releases with the default `ttlSecondsAfterFinished: 0` are
   unaffected: their finished Job is already gone.
+
+[#94]: https://github.com/GPP-Woo/charts/pull/94
 
 ## 0.4.0-rc.2 (2026-10-14)
 
@@ -80,7 +86,7 @@ Open Zaak 1.31.
   `DOWNLOAD_TIMEOUT_MINUTES`; empty keeps the app default of 10 minutes). The app aborts a
   file-part upload that takes longer, so slow clients need a longer timeout or smaller
   parts (Open Zaak's `DOCUMENTEN_UPLOAD_CHUNK_SIZE`, default 4 GiB = one part per file).
-- Bumped GPP-zoeken to 0.3.0 (`appVersion` unchanged, 2.2.0): the same `/app/log` emptyDir
+- Bumped GPP-zoeken to 0.3.0 ([#92]) (`appVersion` unchanged, 2.2.0): the same `/app/log` emptyDir
   in the web, worker and Flower containers and the index Job (`logVolume`), and a
   per-component Deployment update `strategy` (e.g. `worker.strategy` with `maxSurge: 0`).
 - Upgrade notes:
@@ -92,6 +98,8 @@ Open Zaak 1.31.
 - Open Zaak stays on chart 1.15.0, which has neither a built-in `/app/log` volume nor a
   configurable update strategy yet: keep setting `openzaak.extraVolumes` /
   `openzaak.extraVolumeMounts` where `/app/log` is not writable.
+
+[#92]: https://github.com/GPP-Woo/charts/pull/92
 
 ## 0.4.0-rc.1 (2026-10-13)
 
@@ -114,13 +122,15 @@ image tags in values; the subcharts' default `appVersion`s are listed below).
   - `settings.documentsApiSlowOperationsTimeout`;
   - `worker.maxTasksPerChild` and `worker.maxMemoryPerChildKiB`;
   - per-component Deployment update `strategy`.
-- Bumped GPP-zoeken to 0.2.8 (`appVersion` unchanged, 2.2.0): the index Job honours
+- Bumped GPP-zoeken to 0.2.8 ([#87]) (`appVersion` unchanged, 2.2.0): the index Job honours
   `extraVolumes` / `extraVolumeMounts`.
 - Removed the umbrella's `openzaak.worker.livenessProbe` and `openzaak.worker.readinessProbe`
   defaults. They were written for the old worker probe, which was disabled by default.
   openzaak 1.15.0 enables a new one (it starts a Python process and pings the broker), and
   the umbrella's `timeoutSeconds: 5` / `failureThreshold: 3` overrode the subchart's
   `15` / `6`. The subchart has no worker readiness probe at all.
+
+[#87]: https://github.com/GPP-Woo/charts/pull/87
 
 ## 0.3.3 (2026-08-31)
 - Bumped GPP-burgerportaal to 2.0.2 (`SITEMAP_CACHE_DURATION_HOURS` and
