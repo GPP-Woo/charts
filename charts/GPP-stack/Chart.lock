@@ -13,6 +13,6 @@ dependencies:
   version: 2.1.0-rc.0
 - name: gpp-zoeken
   repository: https://GPP-Woo.github.io/charts
-  version: 0.4.0-rc.0
-digest: sha256:e78dba47d8faa83b7207a728da09e8e02c2ad9771fd8f96b50c6192c46454480
-generated: "2026-10-26T13:27:54.500885298+01:00"
+  version: 0.4.0-rc.1
+digest: sha256:1914f8c44a80bfee92e6e1c23eab48ff7d0cb86cd85b1f81f180579482cb8b56
+generated: "2026-10-28T13:16:35.516032969+01:00"
