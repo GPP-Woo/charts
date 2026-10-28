@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.0-rc.5 (2026-10-28)
+
+- Bumped GPP-zoeken to 0.4.0-rc.1 (`appVersion` 2.2.2, was 2.2.1), a security release: brotli
+  1.2.1 (CVE-2026-111497), Django 5.2.18, urllib3 2.8.0 and tornado 6.6. No new or changed
+  settings. As with any image bump, the index Job's pod template changes (Argo CD: see
+  0.4.0-rc.3).
+
 ## 0.4.0-rc.4 (2026-10-26)
 
 Fourth release candidate of the 0.4.x line, now with GPP-publicatiebank 3.0.0 and Open
