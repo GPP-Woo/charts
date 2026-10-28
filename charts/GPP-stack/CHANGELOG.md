@@ -15,19 +15,19 @@ Fourth release candidate of the 0.4.x line, now with GPP-publicatiebank 3.0.0 an
 Zaak 1.31. Every GPP component runs its subchart's default image (`appVersion`); only Open
 Zaak's image tag comes from the umbrella.
 
-- Bumped GPP-publicatiebank to 3.0.0-rc.0 (`appVersion` 3.0.0, was 2.1.0). The subchart
+- Bumped GPP-publicatiebank to 3.0.0-rc.0 ([#102]) (`appVersion` 3.0.0, was 2.1.0). The subchart
   now enables Celery beat itself, so the umbrella's `gpp-publicatiebank.beat.enabled: true`
   is gone; the effective default stays `true`.
-- Bumped GPP-app to 0.5.0-rc.0 (`appVersion` 4.0.0-rc.0, was 3.1.0). GPP-app 4.0 requires
+- Bumped GPP-app to 0.5.0-rc.0 ([#100]) (`appVersion` 4.0.0-rc.0, was 3.1.0). GPP-app 4.0 requires
   GPP-publicatiebank >= 3.0.0, and migrates its database on startup.
-- Bumped GPP-burgerportaal to 2.1.0-rc.0 (`appVersion` 5.1.0-rc.0, was 5.0.0).
+- Bumped GPP-burgerportaal to 2.1.0-rc.0 ([#101]) (`appVersion` 5.1.0-rc.0, was 5.0.0).
 - Bumped GPP-zoeken to 0.4.0-rc.0 ([#82]) (`appVersion` 2.2.1, was 2.2.0): the index Job waits up
   to `gpp-zoeken.settings.job.waitForElasticTimeout` (300 s) for Elasticsearch and fails
   instead of reporting success without indices; `gpp-zoeken.settings.elastic.iniIndices`
   now defaults to `false`, which keeps index initialisation in the Job (up to 2.2.0 the web
   containers ignored the old `"True"`); `gpp-zoeken.settings.uwsgi.harakiri` and
   `UWSGI_*` variables in `extraEnvVars` take effect.
-- Bumped openzaak to 1.16.0-rc.1 (`appVersion` unchanged, 1.30.0): a per-component
+- Bumped openzaak to 1.16.0-rc.1 ([maykinmedia/charts#503]) (`appVersion` unchanged, 1.30.0): a per-component
   Deployment update `strategy`, and `beat.enabled`.
 - Open Zaak image `1.31.1-perftest` (`openzaak.image.tag`; was empty, i.e. 1.30.0), the
   upstream pre-release cut of 1.31.1. It contains open-zaak#2592 (1.31.0: concurrent
@@ -52,7 +52,11 @@ Zaak's image tag comes from the umbrella.
   - Releases that stopped Open Zaak's beat with `openzaak.beat.replicaCount: 0` can drop
     that value: the beat Deployment is now removed altogether.
 
+[#102]: https://github.com/GPP-Woo/charts/pull/102
+[#100]: https://github.com/GPP-Woo/charts/pull/100
+[#101]: https://github.com/GPP-Woo/charts/pull/101
 [#82]: https://github.com/GPP-Woo/charts/pull/82
+[maykinmedia/charts#503]: https://github.com/maykinmedia/charts/pull/503
 
 ## 0.4.0-rc.3 (2026-10-16)
 
@@ -79,9 +83,9 @@ Open Zaak 1.31.
   whose inspection period has ended (GPP-Woo/GPP-publicatiebank#460); without it that task
   silently never runs. The subchart itself keeps `false` while its `appVersion` is 2.x. On a
   2.x image beat runs with an empty schedule. Set it to `false` to opt out.
-- Bumped GPP-publicatiebank to 2.6.0 (`appVersion` unchanged, 2.1.0): a writable `emptyDir`
+- Bumped GPP-publicatiebank to 2.6.0 ([#91]) (`appVersion` unchanged, 2.1.0): a writable `emptyDir`
   at `/app/log` in the web, worker, beat and Flower containers by default (`logVolume`).
-- Bumped GPP-app to 0.4.0 (`appVersion` unchanged, 3.1.0): `gpp-app.settings.uploadTimeoutMinutes`
+- Bumped GPP-app to 0.4.0 ([#93]) (`appVersion` unchanged, 3.1.0): `gpp-app.settings.uploadTimeoutMinutes`
   and `gpp-app.settings.downloadTimeoutMinutes` (`UPLOAD_TIMEOUT_MINUTES` /
   `DOWNLOAD_TIMEOUT_MINUTES`; empty keeps the app default of 10 minutes). The app aborts a
   file-part upload that takes longer, so slow clients need a longer timeout or smaller
@@ -99,6 +103,8 @@ Open Zaak 1.31.
   configurable update strategy yet: keep setting `openzaak.extraVolumes` /
   `openzaak.extraVolumeMounts` where `/app/log` is not writable.
 
+[#91]: https://github.com/GPP-Woo/charts/pull/91
+[#93]: https://github.com/GPP-Woo/charts/pull/93
 [#92]: https://github.com/GPP-Woo/charts/pull/92
 
 ## 0.4.0-rc.1 (2026-10-13)
@@ -107,16 +113,17 @@ Release candidate bundling the subchart updates validated on a development insta
 running GPP-publicatiebank `3.0.0-rc.0` and Open Zaak `1.31.0-perftest` (both set as
 image tags in values; the subcharts' default `appVersion`s are listed below).
 
-- Bumped openzaak to 1.15.0 (`appVersion` 1.30.0; was 1.13.1 / 1.26.0).
-  **Requires an Open Zaak image >= 1.30.0.** The web probes now call `/_healthz/`,
+- Bumped openzaak to 1.15.0 ([maykinmedia/charts#479]) (`appVersion` 1.30.0; was 1.13.1 /
+  1.26.0). **Requires an Open Zaak image >= 1.30.0.** The web probes now call `/_healthz/`,
   `/_healthz/livez/` and `/_healthz/readyz/`, and the worker gets startup and liveness
   probes (enabled by default) built on `maykin-common` and `/celery_worker_liveness_probe.sh`.
   None of these exist in older images, so a deployment that pins `openzaak.image.tag`
-  (e.g. `1.26.0`) must raise it in the same upgrade. Also in 1.14.x and 1.15.0:
+  (e.g. `1.26.0`) must raise it in the same upgrade. Also in 1.14.x
+  ([maykinmedia/charts#371], [maykinmedia/charts#393], [maykinmedia/charts#422]) and 1.15.0:
   the configuration Job runs as a `post-install,post-upgrade` hook (`backoffLimit: 0`),
   `LOG_REQUESTS` / `LOG_OUTGOING_REQUESTS_*` are rendered explicitly (body saving off),
   `enableServiceLinks: false`, and Azure Blob / S3 Documenten API backends.
-- Bumped GPP-publicatiebank to 2.5.0 (`appVersion` unchanged, 2.1.0):
+- Bumped GPP-publicatiebank to 2.5.0 ([#84], [#86], [#88]) (`appVersion` unchanged, 2.1.0):
   - optional single-replica Celery beat Deployment, `beat.enabled` (default `false`).
     GPP-publicatiebank 3.0.0 requires exactly one beat;
   - `settings.documentsApiSlowOperationsTimeout`;
@@ -130,6 +137,13 @@ image tags in values; the subcharts' default `appVersion`s are listed below).
   the umbrella's `timeoutSeconds: 5` / `failureThreshold: 3` overrode the subchart's
   `15` / `6`. The subchart has no worker readiness probe at all.
 
+[maykinmedia/charts#479]: https://github.com/maykinmedia/charts/pull/479
+[maykinmedia/charts#371]: https://github.com/maykinmedia/charts/pull/371
+[maykinmedia/charts#393]: https://github.com/maykinmedia/charts/pull/393
+[maykinmedia/charts#422]: https://github.com/maykinmedia/charts/pull/422
+[#84]: https://github.com/GPP-Woo/charts/pull/84
+[#86]: https://github.com/GPP-Woo/charts/pull/86
+[#88]: https://github.com/GPP-Woo/charts/pull/88
 [#87]: https://github.com/GPP-Woo/charts/pull/87
 
 ## 0.3.3 (2026-08-31)
