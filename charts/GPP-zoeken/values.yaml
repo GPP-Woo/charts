@@ -376,7 +376,9 @@ redis:
   image:
     registry: docker.io  # Docker registry for Redis image
     repository: redis  # Official Redis image (migrated from Bitnami)
-    tag: "8.0"  # Official Redis image pinned version
+    # Pinned to an exact patch with immutable digest (redis:8.0.6, linux multi-arch manifest list).
+    # The `<version>@<digest>` form lets Renovate update both the version and the digest.
+    tag: "8.0.6@sha256:ae471bdc20de180beed36e347d170ec0bdf8faa327959ea1f24692f22b05b955"
 
 #########################
 # ECK-Operator subchart #

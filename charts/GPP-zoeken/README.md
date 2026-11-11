@@ -8,9 +8,9 @@ Een zoek-component die voorziet in een "Openbare documenten"-index.
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | redis | 22.0.1 |
-| https://helm.elastic.co | eck-elasticsearch | 0.18.1 |
-| https://helm.elastic.co | eck-operator | 3.3.1 |
+| https://charts.bitnami.com/bitnami | redis | 22.0.7 |
+| https://helm.elastic.co | eck-elasticsearch | 0.18.2 |
+| https://helm.elastic.co | eck-operator | 3.3.2 |
 
 ## Values
 
@@ -211,7 +211,7 @@ Een zoek-component die voorziet in een "Openbare documenten"-index.
 | readinessProbe.timeoutSeconds | int | `5` |  |
 | redis.architecture | string | `"standalone"` |  |
 | redis.auth.enabled | bool | `false` |  |
-| redis.image | object | `{"registry":"docker.io","repository":"redis","tag":"8.0"}` | Redis image configuration - Migration from Bitnami to official Redis image         |
+| redis.image | object | `{"registry":"docker.io","repository":"redis","tag":"8.0.6@sha256:ae471bdc20de180beed36e347d170ec0bdf8faa327959ea1f24692f22b05b955"}` | Redis image configuration - Migration from Bitnami to official Redis image         |
 | redis.master.persistence.enabled | bool | `true` |  |
 | redis.master.persistence.size | string | `"8Gi"` |  |
 | redis.master.persistence.storageClass | string | `""` |  |
