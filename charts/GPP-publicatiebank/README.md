@@ -1,6 +1,6 @@
 # gpp-publicatiebank
 
-![Version: 3.0.0-rc.0](https://img.shields.io/badge/Version-3.0.0--rc.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.0.0](https://img.shields.io/badge/AppVersion-3.0.0-informational?style=flat-square)
+![Version: 3.0.0-rc.1](https://img.shields.io/badge/Version-3.0.0--rc.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.0.0](https://img.shields.io/badge/AppVersion-3.0.0-informational?style=flat-square)
 
 Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
 
@@ -8,7 +8,7 @@ Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteite
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | redis | 22.0.1 |
+| https://charts.bitnami.com/bitnami | redis | 22.0.7 |
 
 ## Values
 
@@ -79,7 +79,7 @@ Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteite
 | nginx.existingConfigmap | string | `nil` |  |
 | nginx.image.pullPolicy | string | `"IfNotPresent"` |  |
 | nginx.image.repository | string | `"nginxinc/nginx-unprivileged"` |  |
-| nginx.image.tag | string | `"stable"` |  |
+| nginx.image.tag | string | `"1.28.2@sha256:0b31859f91f223bd3f741a25946839012740b31dcb4b7f29a79f229ed4e0c5d6"` |  |
 | nginx.livenessProbe | object | `{}` |  |
 | nginx.podLabels | object | `{}` |  |
 | nginx.readinessProbe | object | `{}` |  |
@@ -113,7 +113,7 @@ Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteite
 | readinessProbe.timeoutSeconds | int | `5` |  |
 | redis.architecture | string | `"standalone"` |  |
 | redis.auth.enabled | bool | `false` |  |
-| redis.image | object | `{"registry":"docker.io","repository":"redis","tag":"8.0"}` | Redis image configuration - Migration from Bitnami to official Redis image         |
+| redis.image | object | `{"registry":"docker.io","repository":"redis","tag":"8.0.6@sha256:ae471bdc20de180beed36e347d170ec0bdf8faa327959ea1f24692f22b05b955"}` | Redis image configuration - Migration from Bitnami to official Redis image         |
 | redis.master.persistence.enabled | bool | `true` |  |
 | redis.master.persistence.size | string | `"8Gi"` |  |
 | redis.master.persistence.storageClass | string | `""` |  |

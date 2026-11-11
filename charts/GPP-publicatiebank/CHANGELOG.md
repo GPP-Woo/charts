@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.0-rc.1 (2026-11-11)
+
+- Pin the nginx and Redis images to exact versions with immutable digests instead of floating tags: nginx `stable` -> `1.28.2@sha256:0b31859f...` and redis `8.0` -> `8.0.6@sha256:ae471bdc...`. The `<version>@<digest>` form keeps the refs reproducible and lets Renovate update both.
+- Patch-level dependency bump, no template or values changes: redis 22.0.1 -> 22.0.7.
+
 ## 3.0.0-rc.0 (2026-10-26)
 
 - Set appVersion to 3.0.0. The app reads one new environment variable, `DOCUMENTS_API_SLOW_OPERATIONS_TIMEOUT`, which `settings.documentsApiSlowOperationsTimeout` (2.4.0) already sets.
