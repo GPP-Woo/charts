@@ -1,6 +1,6 @@
 # gpp-zoeken
 
-![Version: 0.4.0-rc.1](https://img.shields.io/badge/Version-0.4.0--rc.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.2](https://img.shields.io/badge/AppVersion-2.2.2-informational?style=flat-square)
+![Version: 0.4.0-rc.2](https://img.shields.io/badge/Version-0.4.0--rc.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.2](https://img.shields.io/badge/AppVersion-2.2.2-informational?style=flat-square)
 
 Een zoek-component die voorziet in een "Openbare documenten"-index.
 
@@ -294,7 +294,7 @@ Een zoek-component die voorziet in een "Openbare documenten"-index.
 | worker.livenessProbe.enabled | bool | `false` |  |
 | worker.livenessProbe.exec.command[0] | string | `"/bin/sh"` |  |
 | worker.livenessProbe.exec.command[1] | string | `"-c"` |  |
-| worker.livenessProbe.exec.command[2] | string | `"celery --workdir src --app openforms.celery inspect --destination celery@${HOSTNAME} active"` |  |
+| worker.livenessProbe.exec.command[2] | string | `"celery --workdir src --app woo_search.celery inspect --destination celery@${HOSTNAME} active"` |  |
 | worker.livenessProbe.failureThreshold | int | `3` |  |
 | worker.livenessProbe.initialDelaySeconds | int | `60` |  |
 | worker.livenessProbe.periodSeconds | int | `30` |  |
