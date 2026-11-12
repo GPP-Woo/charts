@@ -1,6 +1,6 @@
 # gpp-stack
 
-![Version: 0.4.0-rc.5](https://img.shields.io/badge/Version-0.4.0--rc.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.1](https://img.shields.io/badge/AppVersion-1.0.1-informational?style=flat-square)
+![Version: 0.4.0-rc.6](https://img.shields.io/badge/Version-0.4.0--rc.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.1](https://img.shields.io/badge/AppVersion-1.0.1-informational?style=flat-square)
 
 An umbrella chart for the GPP stack
 
@@ -10,9 +10,9 @@ An umbrella chart for the GPP stack
 |------------|------|---------|
 | https://GPP-Woo.github.io/charts | gpp-app | 0.5.0-rc.0 |
 | https://GPP-Woo.github.io/charts | gpp-burgerportaal | 2.1.0-rc.0 |
-| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 3.0.0-rc.0 |
-| https://GPP-Woo.github.io/charts | gpp-zoeken | 0.4.0-rc.1 |
-| https://maykinmedia.github.io/charts/ | openzaak | 1.16.0-rc.1 |
+| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 3.0.0-rc.1 |
+| https://GPP-Woo.github.io/charts | gpp-zoeken | 0.4.0-rc.2 |
+| https://maykinmedia.github.io/charts/ | openzaak | 1.16.0 |
 
 ## Values
 
@@ -23,6 +23,7 @@ An umbrella chart for the GPP stack
 | gpp-burgerportaal.enabled | bool | `true` |  |
 | gpp-publicatiebank.enabled | bool | `true` |  |
 | gpp-publicatiebank.redis.nameOverride | string | `"gpp-publicatiebank-redis"` |  |
+| gpp-publicatiebank.worker.livenessProbe.enabled | bool | `true` | Enable the Celery worker livenessProbe. The command and timings come from the GPP-publicatiebank subchart (`celery inspect active` against `woo_publications.celery`). |
 | gpp-zoeken.eck-elasticsearch.enabled | bool | `true` |  |
 | gpp-zoeken.eck-elasticsearch.fullnameOverride | string | `"gpp-zoeken-eck-elasticsearch"` |  |
 | gpp-zoeken.eck-elasticsearch.nameOverride | string | `"gpp-zoeken-eck-elasticsearch"` |  |
@@ -31,6 +32,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.eck-operator.nameOverride | string | `"gpp-zoeken-eck-operator"` |  |
 | gpp-zoeken.enabled | bool | `true` |  |
 | gpp-zoeken.redis.nameOverride | string | `"gpp-zoeken-redis"` |  |
+| gpp-zoeken.worker.livenessProbe.enabled | bool | `true` | Enable the Celery worker livenessProbe. The command and timings come from the GPP-zoeken subchart (`celery inspect active` against `woo_search.celery`, fixed in chart 0.4.0-rc.2). |
 | openzaak.affinity | object | `{}` |  |
 | openzaak.autoscaling.enabled | bool | `false` |  |
 | openzaak.autoscaling.maxReplicas | int | `100` |  |
@@ -90,7 +92,7 @@ An umbrella chart for the GPP stack
 | openzaak.fullnameOverride | string | `""` |  |
 | openzaak.image.pullPolicy | string | `"IfNotPresent"` |  |
 | openzaak.image.repository | string | `"openzaak/open-zaak"` |  |
-| openzaak.image.tag | string | `"1.31.1-perftest"` | Open Zaak image tag. Empty uses the openzaak subchart's `appVersion`, which is still 1.30.0 in chart 1.16.0-rc.1. <details><summary>More information</summary> `1.31.1-perftest` is upstream's pre-release cut of Open Zaak 1.31.1, the version this umbrella line is tested with. Open Zaak 1.31 fixes concurrent unlocks of same-named uploads silently overwriting each other's content (open-zaak#2592; after upgrading, run the read-only `detect_overwritten_documents` management command, see Open Zaak's 1.31.0 changelog). GPP-publicatiebank 3.0.0 needs open-zaak#2607 (from 1.31.1) to re-link existing documents to its own informatieobjecttypen. This override goes once the openzaak chart ships a matching `appVersion`.</details> |
+| openzaak.image.tag | string | `"1.31.2"` | Open Zaak image tag. Empty uses the openzaak subchart's `appVersion`, which is 1.31.1 in chart 1.16.0. <details><summary>More information</summary> `1.31.2` is the Open Zaak release this umbrella line targets. Open Zaak 1.31 fixes concurrent unlocks of same-named uploads silently overwriting each other's content (open-zaak#2592; after upgrading, run the read-only `detect_overwritten_documents` management command, see Open Zaak's 1.31.0 changelog). GPP-publicatiebank 3.0.0 needs open-zaak#2607 (from 1.31.1) to re-link existing documents to its own informatieobjecttypen. 1.31.2 fixes a 1.31.0 regression that failed Documenten API requests larger than 2.5 MB (open-zaak#2631). This override goes once the openzaak chart ships a matching `appVersion`.</details> |
 | openzaak.imagePullSecrets | list | `[]` |  |
 | openzaak.ingress.annotations | object | `{}` |  |
 | openzaak.ingress.className | string | `""` |  |
@@ -107,7 +109,7 @@ An umbrella chart for the GPP stack
 | openzaak.nginx.existingConfigmap | string | `nil` | mount existing nginx vhost config |
 | openzaak.nginx.image.pullPolicy | string | `"IfNotPresent"` |  |
 | openzaak.nginx.image.repository | string | `"nginxinc/nginx-unprivileged"` |  |
-| openzaak.nginx.image.tag | string | `"stable"` |  |
+| openzaak.nginx.image.tag | string | `"1.28.2@sha256:0b31859f91f223bd3f741a25946839012740b31dcb4b7f29a79f229ed4e0c5d6"` |  |
 | openzaak.nginx.livenessProbe.failureThreshold | int | `3` |  |
 | openzaak.nginx.livenessProbe.initialDelaySeconds | int | `60` |  |
 | openzaak.nginx.livenessProbe.periodSeconds | int | `10` |  |
@@ -148,6 +150,9 @@ An umbrella chart for the GPP stack
 | openzaak.readinessProbe.timeoutSeconds | int | `5` |  |
 | openzaak.redis.architecture | string | `"standalone"` |  |
 | openzaak.redis.auth.enabled | bool | `false` |  |
+| openzaak.redis.image.registry | string | `"docker.io"` |  |
+| openzaak.redis.image.repository | string | `"redis"` |  |
+| openzaak.redis.image.tag | string | `"8.0.6@sha256:ae471bdc20de180beed36e347d170ec0bdf8faa327959ea1f24692f22b05b955"` |  |
 | openzaak.redis.master.persistence.enabled | bool | `false` |  |
 | openzaak.redis.master.resources.requests.cpu | string | `"10m"` |  |
 | openzaak.redis.master.resources.requests.memory | string | `"20Mi"` |  |
