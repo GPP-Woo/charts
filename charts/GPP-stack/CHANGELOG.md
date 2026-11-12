@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.4.0-rc.6 (2026-11-12)
+
+- Open Zaak image `1.31.2` (`openzaak.image.tag`; was `1.31.1-perftest`), the upstream
+  release. It fixes a 1.31.0 regression that failed Documenten API requests larger than
+  2.5 MB (open-zaak#2631), and the broken autorisaties admin form (open-zaak#2623). The
+  openzaak chart's `appVersion` is 1.31.1, so the override stays.
+- Bumped openzaak to 1.16.0 (`appVersion` 1.31.1, was 1.30.0), the release of 1.16.0-rc.1.
+  Apart from `appVersion` it is identical to rc.1, and the umbrella's image tag overrides
+  `appVersion`: only the `helm.sh/chart` and `app.kubernetes.io/version` labels change.
+- Pinned Open Zaak's nginx and Redis images by digest, the same refs as GPP-publicatiebank
+  and GPP-zoeken: `openzaak.nginx.image.tag` `stable` -> `1.28.2@sha256:0b31859f...` and
+  `openzaak.redis.image.tag` (was the subchart's `8.0`) -> `8.0.6@sha256:ae471bdc...`.
+  Every nginx and Redis container in the stack now runs the same image.
+- Bumped GPP-publicatiebank to 3.0.0-rc.1 ([#107]) (`appVersion` unchanged, 3.0.0): the nginx
+  and Redis images are pinned by digest (`nginx-unprivileged:1.28.2`, `redis:8.0.6`)
+  instead of the floating `stable` and `8.0` tags.
+- Bumped GPP-zoeken to 0.4.0-rc.2 ([#106]) (`appVersion` unchanged, 2.2.2): the worker
+  `livenessProbe` targets the real Celery app (`woo_search.celery`) instead of
+  `openforms.celery`, which crash-looped the worker with
+  `gpp-zoeken.worker.livenessProbe.enabled: true`; Redis is pinned by digest
+  (`redis:8.0.6`).
+- Enabled the Celery worker livenessProbe of GPP-publicatiebank and GPP-zoeken
+  (`gpp-publicatiebank.worker.livenessProbe.enabled` and
+  `gpp-zoeken.worker.livenessProbe.enabled`, both `true`; the subcharts default to
+  `false`). The probe runs `celery inspect active` against the worker's own node every 30 s,
+  starting after 60 s, and restarts a worker that doesn't answer three times in a row. The
+  command and timings come from the subcharts; set either value to `false` to opt out.
+- Upgrade notes:
+  - As with any GPP-zoeken bump, the index Job's pod template changes (Argo CD: see
+    0.4.0-rc.3).
+  - The probe expects the worker's default node name `celery@<hostname>`. A release that
+    sets `CELERY_WORKER_QUEUE` or `CELERY_WORKER_NAME` through `extraEnvVars` must also
+    override `worker.livenessProbe.exec`, or disable the probe.
+
+[#107]: https://github.com/GPP-Woo/charts/pull/107
+[#106]: https://github.com/GPP-Woo/charts/pull/106
+
 ## 0.4.0-rc.5 (2026-10-28)
 
 - Bumped GPP-zoeken to 0.4.0-rc.1 ([#104]) (`appVersion` 2.2.2, was 2.2.1), a security release: brotli
