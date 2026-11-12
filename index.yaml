@@ -558,6 +558,37 @@ entries:
   gpp-stack:
   - apiVersion: v2
     appVersion: 1.0.1
+    created: "2026-11-12T13:10:14.638066148Z"
+    dependencies:
+    - condition: openzaak.enabled
+      name: openzaak
+      repository: https://maykinmedia.github.io/charts/
+      version: 1.16.0-rc.1
+    - condition: gpp-app.enabled
+      name: gpp-app
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.5.0-rc.0
+    - condition: gpp-publicatiebank.enabled
+      name: gpp-publicatiebank
+      repository: https://GPP-Woo.github.io/charts
+      version: 3.0.0-rc.0
+    - condition: gpp-burgerportaal.enabled
+      name: gpp-burgerportaal
+      repository: https://GPP-Woo.github.io/charts
+      version: 2.1.0-rc.0
+    - condition: gpp-zoeken.enabled
+      name: gpp-zoeken
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.4.0-rc.1
+    description: An umbrella chart for the GPP stack
+    digest: 8d708900770300872471a3bfb1da4ff45254a3c4151a984367e9d36aff6507ff
+    name: gpp-stack
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-stack-0.4.0-rc.5/gpp-stack-0.4.0-rc.5.tgz
+    version: 0.4.0-rc.5
+  - apiVersion: v2
+    appVersion: 1.0.1
     created: "2026-10-28T13:21:10.5795572Z"
     dependencies:
     - condition: openzaak.enabled
@@ -713,37 +744,6 @@ entries:
     version: 0.4.0-rc.3
   - apiVersion: v2
     appVersion: 1.0.1
-    created: "2026-10-16T12:08:45.736581934Z"
-    dependencies:
-    - condition: openzaak.enabled
-      name: openzaak
-      repository: https://maykinmedia.github.io/charts/
-      version: 1.15.0
-    - condition: gpp-app.enabled
-      name: gpp-app
-      repository: https://GPP-Woo.github.io/charts
-      version: 0.4.0
-    - condition: gpp-publicatiebank.enabled
-      name: gpp-publicatiebank
-      repository: https://GPP-Woo.github.io/charts
-      version: 2.6.0
-    - condition: gpp-burgerportaal.enabled
-      name: gpp-burgerportaal
-      repository: https://GPP-Woo.github.io/charts
-      version: 2.0.2
-    - condition: gpp-zoeken.enabled
-      name: gpp-zoeken
-      repository: https://GPP-Woo.github.io/charts
-      version: 0.3.0
-    description: An umbrella chart for the GPP stack
-    digest: 581f60ed2fc2c53e7f6ef309a567a189b2287ccb4e7d01607f075e1f12e0c5e3
-    name: gpp-stack
-    type: application
-    urls:
-    - https://github.com/GPP-Woo/charts/releases/download/gpp-stack-0.4.0-rc.2/gpp-stack-0.4.0-rc.2.tgz
-    version: 0.4.0-rc.2
-  - apiVersion: v2
-    appVersion: 1.0.1
     created: "2026-10-15T09:51:26.404459263Z"
     dependencies:
     - condition: openzaak.enabled
@@ -768,6 +768,37 @@ entries:
       version: 0.3.0
     description: An umbrella chart for the GPP stack
     digest: c68dfddcfda4116aa0822c5640b38cdb0f2f3d86516bdd5ad7858f107af9cf32
+    name: gpp-stack
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-stack-0.4.0-rc.2/gpp-stack-0.4.0-rc.2.tgz
+    version: 0.4.0-rc.2
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2026-10-16T12:08:45.736581934Z"
+    dependencies:
+    - condition: openzaak.enabled
+      name: openzaak
+      repository: https://maykinmedia.github.io/charts/
+      version: 1.15.0
+    - condition: gpp-app.enabled
+      name: gpp-app
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.4.0
+    - condition: gpp-publicatiebank.enabled
+      name: gpp-publicatiebank
+      repository: https://GPP-Woo.github.io/charts
+      version: 2.6.0
+    - condition: gpp-burgerportaal.enabled
+      name: gpp-burgerportaal
+      repository: https://GPP-Woo.github.io/charts
+      version: 2.0.2
+    - condition: gpp-zoeken.enabled
+      name: gpp-zoeken
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.3.0
+    description: An umbrella chart for the GPP stack
+    digest: 581f60ed2fc2c53e7f6ef309a567a189b2287ccb4e7d01607f075e1f12e0c5e3
     name: gpp-stack
     type: application
     urls:
@@ -1054,37 +1085,6 @@ entries:
     version: 0.3.0-rc.1
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2026-03-04T17:44:51.047625368Z"
-    dependencies:
-    - condition: openzaak.enabled
-      name: openzaak
-      repository: https://maykinmedia.github.io/charts/
-      version: 1.13.1
-    - condition: gpp-app.enabled
-      name: gpp-app
-      repository: https://GPP-Woo.github.io/charts
-      version: 0.3.2-rc.1
-    - condition: gpp-publicatiebank.enabled
-      name: gpp-publicatiebank
-      repository: https://GPP-Woo.github.io/charts
-      version: 2.0.8-rc.3
-    - condition: gpp-burgerportaal.enabled
-      name: gpp-burgerportaal
-      repository: https://GPP-Woo.github.io/charts
-      version: 2.0.0-rc.2
-    - condition: gpp-zoeken.enabled
-      name: gpp-zoeken
-      repository: https://GPP-Woo.github.io/charts
-      version: 0.2.6-rc.3
-    description: An umbrella chart for the GPP stack
-    digest: 8b9502661ea9349476c09b5564c7f3be2a45d0747f6d6a3dd8bfc0fc9e9a230d
-    name: gpp-stack
-    type: application
-    urls:
-    - https://github.com/GPP-Woo/charts/releases/download/gpp-stack-0.3.0-rc.0/gpp-stack-0.3.0-rc.0.tgz
-    version: 0.3.0-rc.0
-  - apiVersion: v2
-    appVersion: 0.1.0
     created: "2026-03-05T10:14:39.535942473Z"
     dependencies:
     - condition: openzaak.enabled
@@ -1109,6 +1109,37 @@ entries:
       version: 0.2.6-rc.3
     description: An umbrella chart for the GPP stack
     digest: 61651757a3c286496be98e7946b9e56bfeb6b9961231212995b3a103aab52729
+    name: gpp-stack
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-stack-0.3.0-rc.0/gpp-stack-0.3.0-rc.0.tgz
+    version: 0.3.0-rc.0
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2026-03-04T17:44:51.047625368Z"
+    dependencies:
+    - condition: openzaak.enabled
+      name: openzaak
+      repository: https://maykinmedia.github.io/charts/
+      version: 1.13.1
+    - condition: gpp-app.enabled
+      name: gpp-app
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.3.2-rc.1
+    - condition: gpp-publicatiebank.enabled
+      name: gpp-publicatiebank
+      repository: https://GPP-Woo.github.io/charts
+      version: 2.0.8-rc.3
+    - condition: gpp-burgerportaal.enabled
+      name: gpp-burgerportaal
+      repository: https://GPP-Woo.github.io/charts
+      version: 2.0.0-rc.2
+    - condition: gpp-zoeken.enabled
+      name: gpp-zoeken
+      repository: https://GPP-Woo.github.io/charts
+      version: 0.2.6-rc.3
+    description: An umbrella chart for the GPP stack
+    digest: 8b9502661ea9349476c09b5564c7f3be2a45d0747f6d6a3dd8bfc0fc9e9a230d
     name: gpp-stack
     type: application
     urls:
@@ -1421,6 +1452,34 @@ entries:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-stack-0.1.0/gpp-stack-0.1.0.tgz
     version: 0.1.0
   gpp-zoeken:
+  - apiVersion: v2
+    appVersion: 2.2.2
+    created: "2026-11-12T13:10:14.797533874Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - redis
+      version: 22.0.7
+    - condition: eck-operator.enabled
+      name: eck-operator
+      repository: https://helm.elastic.co
+      tags:
+      - eck-operator
+      version: 3.3.2
+    - condition: eck-elasticsearch.enabled
+      name: eck-elasticsearch
+      repository: https://helm.elastic.co
+      tags:
+      - eck-elasticsearch
+      version: 0.18.2
+    description: Een zoek-component die voorziet in een "Openbare documenten"-index.
+    digest: 9d07a4abac76d109fbd42ac0c15578ac1acbbbb30b258dba0c84b64384fb5ebb
+    name: gpp-zoeken
+    type: application
+    urls:
+    - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.4.0-rc.2/gpp-zoeken-0.4.0-rc.2.tgz
+    version: 0.4.0-rc.2
   - apiVersion: v2
     appVersion: 2.2.2
     created: "2026-10-28T12:10:14.469575475Z"
@@ -1891,4 +1950,4 @@ entries:
     urls:
     - https://github.com/GPP-Woo/charts/releases/download/gpp-zoeken-0.2.0/gpp-zoeken-0.2.0.tgz
     version: 0.2.0
-generated: "2026-10-28T13:21:10.579991143Z"
+generated: "2026-11-12T13:10:14.797791234Z"
