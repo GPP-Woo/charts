@@ -3,12 +3,12 @@ name: gpp-publicatiebank
 description: Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
 
 type: application
-version: 3.0.0-rc.0
+version: 3.0.0-rc.1
 appVersion: 3.0.0
 
 dependencies:
   - name: redis
-    version: 22.0.1
+    version: 22.0.7
     repository: https://charts.bitnami.com/bitnami
     tags:
       - redis

@@ -455,7 +455,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.nginx.existingConfigmap | string | `nil` |  |
 | gpp-publicatiebank.nginx.image.pullPolicy | string | `"IfNotPresent"` |  |
 | gpp-publicatiebank.nginx.image.repository | string | `"nginxinc/nginx-unprivileged"` |  |
-| gpp-publicatiebank.nginx.image.tag | string | `"stable"` |  |
+| gpp-publicatiebank.nginx.image.tag | string | `"1.28.2@sha256:0b31859f91f223bd3f741a25946839012740b31dcb4b7f29a79f229ed4e0c5d6"` |  |
 | gpp-publicatiebank.nginx.livenessProbe | object | `{}` |  |
 | gpp-publicatiebank.nginx.podLabels | object | `{}` |  |
 | gpp-publicatiebank.nginx.readinessProbe | object | `{}` |  |
@@ -489,7 +489,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.readinessProbe.timeoutSeconds | int | `5` |  |
 | gpp-publicatiebank.redis.architecture | string | `"standalone"` |  |
 | gpp-publicatiebank.redis.auth.enabled | bool | `false` |  |
-| gpp-publicatiebank.redis.image | object | `{"registry":"docker.io","repository":"redis","tag":"8.0"}` | Redis image configuration - Migration from Bitnami to official Redis image         |
+| gpp-publicatiebank.redis.image | object | `{"registry":"docker.io","repository":"redis","tag":"8.0.6@sha256:ae471bdc20de180beed36e347d170ec0bdf8faa327959ea1f24692f22b05b955"}` | Redis image configuration - Migration from Bitnami to official Redis image         |
 | gpp-publicatiebank.redis.master.persistence.enabled | bool | `true` |  |
 | gpp-publicatiebank.redis.master.persistence.size | string | `"8Gi"` |  |
 | gpp-publicatiebank.redis.master.persistence.storageClass | string | `""` |  |
