@@ -564,6 +564,7 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.worker.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
 | gpp-publicatiebank.worker.concurrency | int | `4` |  |
 | gpp-publicatiebank.worker.label | string | `"1"` |  |
+| gpp-publicatiebank.worker.livenessProbe.enabled | bool | `false` |  |
 | gpp-publicatiebank.worker.livenessProbe.exec.command[0] | string | `"/bin/sh"` |  |
 | gpp-publicatiebank.worker.livenessProbe.exec.command[1] | string | `"-c"` |  |
 | gpp-publicatiebank.worker.livenessProbe.exec.command[2] | string | `"celery --workdir src --app woo_publications.celery inspect --destination celery@${HOSTNAME} active"` |  |
@@ -854,6 +855,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.worker.autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
 | gpp-zoeken.worker.concurrency | int | `4` |  |
 | gpp-zoeken.worker.label | string | `"1"` |  |
+| gpp-zoeken.worker.livenessProbe.enabled | bool | `false` |  |
 | gpp-zoeken.worker.livenessProbe.exec.command[0] | string | `"/bin/sh"` |  |
 | gpp-zoeken.worker.livenessProbe.exec.command[1] | string | `"-c"` |  |
 | gpp-zoeken.worker.livenessProbe.exec.command[2] | string | `"celery --workdir src --app woo_search.celery inspect --destination celery@${HOSTNAME} active"` |  |
