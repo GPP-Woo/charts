@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0-rc.2 (2026-11-10)
+
+- Fix the worker `livenessProbe` default command, which pointed at `openforms.celery` - an Open Forms leftover that doesn't exist in this image. The probe now targets the actual Celery app, `woo_search.celery`, matching `bin/celery_worker.sh`. With `worker.livenessProbe.enabled: true` the old default failed to import and crash-looped an otherwise healthy indexing worker.
+- Pin the Redis image to an exact patch with an immutable digest: `redis:8.0` (a floating minor tag) is now `redis:8.0.6@sha256:ae471bdc...`. The `<version>@<digest>` form keeps the ref reproducible and lets Renovate update both.
+- Patch-level dependency bumps, no template or values changes: redis 22.0.1 -> 22.0.7, eck-operator 3.3.1 -> 3.3.2 and eck-elasticsearch 0.18.1 -> 0.18.2.
+
 ## 0.4.0-rc.1 (2026-10-28)
 
 - Set appVersion to 2.2.2, a security release: brotli 1.2.1 (CVE-2026-111497), Django 5.2.18, urllib3 2.8.0 and tornado 6.6. The app reads no new or changed settings, so templates and values are unchanged.

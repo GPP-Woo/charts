@@ -770,7 +770,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.readinessProbe.timeoutSeconds | int | `5` |  |
 | gpp-zoeken.redis.architecture | string | `"standalone"` |  |
 | gpp-zoeken.redis.auth.enabled | bool | `false` |  |
-| gpp-zoeken.redis.image | object | `{"registry":"docker.io","repository":"redis","tag":"8.0"}` | Redis image configuration - Migration from Bitnami to official Redis image         |
+| gpp-zoeken.redis.image | object | `{"registry":"docker.io","repository":"redis","tag":"8.0.6@sha256:ae471bdc20de180beed36e347d170ec0bdf8faa327959ea1f24692f22b05b955"}` | Redis image configuration - Migration from Bitnami to official Redis image         |
 | gpp-zoeken.redis.master.persistence.enabled | bool | `true` |  |
 | gpp-zoeken.redis.master.persistence.size | string | `"8Gi"` |  |
 | gpp-zoeken.redis.master.persistence.storageClass | string | `""` |  |
@@ -853,7 +853,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.worker.livenessProbe.enabled | bool | `false` |  |
 | gpp-zoeken.worker.livenessProbe.exec.command[0] | string | `"/bin/sh"` |  |
 | gpp-zoeken.worker.livenessProbe.exec.command[1] | string | `"-c"` |  |
-| gpp-zoeken.worker.livenessProbe.exec.command[2] | string | `"celery --workdir src --app openforms.celery inspect --destination celery@${HOSTNAME} active"` |  |
+| gpp-zoeken.worker.livenessProbe.exec.command[2] | string | `"celery --workdir src --app woo_search.celery inspect --destination celery@${HOSTNAME} active"` |  |
 | gpp-zoeken.worker.livenessProbe.failureThreshold | int | `3` |  |
 | gpp-zoeken.worker.livenessProbe.initialDelaySeconds | int | `60` |  |
 | gpp-zoeken.worker.livenessProbe.periodSeconds | int | `30` |  |
