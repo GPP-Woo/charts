@@ -20,6 +20,8 @@ An umbrella chart for the GPP stack
 |-----|------|---------|-------------|
 | global.settings.databaseHost | string | `""` | Global databasehost, overrides setting.database.host |
 | gpp-app.enabled | bool | `true` |  |
+| gpp-app.settings.downloadTimeoutMinutes | string | `""` | Timeout in minutes for relaying one document download from GPP-publicatiebank (`DOWNLOAD_TIMEOUT_MINUTES`). Empty keeps the app default of 10. Available since gpp-app chart 0.4.0. |
+| gpp-app.settings.uploadTimeoutMinutes | string | `""` | Timeout in minutes for relaying one file part of an upload to GPP-publicatiebank (`UPLOAD_TIMEOUT_MINUTES`). Empty keeps the app default of 10. Available since gpp-app chart 0.4.0. |
 | gpp-burgerportaal.enabled | bool | `true` |  |
 | gpp-publicatiebank.enabled | bool | `true` |  |
 | gpp-publicatiebank.redis.nameOverride | string | `"gpp-publicatiebank-redis"` |  |
@@ -293,6 +295,7 @@ An umbrella chart for the GPP stack
 | gpp-app.settings.database.port | int | `5432` |  |
 | gpp-app.settings.database.sslmode | string | `"prefer"` |  |
 | gpp-app.settings.database.username | string | `""` |  |
+| gpp-app.settings.downloadTimeoutMinutes | string | `""` | Timeout in minutes for relaying one document download from GPP-publicatiebank (`DOWNLOAD_TIMEOUT_MINUTES`). Empty keeps the app default of 10. |
 | gpp-app.settings.gppPublicatiebank.apiKey | string | `""` |  |
 | gpp-app.settings.gppPublicatiebank.baseUrl | string | `""` |  |
 | gpp-app.settings.oidc.adminRole | string | `""` |  |
@@ -302,6 +305,7 @@ An umbrella chart for the GPP stack
 | gpp-app.settings.oidc.idClaimType | string | `""` |  |
 | gpp-app.settings.oidc.nameClaimType | string | `""` |  |
 | gpp-app.settings.oidc.roleClaimType | string | `""` |  |
+| gpp-app.settings.uploadTimeoutMinutes | string | `""` | Timeout in minutes for relaying one file part (bestandsdeel) of an upload to GPP-publicatiebank (`UPLOAD_TIMEOUT_MINUTES`). Empty keeps the app default of 10. <details><summary>More information</summary> The app streams each part from the browser to GPP-publicatiebank, so the whole part has to arrive within this time: a slow client either needs a longer timeout or smaller parts (the Documents API's part size, e.g. Open Zaak's `DOCUMENTEN_UPLOAD_CHUNK_SIZE`).</details> |
 | gpp-app.tolerations | list | `[]` |  |
 | gpp-burgerportaal.affinity | object | `{}` |  |
 | gpp-burgerportaal.autoscaling.enabled | bool | `false` |  |
