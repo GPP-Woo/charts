@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.4 (unreleased)
+- Bumped GPP-app to 0.4.1 (image 3.1.1). This skips 0.3.x: 0.4.x is the
+  patched line, and it only adds the optional `uploadTimeoutMinutes` /
+  `downloadTimeoutMinutes` settings, which change nothing when left empty.
+- Bumped GPP-burgerportaal to 2.0.3 (image 5.0.1).
+- Exposed `gpp-app.settings.uploadTimeoutMinutes` and
+  `gpp-app.settings.downloadTimeoutMinutes` in values.yaml (empty by default).
+- GPP-stack appVersion stays 1.0.1.
+
 ## 0.3.3 (2026-08-31)
 - Bumped GPP-burgerportaal to 2.0.2 (`SITEMAP_CACHE_DURATION_HOURS` and
   `DOWNLOAD_TIMEOUT_MINUTES` now render when set to `0`).

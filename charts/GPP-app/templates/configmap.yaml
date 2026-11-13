@@ -26,6 +26,12 @@ data:
   {{- if .Values.settings.oidc.nameClaimType }}
   OIDC_NAME_CLAIM_TYPE: {{ .Values.settings.oidc.nameClaimType | toString | quote }}
   {{- end }}
+  {{- with .Values.settings.uploadTimeoutMinutes }}
+  UPLOAD_TIMEOUT_MINUTES: {{ . | toString | quote }}
+  {{- end }}
+  {{- with .Values.settings.downloadTimeoutMinutes }}
+  DOWNLOAD_TIMEOUT_MINUTES: {{ . | toString | quote }}
+  {{- end }}
   ASPNETCORE_FORWARDEDHEADERS_ENABLED: {{ .Values.settings.aspnetcore.forwardedHeadersEnabled | toString | quote }}
   {{- if .Values.settings.aspnetcore.environment }}
   ASPNETCORE_ENVIRONMENT: {{ .Values.settings.aspnetcore.environment | toString | quote }}
