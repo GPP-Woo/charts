@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.3 (unreleased)
+
+- update appversion to 5.0.1
+
+## 2.0.2 (2026-08-31)
+
+- Honour `0` for `settings.sitemapCacheDurationHours` and `settings.downloadTimeoutMinutes`. Previously a value of `0` was treated as unset and left out of the ConfigMap, so the app fell back to its own defaults.
+
 ## 2.0.1 (2026-08-26)
 
 - Remove stray tab characters from 19 `RESOURCES__*` key names in the ConfigMap template. Kubernetes trimmed them, but they made rendered manifests unparseable by stricter YAML parsers (e.g. PyYAML).

@@ -10,6 +10,11 @@ gpp-publicatiebank:
 
 gpp-app:
   enabled: true
+  settings:
+    # -- Timeout in minutes for relaying one file part of an upload to GPP-publicatiebank (`UPLOAD_TIMEOUT_MINUTES`). Empty keeps the app default of 10. Available since gpp-app chart 0.4.0.
+    uploadTimeoutMinutes: ""
+    # -- Timeout in minutes for relaying one document download from GPP-publicatiebank (`DOWNLOAD_TIMEOUT_MINUTES`). Empty keeps the app default of 10. Available since gpp-app chart 0.4.0.
+    downloadTimeoutMinutes: ""
 
 gpp-burgerportaal:
   enabled: true
