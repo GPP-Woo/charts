@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.0-rc.1 (unreleased)
+
+- Set appVersion to 5.1.0-rc.1. No template or values changes.
+
 ## 2.1.0-rc.0 (2026-10-23)
 
 - Set appVersion to 5.1.0-rc.0. The app reads no new or changed environment variables, so templates and values are unchanged.
