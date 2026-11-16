@@ -22,7 +22,7 @@ gpp-burgerportaal:
 gpp-zoeken:
   enabled: true
   image:
-    tag: "2.2.2" # override the default image tag for gpp-zoeken, to use the 2.2.2 which is patched for brotli cve
+    tag: "2.2.2" # override the default image tag for gpp-zoeken, to use the 2.2.2 which is patched for CVE-2026-111497 (Brotli)
   redis:
     nameOverride: "gpp-zoeken-redis"
   # eck-operator subchart
