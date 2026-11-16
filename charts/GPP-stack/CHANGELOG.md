@@ -16,6 +16,11 @@
 - Bumped GPP-publicatiebank to 3.0.0-rc.1 ([#107]) (`appVersion` unchanged, 3.0.0): the nginx
   and Redis images are pinned by digest (`nginx-unprivileged:1.28.2`, `redis:8.0.6`)
   instead of the floating `stable` and `8.0` tags.
+- Bumped GPP-burgerportaal to 2.1.0-rc.1 ([#111]) (`appVersion` 5.1.0-rc.1, was 5.1.0-rc.0), a
+  security fix: the app hardens its ODRC proxy endpoints against parameter and route
+  manipulation, and returns only an allowlisted set of upstream fields on some endpoints.
+  The same fix ships for the 5.0 line as 5.0.1 (chart 2.0.3). No template or values
+  changes.
 - Bumped GPP-zoeken to 0.4.0-rc.2 ([#106]) (`appVersion` unchanged, 2.2.2): the worker
   `livenessProbe` targets the real Celery app (`woo_search.celery`) instead of
   `openforms.celery`, which crash-looped the worker with
@@ -35,6 +40,7 @@
     override `worker.livenessProbe.exec`, or disable the probe.
 
 [#107]: https://github.com/GPP-Woo/charts/pull/107
+[#111]: https://github.com/GPP-Woo/charts/pull/111
 [#106]: https://github.com/GPP-Woo/charts/pull/106
 
 ## 0.4.0-rc.5 (2026-10-28)

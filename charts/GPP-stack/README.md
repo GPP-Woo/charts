@@ -9,7 +9,7 @@ An umbrella chart for the GPP stack
 | Repository | Name | Version |
 |------------|------|---------|
 | https://GPP-Woo.github.io/charts | gpp-app | 0.5.0-rc.0 |
-| https://GPP-Woo.github.io/charts | gpp-burgerportaal | 2.1.0-rc.0 |
+| https://GPP-Woo.github.io/charts | gpp-burgerportaal | 2.1.0-rc.1 |
 | https://GPP-Woo.github.io/charts | gpp-publicatiebank | 3.0.0-rc.1 |
 | https://GPP-Woo.github.io/charts | gpp-zoeken | 0.4.0-rc.2 |
 | https://maykinmedia.github.io/charts/ | openzaak | 1.16.0 |
