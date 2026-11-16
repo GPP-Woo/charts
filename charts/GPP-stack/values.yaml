@@ -7,6 +7,10 @@ gpp-publicatiebank:
   enabled: true
   redis:
     nameOverride: "gpp-publicatiebank-redis"
+  worker:
+    livenessProbe:
+      # -- Enable the Celery worker livenessProbe. The command and timings come from the GPP-publicatiebank subchart (`celery inspect active` against `woo_publications.celery`).
+      enabled: true
 
 gpp-app:
   enabled: true
@@ -18,6 +22,10 @@ gpp-zoeken:
   enabled: true
   redis:
     nameOverride: "gpp-zoeken-redis"
+  worker:
+    livenessProbe:
+      # -- Enable the Celery worker livenessProbe. The command and timings come from the GPP-zoeken subchart (`celery inspect active` against `woo_search.celery`, fixed in chart 0.4.0-rc.2).
+      enabled: true
   # eck-operator subchart
   eck-operator:
     enabled: true
@@ -72,8 +80,8 @@ openzaak:
   image:
     repository: openzaak/open-zaak
     pullPolicy: IfNotPresent
-    # -- Open Zaak image tag. Empty uses the openzaak subchart's `appVersion`, which is still 1.30.0 in chart 1.16.0-rc.1. <details><summary>More information</summary> `1.31.1-perftest` is upstream's pre-release cut of Open Zaak 1.31.1, the version this umbrella line is tested with. Open Zaak 1.31 fixes concurrent unlocks of same-named uploads silently overwriting each other's content (open-zaak#2592; after upgrading, run the read-only `detect_overwritten_documents` management command, see Open Zaak's 1.31.0 changelog). GPP-publicatiebank 3.0.0 needs open-zaak#2607 (from 1.31.1) to re-link existing documents to its own informatieobjecttypen. This override goes once the openzaak chart ships a matching `appVersion`.</details>
-    tag: "1.31.1-perftest"
+    # -- Open Zaak image tag. Empty uses the openzaak subchart's `appVersion`, which is 1.31.1 in chart 1.16.0. <details><summary>More information</summary> `1.31.2` is the Open Zaak release this umbrella line targets. Open Zaak 1.31 fixes concurrent unlocks of same-named uploads silently overwriting each other's content (open-zaak#2592; after upgrading, run the read-only `detect_overwritten_documents` management command, see Open Zaak's 1.31.0 changelog). GPP-publicatiebank 3.0.0 needs open-zaak#2607 (from 1.31.1) to re-link existing documents to its own informatieobjecttypen. 1.31.2 fixes a 1.31.0 regression that failed Documenten API requests larger than 2.5 MB (open-zaak#2631). This override goes once the openzaak chart ships a matching `appVersion`.</details>
+    tag: "1.31.2"
 
   imagePullSecrets: []
   nameOverride: ""
@@ -338,7 +346,9 @@ openzaak:
     image:
       repository: nginxinc/nginx-unprivileged
       pullPolicy: IfNotPresent
-      tag: stable
+      # Pinned to the latest nginx stable release with an immutable digest, the same as GPP-publicatiebank.
+      # The `<version>@<digest>` form keeps the ref reproducible and lets Renovate update both.
+      tag: "1.28.2@sha256:0b31859f91f223bd3f741a25946839012740b31dcb4b7f29a79f229ed4e0c5d6"
     service:
       type: ClusterIP
       port: 80
@@ -395,6 +405,12 @@ openzaak:
   # Redis subchart
   redis:
     nameOverride: "openzaak-redis"
+    image:
+      registry: docker.io
+      repository: redis
+      # Pinned to an exact patch with immutable digest (redis:8.0.6, linux multi-arch manifest list), the same as
+      # GPP-publicatiebank and GPP-zoeken. The `<version>@<digest>` form lets Renovate update both.
+      tag: "8.0.6@sha256:ae471bdc20de180beed36e347d170ec0bdf8faa327959ea1f24692f22b05b955"
     architecture: standalone
     auth:
       enabled: false
