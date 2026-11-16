@@ -5,6 +5,8 @@
   patched line, and it only adds the optional `uploadTimeoutMinutes` /
   `downloadTimeoutMinutes` settings, which change nothing when left empty.
 - Bumped GPP-burgerportaal to 2.0.3 (image 5.0.1).
+- Pinned the GPP-zoeken image to 2.2.2 via `gpp-zoeken.image.tag` (chart
+  0.2.7 defaults to 2.2.0), which is patched for CVE-2026-111497 (Brotli).
 - Exposed `gpp-app.settings.uploadTimeoutMinutes` and
   `gpp-app.settings.downloadTimeoutMinutes` in values.yaml (empty by default).
 - GPP-stack appVersion stays 1.0.1.

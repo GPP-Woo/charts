@@ -32,7 +32,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.eck-operator.fullnameOverride | string | `"gpp-zoeken-eck-operator"` |  |
 | gpp-zoeken.eck-operator.nameOverride | string | `"gpp-zoeken-eck-operator"` |  |
 | gpp-zoeken.enabled | bool | `true` |  |
-| gpp-zoeken.image.tag | string | `"2.2.2"` |  |
+| gpp-zoeken.image.tag | string | `"2.2.2"` | Overrides the gpp-zoeken chart's default image (appVersion 2.2.0) with 2.2.2, which is patched for CVE-2026-111497 (Brotli). Remove once the gpp-zoeken chart ships appVersion 2.2.2 or later. |
 | gpp-zoeken.redis.nameOverride | string | `"gpp-zoeken-redis"` |  |
 | openzaak.affinity | object | `{}` |  |
 | openzaak.autoscaling.enabled | bool | `false` |  |
