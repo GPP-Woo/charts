@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.4 (unreleased)
+## 0.3.4 (2026-11-16)
 - Bumped GPP-app to 0.4.1 (image 3.1.1). This skips 0.3.x: 0.4.x is the
   patched line, and it only adds the optional `uploadTimeoutMinutes` /
   `downloadTimeoutMinutes` settings, which change nothing when left empty.

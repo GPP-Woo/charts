@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.1 (unreleased)
+## 0.4.1 (2026-11-16)
 
 - Set appversion to 3.1.1
 - Patch release on the 0.4.x line, not on 0.3.x: 0.4.0 is the newest stable chart for the 3.1 app line (both 0.3.2 and 0.4.0 run image 3.1.0), and it only adds optional timeout settings that leave existing releases unchanged. There is no 0.3.3; users on 0.3.x get image 3.1.1 by upgrading to 0.4.1.
