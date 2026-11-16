@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.3 (2026-11-26)
+## 2.0.3 (2026-11-16)
 
 - update appversion to 5.0.1
 
