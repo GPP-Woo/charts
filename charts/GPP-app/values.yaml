@@ -164,6 +164,11 @@ settings:
     apiKey: ""
     baseUrl: ""
 
+  # -- Timeout in minutes for relaying one file part (bestandsdeel) of an upload to GPP-publicatiebank (`UPLOAD_TIMEOUT_MINUTES`). Empty keeps the app default of 10. <details><summary>More information</summary> The app streams each part from the browser to GPP-publicatiebank, so the whole part has to arrive within this time: a slow client either needs a longer timeout or smaller parts (the Documents API's part size, e.g. Open Zaak's `DOCUMENTEN_UPLOAD_CHUNK_SIZE`).</details>
+  uploadTimeoutMinutes: ""
+  # -- Timeout in minutes for relaying one document download from GPP-publicatiebank (`DOWNLOAD_TIMEOUT_MINUTES`). Empty keeps the app default of 10.
+  downloadTimeoutMinutes: ""
+
   aspnetcore:
     forwardedHeadersEnabled: true
     environment: ""

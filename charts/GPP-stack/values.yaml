@@ -10,12 +10,20 @@ gpp-publicatiebank:
 
 gpp-app:
   enabled: true
+  settings:
+    # -- Timeout in minutes for relaying one file part of an upload to GPP-publicatiebank (`UPLOAD_TIMEOUT_MINUTES`). Empty keeps the app default of 10. Available since gpp-app chart 0.4.0.
+    uploadTimeoutMinutes: ""
+    # -- Timeout in minutes for relaying one document download from GPP-publicatiebank (`DOWNLOAD_TIMEOUT_MINUTES`). Empty keeps the app default of 10. Available since gpp-app chart 0.4.0.
+    downloadTimeoutMinutes: ""
 
 gpp-burgerportaal:
   enabled: true
 
 gpp-zoeken:
   enabled: true
+  image:
+    # -- Overrides the gpp-zoeken chart's default image (appVersion 2.2.0) with 2.2.2, which is patched for CVE-2026-111497 (Brotli). Remove once the gpp-zoeken chart ships appVersion 2.2.2 or later.
+    tag: "2.2.2"
   redis:
     nameOverride: "gpp-zoeken-redis"
   # eck-operator subchart
