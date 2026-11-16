@@ -3,6 +3,7 @@
 ## 2.1.0-rc.1 (2026-11-16)
 
 - Set appVersion to 5.1.0-rc.1. No template or values changes.
+- The app hardens its ODRC proxy endpoints against parameter and route manipulation, and returns only an allowlisted set of fields from the upstream API on some endpoints.
 
 ## 2.1.0-rc.0 (2026-10-23)
 
@@ -11,7 +12,7 @@
 
 ## 2.0.3 (2026-11-16)
 
-- update appversion to 5.0.1
+- Set appVersion to 5.0.1. No template or values changes.
 
 ## 2.0.2 (2026-08-31)
 
