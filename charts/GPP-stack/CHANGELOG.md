@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.0-rc.6 (2026-11-12)
+## 0.4.0-rc.6 (2026-11-16)
 
 - Open Zaak image `1.31.2` (`openzaak.image.tag`; was `1.31.1-perftest`), the upstream
   release. It fixes a 1.31.0 regression that failed Documenten API requests larger than
