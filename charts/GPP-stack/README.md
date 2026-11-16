@@ -32,6 +32,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.eck-operator.fullnameOverride | string | `"gpp-zoeken-eck-operator"` |  |
 | gpp-zoeken.eck-operator.nameOverride | string | `"gpp-zoeken-eck-operator"` |  |
 | gpp-zoeken.enabled | bool | `true` |  |
+| gpp-zoeken.image.tag | string | `"2.2.2"` |  |
 | gpp-zoeken.redis.nameOverride | string | `"gpp-zoeken-redis"` |  |
 | openzaak.affinity | object | `{}` |  |
 | openzaak.autoscaling.enabled | bool | `false` |  |
