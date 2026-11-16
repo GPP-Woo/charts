@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.1.0-rc.1 (unreleased)
+## 2.1.0-rc.1 (2026-11-16)
 
 - Set appVersion to 5.1.0-rc.1. No template or values changes.
 
@@ -8,6 +8,10 @@
 
 - Set appVersion to 5.1.0-rc.0. The app reads no new or changed environment variables, so templates and values are unchanged.
 - The new inzageprocedure banner needs GPP-publicatiebank >= 3.0.0. With an older publicatiebank the portal keeps working without the banner.
+
+## 2.0.3 (2026-11-16)
+
+- update appversion to 5.0.1
 
 ## 2.0.2 (2026-08-31)
 
