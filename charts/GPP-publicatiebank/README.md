@@ -1,6 +1,6 @@
 # gpp-publicatiebank
 
-![Version: 3.0.0-rc.1](https://img.shields.io/badge/Version-3.0.0--rc.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.0.0](https://img.shields.io/badge/AppVersion-3.0.0-informational?style=flat-square)
+![Version: 3.0.0-rc.2](https://img.shields.io/badge/Version-3.0.0--rc.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.0.0](https://img.shields.io/badge/AppVersion-3.0.0-informational?style=flat-square)
 
 Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
 
@@ -78,8 +78,8 @@ Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteite
 | nginx.config.proxyReadTimeoutSeconds | int | `300` | Proxy read timeout in seconds. How long nginx waits for a backend response. |
 | nginx.existingConfigmap | string | `nil` |  |
 | nginx.image.pullPolicy | string | `"IfNotPresent"` |  |
-| nginx.image.repository | string | `"nginxinc/nginx-unprivileged"` |  |
-| nginx.image.tag | string | `"1.28.2@sha256:0b31859f91f223bd3f741a25946839012740b31dcb4b7f29a79f229ed4e0c5d6"` |  |
+| nginx.image.repository | string | `"nginx/nginx-unprivileged"` |  |
+| nginx.image.tag | string | `"1.30.7@sha256:18414dbd7b0e5664ff8774fdbc0a09446019b9a0ff3e451cf56e500bda74afdc"` |  |
 | nginx.livenessProbe | object | `{}` |  |
 | nginx.podLabels | object | `{}` |  |
 | nginx.readinessProbe | object | `{}` |  |
