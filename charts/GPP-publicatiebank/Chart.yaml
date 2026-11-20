@@ -3,7 +3,7 @@ name: gpp-publicatiebank
 description: Een registratie die voorziet in de "Openbare Documenten opslag"-functionaliteiten
 
 type: application
-version: 3.0.0-rc.1
+version: 3.0.0-rc.2
 appVersion: 3.0.0
 
 dependencies:
