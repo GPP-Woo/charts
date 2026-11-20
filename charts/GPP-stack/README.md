@@ -1,6 +1,6 @@
 # gpp-stack
 
-![Version: 0.3.4](https://img.shields.io/badge/Version-0.3.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.1](https://img.shields.io/badge/AppVersion-1.0.1-informational?style=flat-square)
+![Version: 0.3.5](https://img.shields.io/badge/Version-0.3.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.1](https://img.shields.io/badge/AppVersion-1.0.1-informational?style=flat-square)
 
 An umbrella chart for the GPP stack
 
@@ -24,10 +24,14 @@ An umbrella chart for the GPP stack
 | gpp-app.settings.uploadTimeoutMinutes | string | `""` | Timeout in minutes for relaying one file part of an upload to GPP-publicatiebank (`UPLOAD_TIMEOUT_MINUTES`). Empty keeps the app default of 10. Available since gpp-app chart 0.4.0. |
 | gpp-burgerportaal.enabled | bool | `true` |  |
 | gpp-publicatiebank.enabled | bool | `true` |  |
+| gpp-publicatiebank.nginx.image.repository | string | `"nginx/nginx-unprivileged"` | Overrides the gpp-publicatiebank chart's default nginx image (`nginxinc/nginx-unprivileged:stable`). The image moved to `nginx/nginx-unprivileged`; the old repository no longer receives updates. |
+| gpp-publicatiebank.nginx.image.tag | string | `"1.30.7@sha256:18414dbd7b0e5664ff8774fdbc0a09446019b9a0ff3e451cf56e500bda74afdc"` | nginx 1.30.7, which fixes the reported nginx vulnerability, pinned by immutable digest. |
 | gpp-publicatiebank.redis.nameOverride | string | `"gpp-publicatiebank-redis"` |  |
 | gpp-zoeken.eck-elasticsearch.enabled | bool | `true` |  |
 | gpp-zoeken.eck-elasticsearch.fullnameOverride | string | `"gpp-zoeken-eck-elasticsearch"` |  |
 | gpp-zoeken.eck-elasticsearch.nameOverride | string | `"gpp-zoeken-eck-elasticsearch"` |  |
+| gpp-zoeken.eck-elasticsearch.nodeSets | list | `[{"config":{"node.store.allow_mmap":false},"count":1,"name":"default","podTemplate":{"spec":{"containers":[{"env":[{"name":"ES_JAVA_OPTS","value":"-XX:-UseBASE64Intrinsics"}],"name":"elasticsearch","resources":{"limits":{"memory":"2Gi"},"requests":{"memory":"2Gi"}}}]}}}]` | The gpp-zoeken chart's default nodeSet plus `ES_JAVA_OPTS: "-XX:-UseBASE64Intrinsics"`, Elastic's mitigation for CVE-2026-114938 (Java4Shell), see https://www.elastic.co/blog/java4shell-remote-code-execution-rce-vulnerability. Only x86-64 nodes with AVX512_VBMI are vulnerable; elsewhere the flag is harmless. When you override `nodeSets`, keep the flag in every nodeSet (append further JVM options to the same value) and never set `-XX:+UseBASE64Intrinsics`. Remove the `-XX:-UseBASE64Intrinsics` flag again with the upgrade to Elasticsearch 8.19.26 or later, which fixes CVE-2026-114938; doing both in one release rolls the Elasticsearch pods only once. |
+| gpp-zoeken.eck-elasticsearch.version | string | `"8.19.25"` | Overrides the gpp-zoeken chart's default Elasticsearch version (8.19.12) with 8.19.25, the latest 8.19 patch. CVE-2026-114938 (Java4Shell) is fixed from 8.19.26 on; until then `nodeSets` carries Elastic's mitigation. |
 | gpp-zoeken.eck-operator.enabled | bool | `true` |  |
 | gpp-zoeken.eck-operator.fullnameOverride | string | `"gpp-zoeken-eck-operator"` |  |
 | gpp-zoeken.eck-operator.nameOverride | string | `"gpp-zoeken-eck-operator"` |  |
@@ -108,8 +112,8 @@ An umbrella chart for the GPP stack
 | openzaak.nginx.autoscaling.enabled | bool | `false` |  |
 | openzaak.nginx.existingConfigmap | string | `nil` | mount existing nginx vhost config |
 | openzaak.nginx.image.pullPolicy | string | `"IfNotPresent"` |  |
-| openzaak.nginx.image.repository | string | `"nginxinc/nginx-unprivileged"` |  |
-| openzaak.nginx.image.tag | string | `"stable"` |  |
+| openzaak.nginx.image.repository | string | `"nginx/nginx-unprivileged"` |  |
+| openzaak.nginx.image.tag | string | `"1.30.7@sha256:18414dbd7b0e5664ff8774fdbc0a09446019b9a0ff3e451cf56e500bda74afdc"` |  |
 | openzaak.nginx.livenessProbe.failureThreshold | int | `3` |  |
 | openzaak.nginx.livenessProbe.initialDelaySeconds | int | `60` |  |
 | openzaak.nginx.livenessProbe.periodSeconds | int | `10` |  |
