@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.3.5 (2026-11-20)
+- Security fix: nginx 1.30.7 for Open Zaak (`openzaak.nginx.image`) and GPP-publicatiebank
+  (`gpp-publicatiebank.nginx.image`), pinned by digest (`1.30.7@sha256:18414dbd...`, was the
+  floating `stable` tag). The image moved from `nginxinc/nginx-unprivileged`, which no
+  longer receives updates, to `nginx/nginx-unprivileged`.
+- Security mitigation for Elasticsearch CVE-2026-114938 (Java4Shell): the GPP-zoeken
+  Elasticsearch nodeSet sets `ES_JAVA_OPTS: "-XX:-UseBASE64Intrinsics"`
+  (`gpp-zoeken.eck-elasticsearch.nodeSets`, otherwise the gpp-zoeken 0.2.7 default). ECK
+  rolls the Elasticsearch pods. Releases that override `nodeSets` must add the flag
+  themselves.
+  Remove the `-XX:-UseBASE64Intrinsics` flag again with the upgrade to Elasticsearch
+  8.19.26 or later, which fixes CVE-2026-114938; doing both in one release rolls the
+  Elasticsearch pods only once.
+- Elasticsearch 8.19.12 -> 8.19.25 (`gpp-zoeken.eck-elasticsearch.version`), the latest 8.19
+  patch. The CVE fix ships in 8.19.26, which is not released yet.
+- GPP-stack appVersion stays 1.0.1.
+
 ## 0.3.4 (2026-11-16)
 - Bumped GPP-app to 0.4.1 (image 3.1.1). This skips 0.3.x: 0.4.x is the
   patched line, and it only adds the optional `uploadTimeoutMinutes` /
