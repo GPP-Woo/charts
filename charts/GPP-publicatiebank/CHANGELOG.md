@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.0-rc.2 (2026-11-20)
+
+- Security fix: nginx `1.28.2` -> `1.30.7@sha256:18414dbd...`, which fixes the reported nginx vulnerability. The image moved from `nginxinc/nginx-unprivileged` to `nginx/nginx-unprivileged` (`nginx.image.repository`); the old repository no longer receives updates and has no 1.30.7. Releases that override `nginx.image.repository` or `nginx.image.tag` must update their override themselves.
+
 ## 3.0.0-rc.1 (2026-11-11)
 
 - Pin the nginx and Redis images to exact versions with immutable digests instead of floating tags: nginx `stable` -> `1.28.2@sha256:0b31859f...` and redis `8.0` -> `8.0.6@sha256:ae471bdc...`. The `<version>@<digest>` form keeps the refs reproducible and lets Renovate update both.

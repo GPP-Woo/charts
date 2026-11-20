@@ -338,11 +338,12 @@ flower:
 
 nginx:
   image:
-    repository: nginxinc/nginx-unprivileged
+    # The image moved from `nginxinc/nginx-unprivileged`, which no longer receives updates, to `nginx/nginx-unprivileged`.
+    repository: nginx/nginx-unprivileged
     pullPolicy: IfNotPresent
     # Pinned to the latest nginx stable release with an immutable digest.
     # The `<version>@<digest>` form keeps the ref reproducible and lets Renovate update both.
-    tag: "1.28.2@sha256:0b31859f91f223bd3f741a25946839012740b31dcb4b7f29a79f229ed4e0c5d6"
+    tag: "1.30.7@sha256:18414dbd7b0e5664ff8774fdbc0a09446019b9a0ff3e451cf56e500bda74afdc"
   existingConfigmap: null
   config:
     # -- Proxy connection timeout in seconds. How long nginx waits to establish a connection with the backend.
