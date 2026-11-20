@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0-rc.3 (2026-11-20)
+
+- Security mitigation for CVE-2026-114938 (Java4Shell), an RCE in the JDK bundled with Elasticsearch 7.17.3 and later ([Elastic advisory](https://www.elastic.co/blog/java4shell-remote-code-execution-rce-vulnerability)). The default `eck-elasticsearch` nodeSet now sets `ES_JAVA_OPTS: "-XX:-UseBASE64Intrinsics"` on the `elasticsearch` container, Elastic's documented workaround. ECK rolls the Elasticsearch pods to apply it. Only x86-64 nodes with AVX512_VBMI (Intel Ice Lake and later, AMD Zen 4 and later) are vulnerable; on other nodes the flag is harmless. Releases that override `eck-elasticsearch.nodeSets` replace the whole list and must add the flag to each nodeSet themselves (append it to an existing `ES_JAVA_OPTS`, don't add a second one).
+- Elasticsearch `8.19.12` -> `8.19.25` (`eck-elasticsearch.version`), the latest 8.19 patch. It does not fix CVE-2026-114938 yet: Elastic ships the fix in 8.19.26, which is not released at the time of writing. A follow-up release moves to 8.19.26. Remove the `-XX:-UseBASE64Intrinsics` flag again with the upgrade to Elasticsearch 8.19.26 or later, which fixes CVE-2026-114938; doing both in one release rolls the Elasticsearch pods only once.
+
 ## 0.4.0-rc.2 (2026-11-10)
 
 - Fix the worker `livenessProbe` default command, which pointed at `openforms.celery` - an Open Forms leftover that doesn't exist in this image. The probe now targets the actual Celery app, `woo_search.celery`, matching `bin/celery_worker.sh`. With `worker.livenessProbe.enabled: true` the old default failed to import and crash-looped an otherwise healthy indexing worker.

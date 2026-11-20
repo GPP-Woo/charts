@@ -758,8 +758,10 @@ eck-elasticsearch:
   fullnameOverride: "gpp-eck-elasticsearch"
 
   # Version of Elasticsearch.
+  # 8.19.25 is the latest 8.19 patch. CVE-2026-114938 (Java4Shell) is fixed from 8.19.26 on (bundled JDK
+  # 27.0.1.1+4); until that ships the default nodeSet below sets Elastic's `-XX:-UseBASE64Intrinsics` mitigation.
   #
-  version: 8.19.12
+  version: 8.19.25
 
   # Elasticsearch Docker image to deploy
   #
@@ -940,7 +942,16 @@ eck-elasticsearch:
 
           # List of environment variables to set in the 'elasticsearch' container.
           # https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
-          # env:
+          env:
+          # Mitigation for CVE-2026-114938 (Java4Shell), see
+          # https://www.elastic.co/blog/java4shell-remote-code-execution-rce-vulnerability
+          # Only x86-64 nodes with AVX512_VBMI are vulnerable; elsewhere the flag is harmless.
+          # Keep it when you override nodeSets: append further JVM options to this value instead of adding
+          # a second ES_JAVA_OPTS entry, and never set -XX:+UseBASE64Intrinsics.
+          # Remove the `-XX:-UseBASE64Intrinsics` flag again with the upgrade to Elasticsearch 8.19.26 or later,
+          # which fixes CVE-2026-114938; doing both in one release rolls the Elasticsearch pods only once.
+          - name: ES_JAVA_OPTS
+            value: "-XX:-UseBASE64Intrinsics"
           # - name: "my-env-var"
           #   value: "my-value"
 
