@@ -459,8 +459,8 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.nginx.config.proxyReadTimeoutSeconds | int | `300` | Proxy read timeout in seconds. How long nginx waits for a backend response. |
 | gpp-publicatiebank.nginx.existingConfigmap | string | `nil` |  |
 | gpp-publicatiebank.nginx.image.pullPolicy | string | `"IfNotPresent"` |  |
-| gpp-publicatiebank.nginx.image.repository | string | `"nginxinc/nginx-unprivileged"` |  |
-| gpp-publicatiebank.nginx.image.tag | string | `"1.28.2@sha256:0b31859f91f223bd3f741a25946839012740b31dcb4b7f29a79f229ed4e0c5d6"` |  |
+| gpp-publicatiebank.nginx.image.repository | string | `"nginx/nginx-unprivileged"` |  |
+| gpp-publicatiebank.nginx.image.tag | string | `"1.30.7@sha256:18414dbd7b0e5664ff8774fdbc0a09446019b9a0ff3e451cf56e500bda74afdc"` |  |
 | gpp-publicatiebank.nginx.livenessProbe | object | `{}` |  |
 | gpp-publicatiebank.nginx.podLabels | object | `{}` |  |
 | gpp-publicatiebank.nginx.readinessProbe | object | `{}` |  |
