@@ -1,6 +1,6 @@
 # gpp-stack
 
-![Version: 0.4.0-rc.7](https://img.shields.io/badge/Version-0.4.0--rc.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.1](https://img.shields.io/badge/AppVersion-1.0.1-informational?style=flat-square)
+![Version: 0.4.0-rc.6](https://img.shields.io/badge/Version-0.4.0--rc.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.1](https://img.shields.io/badge/AppVersion-1.0.1-informational?style=flat-square)
 
 An umbrella chart for the GPP stack
 
@@ -10,8 +10,8 @@ An umbrella chart for the GPP stack
 |------------|------|---------|
 | https://GPP-Woo.github.io/charts | gpp-app | 0.5.0-rc.0 |
 | https://GPP-Woo.github.io/charts | gpp-burgerportaal | 2.1.0-rc.1 |
-| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 3.0.0-rc.2 |
-| https://GPP-Woo.github.io/charts | gpp-zoeken | 0.4.0-rc.3 |
+| https://GPP-Woo.github.io/charts | gpp-publicatiebank | 3.0.0-rc.1 |
+| https://GPP-Woo.github.io/charts | gpp-zoeken | 0.4.0-rc.2 |
 | https://maykinmedia.github.io/charts/ | openzaak | 1.16.0 |
 
 ## Values
@@ -108,8 +108,8 @@ An umbrella chart for the GPP stack
 | openzaak.nginx.autoscaling.enabled | bool | `false` |  |
 | openzaak.nginx.existingConfigmap | string | `nil` | mount existing nginx vhost config |
 | openzaak.nginx.image.pullPolicy | string | `"IfNotPresent"` |  |
-| openzaak.nginx.image.repository | string | `"nginx/nginx-unprivileged"` |  |
-| openzaak.nginx.image.tag | string | `"1.30.7@sha256:18414dbd7b0e5664ff8774fdbc0a09446019b9a0ff3e451cf56e500bda74afdc"` |  |
+| openzaak.nginx.image.repository | string | `"nginxinc/nginx-unprivileged"` |  |
+| openzaak.nginx.image.tag | string | `"1.28.2@sha256:0b31859f91f223bd3f741a25946839012740b31dcb4b7f29a79f229ed4e0c5d6"` |  |
 | openzaak.nginx.livenessProbe.failureThreshold | int | `3` |  |
 | openzaak.nginx.livenessProbe.initialDelaySeconds | int | `60` |  |
 | openzaak.nginx.livenessProbe.periodSeconds | int | `10` |  |
@@ -459,8 +459,8 @@ An umbrella chart for the GPP stack
 | gpp-publicatiebank.nginx.config.proxyReadTimeoutSeconds | int | `300` | Proxy read timeout in seconds. How long nginx waits for a backend response. |
 | gpp-publicatiebank.nginx.existingConfigmap | string | `nil` |  |
 | gpp-publicatiebank.nginx.image.pullPolicy | string | `"IfNotPresent"` |  |
-| gpp-publicatiebank.nginx.image.repository | string | `"nginx/nginx-unprivileged"` |  |
-| gpp-publicatiebank.nginx.image.tag | string | `"1.30.7@sha256:18414dbd7b0e5664ff8774fdbc0a09446019b9a0ff3e451cf56e500bda74afdc"` |  |
+| gpp-publicatiebank.nginx.image.repository | string | `"nginxinc/nginx-unprivileged"` |  |
+| gpp-publicatiebank.nginx.image.tag | string | `"1.28.2@sha256:0b31859f91f223bd3f741a25946839012740b31dcb4b7f29a79f229ed4e0c5d6"` |  |
 | gpp-publicatiebank.nginx.livenessProbe | object | `{}` |  |
 | gpp-publicatiebank.nginx.podLabels | object | `{}` |  |
 | gpp-publicatiebank.nginx.readinessProbe | object | `{}` |  |
@@ -610,15 +610,13 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.eck-elasticsearch.nodeSets[0].count | int | `1` |  |
 | gpp-zoeken.eck-elasticsearch.nodeSets[0].name | string | `"default"` |  |
 | gpp-zoeken.eck-elasticsearch.nodeSets[0].podTemplate.spec.containers[0].name | string | `"elasticsearch"` |  |
-| gpp-zoeken.eck-elasticsearch.nodeSets[0].podTemplate.spec.containers[0].env[0].name | string | `"ES_JAVA_OPTS"` |  |
-| gpp-zoeken.eck-elasticsearch.nodeSets[0].podTemplate.spec.containers[0].env[0].value | string | `"-XX:-UseBASE64Intrinsics"` |  |
 | gpp-zoeken.eck-elasticsearch.nodeSets[0].podTemplate.spec.containers[0].resources.limits.memory | string | `"2Gi"` |  |
 | gpp-zoeken.eck-elasticsearch.nodeSets[0].podTemplate.spec.containers[0].resources.requests.memory | string | `"2Gi"` |  |
 | gpp-zoeken.eck-elasticsearch.remoteClusters | object | `{}` |  |
 | gpp-zoeken.eck-elasticsearch.secureSettings | list | `[]` |  |
 | gpp-zoeken.eck-elasticsearch.transport | object | `{}` |  |
 | gpp-zoeken.eck-elasticsearch.updateStrategy | object | `{}` |  |
-| gpp-zoeken.eck-elasticsearch.version | string | `"8.19.25"` |  |
+| gpp-zoeken.eck-elasticsearch.version | string | `"8.19.12"` |  |
 | gpp-zoeken.eck-elasticsearch.volumeClaimDeletePolicy | string | `""` |  |
 | gpp-zoeken.eck-operator.affinity | object | `{}` |  |
 | gpp-zoeken.eck-operator.automountServiceAccountToken | bool | `true` |  |
