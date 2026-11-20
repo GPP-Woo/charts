@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.4.0-rc.7 (2026-11-20)
+
+- Security fix: Open Zaak's nginx `openzaak.nginx.image` `1.28.2` -> `1.30.7@sha256:18414dbd...`,
+  which fixes the reported nginx vulnerability. The image moved from
+  `nginxinc/nginx-unprivileged` (no longer updated) to `nginx/nginx-unprivileged`.
+- Bumped GPP-publicatiebank to 3.0.0-rc.2 (`appVersion` unchanged, 3.0.0): the same nginx
+  1.30.7 image from `nginx/nginx-unprivileged`.
+- Bumped GPP-zoeken to 0.4.0-rc.3 (`appVersion` unchanged, 2.2.2): Elasticsearch 8.19.12 ->
+  8.19.25, and the default nodeSet sets `ES_JAVA_OPTS: "-XX:-UseBASE64Intrinsics"`, Elastic's
+  mitigation for CVE-2026-114938 (Java4Shell) until 8.19.26 ships the fix. Releases that
+  override `gpp-zoeken.eck-elasticsearch.nodeSets` must add the flag themselves.
+  Remove the `-XX:-UseBASE64Intrinsics` flag again with the upgrade to Elasticsearch
+  8.19.26 or later, which fixes CVE-2026-114938; doing both in one release rolls the
+  Elasticsearch pods only once.
+
 ## 0.4.0-rc.6 (2026-11-16)
 
 - Open Zaak image `1.31.2` (`openzaak.image.tag`; was `1.31.1-perftest`), the upstream
