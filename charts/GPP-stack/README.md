@@ -609,8 +609,6 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.eck-elasticsearch.nodeSets[0].config."node.store.allow_mmap" | bool | `false` |  |
 | gpp-zoeken.eck-elasticsearch.nodeSets[0].count | int | `1` |  |
 | gpp-zoeken.eck-elasticsearch.nodeSets[0].name | string | `"default"` |  |
-| gpp-zoeken.eck-elasticsearch.nodeSets[0].podTemplate.spec.containers[0].env[0].name | string | `"ES_JAVA_OPTS"` |  |
-| gpp-zoeken.eck-elasticsearch.nodeSets[0].podTemplate.spec.containers[0].env[0].value | string | `"-XX:-UseBASE64Intrinsics"` |  |
 | gpp-zoeken.eck-elasticsearch.nodeSets[0].podTemplate.spec.containers[0].name | string | `"elasticsearch"` |  |
 | gpp-zoeken.eck-elasticsearch.nodeSets[0].podTemplate.spec.containers[0].resources.limits.memory | string | `"2Gi"` |  |
 | gpp-zoeken.eck-elasticsearch.nodeSets[0].podTemplate.spec.containers[0].resources.requests.memory | string | `"2Gi"` |  |
@@ -618,7 +616,7 @@ An umbrella chart for the GPP stack
 | gpp-zoeken.eck-elasticsearch.secureSettings | list | `[]` |  |
 | gpp-zoeken.eck-elasticsearch.transport | object | `{}` |  |
 | gpp-zoeken.eck-elasticsearch.updateStrategy | object | `{}` |  |
-| gpp-zoeken.eck-elasticsearch.version | string | `"8.19.25"` |  |
+| gpp-zoeken.eck-elasticsearch.version | string | `"8.19.12"` |  |
 | gpp-zoeken.eck-elasticsearch.volumeClaimDeletePolicy | string | `""` |  |
 | gpp-zoeken.eck-operator.affinity | object | `{}` |  |
 | gpp-zoeken.eck-operator.automountServiceAccountToken | bool | `true` |  |

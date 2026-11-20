@@ -1,6 +1,6 @@
 # gpp-zoeken
 
-![Version: 0.4.0-rc.3](https://img.shields.io/badge/Version-0.4.0--rc.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.2](https://img.shields.io/badge/AppVersion-2.2.2-informational?style=flat-square)
+![Version: 0.4.0-rc.2](https://img.shields.io/badge/Version-0.4.0--rc.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.2](https://img.shields.io/badge/AppVersion-2.2.2-informational?style=flat-square)
 
 Een zoek-component die voorziet in een "Openbare documenten"-index.
 
@@ -44,8 +44,6 @@ Een zoek-component die voorziet in een "Openbare documenten"-index.
 | eck-elasticsearch.nodeSets[0].config."node.store.allow_mmap" | bool | `false` |  |
 | eck-elasticsearch.nodeSets[0].count | int | `1` |  |
 | eck-elasticsearch.nodeSets[0].name | string | `"default"` |  |
-| eck-elasticsearch.nodeSets[0].podTemplate.spec.containers[0].env[0].name | string | `"ES_JAVA_OPTS"` |  |
-| eck-elasticsearch.nodeSets[0].podTemplate.spec.containers[0].env[0].value | string | `"-XX:-UseBASE64Intrinsics"` |  |
 | eck-elasticsearch.nodeSets[0].podTemplate.spec.containers[0].name | string | `"elasticsearch"` |  |
 | eck-elasticsearch.nodeSets[0].podTemplate.spec.containers[0].resources.limits.memory | string | `"2Gi"` |  |
 | eck-elasticsearch.nodeSets[0].podTemplate.spec.containers[0].resources.requests.memory | string | `"2Gi"` |  |
@@ -53,7 +51,7 @@ Een zoek-component die voorziet in een "Openbare documenten"-index.
 | eck-elasticsearch.secureSettings | list | `[]` |  |
 | eck-elasticsearch.transport | object | `{}` |  |
 | eck-elasticsearch.updateStrategy | object | `{}` |  |
-| eck-elasticsearch.version | string | `"8.19.25"` |  |
+| eck-elasticsearch.version | string | `"8.19.12"` |  |
 | eck-elasticsearch.volumeClaimDeletePolicy | string | `""` |  |
 | eck-operator.affinity | object | `{}` |  |
 | eck-operator.automountServiceAccountToken | bool | `true` |  |
