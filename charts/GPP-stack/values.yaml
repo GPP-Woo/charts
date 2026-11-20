@@ -7,6 +7,12 @@ gpp-publicatiebank:
   enabled: true
   redis:
     nameOverride: "gpp-publicatiebank-redis"
+  nginx:
+    image:
+      # -- Overrides the gpp-publicatiebank chart's default nginx image (`nginxinc/nginx-unprivileged:stable`). The image moved to `nginx/nginx-unprivileged`; the old repository no longer receives updates.
+      repository: nginx/nginx-unprivileged
+      # -- nginx 1.30.7, which fixes the reported nginx vulnerability, pinned by immutable digest.
+      tag: "1.30.7@sha256:18414dbd7b0e5664ff8774fdbc0a09446019b9a0ff3e451cf56e500bda74afdc"
 
 gpp-app:
   enabled: true
@@ -37,6 +43,26 @@ gpp-zoeken:
     enabled: true
     nameOverride: "gpp-zoeken-eck-elasticsearch"
     fullnameOverride: "gpp-zoeken-eck-elasticsearch"
+    # -- Overrides the gpp-zoeken chart's default Elasticsearch version (8.19.12) with 8.19.25, the latest 8.19 patch. CVE-2026-114938 (Java4Shell) is fixed from 8.19.26 on; until then `nodeSets` carries Elastic's mitigation.
+    version: 8.19.25
+    # -- The gpp-zoeken chart's default nodeSet plus `ES_JAVA_OPTS: "-XX:-UseBASE64Intrinsics"`, Elastic's mitigation for CVE-2026-114938 (Java4Shell), see https://www.elastic.co/blog/java4shell-remote-code-execution-rce-vulnerability. Only x86-64 nodes with AVX512_VBMI are vulnerable; elsewhere the flag is harmless. When you override `nodeSets`, keep the flag in every nodeSet (append further JVM options to the same value) and never set `-XX:+UseBASE64Intrinsics`. Remove the `-XX:-UseBASE64Intrinsics` flag again with the upgrade to Elasticsearch 8.19.26 or later, which fixes CVE-2026-114938; doing both in one release rolls the Elasticsearch pods only once.
+    nodeSets:
+    - name: default
+      count: 1
+      config:
+        node.store.allow_mmap: false
+      podTemplate:
+        spec:
+          containers:
+          - name: elasticsearch
+            env:
+            - name: ES_JAVA_OPTS
+              value: "-XX:-UseBASE64Intrinsics"
+            resources:
+              limits:
+                memory: 2Gi
+              requests:
+                memory: 2Gi
 
 
 openzaak:
@@ -351,9 +377,11 @@ openzaak:
 
   nginx:
     image:
-      repository: nginxinc/nginx-unprivileged
+      # The image moved from `nginxinc/nginx-unprivileged`, which no longer receives updates, to `nginx/nginx-unprivileged`.
+      repository: nginx/nginx-unprivileged
       pullPolicy: IfNotPresent
-      tag: stable
+      # nginx 1.30.7, which fixes the reported nginx vulnerability, pinned by immutable digest (was `stable`).
+      tag: "1.30.7@sha256:18414dbd7b0e5664ff8774fdbc0a09446019b9a0ff3e451cf56e500bda74afdc"
     service:
       type: ClusterIP
       port: 80
