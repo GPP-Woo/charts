@@ -4,9 +4,15 @@ on:
     paths:
       - "**/values.yaml"
       - "**/Chart.yaml"
+      - "**/Chart.lock"
 permissions:
   contents: write
   pull-requests: write
+env:
+  # Pinned, so a new helm-docs release can't rewrite every README in an unrelated PR.
+  HELM_DOCS_IMAGE: jnorwood/helm-docs:v1.14.2@sha256:7e562b49ab6b1dbc50c3da8f2dd6ffa8a5c6bba327b1c6335cc15ce29267979c
+  # Dependencies from this repository are documented in the GPP-stack README (--document-dependency-values).
+  GPP_REPO: https://GPP-Woo.github.io/charts
 jobs:
   generate:
     runs-on: ubuntu-latest
@@ -15,33 +21,70 @@ jobs:
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
-      - name: Generate Helm Docs
+          fetch-depth: 0
+
+      # Only charts with changed files in this PR get a regenerated README, so a PR for one
+      # chart never picks up README changes for another.
+      - name: Determine changed charts
+        id: charts
+        env:
+          BASE_REPO: ${{ github.repository }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
-          CHART=charts/GPP-stack/Chart.yaml
+          git fetch --no-tags "https://github.com/${BASE_REPO}" "$BASE_SHA"
+          charts=$(git diff --name-only "${BASE_SHA}...HEAD" -- charts/ \
+            | cut -d/ -f1-2 | sort -u \
+            | while read -r dir; do [ -f "$dir/Chart.yaml" ] && echo "$dir"; done \
+            | paste -sd, -)
+          echo "Charts to document: ${charts:-none}"
+          echo "list=$charts" >> "$GITHUB_OUTPUT"
 
-          # Backup original Chart.yaml
-          cp "$CHART" "${CHART}.bak"
+      # The GPP-stack README documents the values of the subcharts it pins in Chart.lock, as
+      # published, not of the subchart folders on this branch (those may be ahead, e.g. while a
+      # subchart release candidate is in review). helm-docs only reads local (file://)
+      # dependencies, so unpack the pinned charts and point the dependencies at them.
+      - name: Fetch pinned GPP-stack dependencies
+        if: contains(format(',{0},', steps.charts.outputs.list), ',charts/GPP-stack,')
+        run: |
+          CHART_DIR=charts/GPP-stack
+          i=0
+          for repo in $(yq '.dependencies[].repository' "$CHART_DIR/Chart.yaml" | sort -u); do
+            i=$((i + 1))
+            helm repo add "dep$i" "$repo"
+          done
+          if ! helm dependency build "$CHART_DIR"; then
+            echo "::error file=$CHART_DIR/Chart.lock::helm dependency build failed. If Chart.lock is out of sync with Chart.yaml, run 'helm dependency update $CHART_DIR' once the subcharts are published."
+            exit 1
+          fi
+          for name in $(yq '.dependencies[] | select(.repository == env(GPP_REPO)) | .name' "$CHART_DIR/Chart.yaml"); do
+            version=$(yq ".dependencies[] | select(.name == \"$name\") | .version" "$CHART_DIR/Chart.lock")
+            tar -xzf "$CHART_DIR/charts/$name-$version.tgz" -C "$CHART_DIR/charts"
+          done
+          yq -i '(.dependencies[] | select(.repository == env(GPP_REPO))) |= .repository = "file://charts/" + .name' "$CHART_DIR/Chart.yaml"
 
-          # Temporarily change repository URLs to local paths for helm-docs
-          yq -i '
-            (.dependencies[] | select(.name == "gpp-app")).repository = "file://../GPP-app" |
-            (.dependencies[] | select(.name == "gpp-publicatiebank")).repository = "file://../GPP-publicatiebank" |
-            (.dependencies[] | select(.name == "gpp-burgerportaal")).repository = "file://../GPP-burgerportaal" |
-            (.dependencies[] | select(.name == "gpp-zoeken")).repository = "file://../GPP-zoeken"
-          ' "$CHART"
+      - name: Generate Helm Docs
+        if: steps.charts.outputs.list != ''
+        env:
+          CHARTS: ${{ steps.charts.outputs.list }}
+        run: |
+          docker run --rm --volume "$(pwd):/helm-docs" -u "$(id -u)" "$HELM_DOCS_IMAGE" \
+            --document-dependency-values --chart-to-generate "$CHARTS"
 
-          # Generate documentation with dependency values included
-          docker run --rm --volume "$(pwd):/helm-docs" -u $(id -u) jnorwood/helm-docs:latest --document-dependency-values
-          
-          # Restore original Chart.yaml
-          mv "${CHART}.bak" "$CHART"
+          if ! git diff --quiet -- charts/GPP-stack/Chart.yaml; then
+            # Undo the temporary file:// dependencies and show the real repository URLs.
+            git checkout -- charts/GPP-stack/Chart.yaml
+            sed -i "s|file://charts/[a-zA-Z-]*|${GPP_REPO}|g" charts/GPP-stack/README.md
+          fi
 
-          # Fix repository URLs in generated markdown
-          sed -i 's|file://\.\./[a-zA-Z-]*|https://GPP-Woo.github.io/charts|g' charts/GPP-stack/README.md
       - name: Commit changes
+        if: steps.charts.outputs.list != ''
+        env:
+          CHARTS: ${{ steps.charts.outputs.list }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
+          readmes=$(echo "$CHARTS" | tr ',' '\n' | sed 's|$|/README.md|')
+          # shellcheck disable=SC2086
+          git add -- $readmes
           git diff --cached --quiet || git commit -m "docs: update helm chart documentation"
           git push
